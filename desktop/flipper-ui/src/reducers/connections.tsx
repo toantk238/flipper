@@ -344,13 +344,13 @@ export default (state: State = INITAL_STATE, action: Actions): State => {
         }
         draft.clients.set(payload.id, payload);
 
-        // select new client if nothing select, this one is preferred, or the old one is offline
+        // select new client only when nothing is selected or the currently
+        // selected device is disconnected. An app-level disconnect on a
+        // still-connected device must not pull focus.
         const selectNewClient =
           !draft.selectedAppId ||
-          draft.userPreferredApp === payload.query.app ||
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          draft.clients.get(draft.selectedAppId!)?.connected.get() === false;
+          !draft.selectedDevice ||
+          !draft.selectedDevice.isConnected;
 
         if (selectNewClient) {
           draft.selectedAppId = payload.id;

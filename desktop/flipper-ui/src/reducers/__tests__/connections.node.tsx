@@ -294,34 +294,36 @@ describe('selection changes', () => {
     });
   });
 
-  test('introducing new client does select it if preferred', async () => {
-    // pure testing evil
-    const client3 = await mockFlipper.createClient(
+  test('introducing new client matching userPreferredApp does NOT steal selection while current device is connected', async () => {
+    await mockFlipper.createClient(
       device2,
       store.getState().connections.userPreferredApp!,
     );
     expect(store.getState().connections).toMatchObject({
-      selectedDevice: device2,
+      selectedDevice: device1,
       selectedPlugin: TestPlugin1.id,
-      selectedAppId: client3.id,
-      // other prefs not updated
+      selectedAppId: d1app1.id,
       userPreferredDevice: device1.title,
       userPreferredPlugin: TestPlugin1.id,
       userPreferredApp: d1app1.query.app,
     });
   });
 
-  test('introducing new client does select it if old is offline', async () => {
-    d1app2.disconnect();
+  test('introducing new client does NOT steal selection when only the selected client dropped (device still connected)', async () => {
+    d1app1.disconnect();
+    await mockFlipper.createClient(device2, 'd2app3');
+    expect(store.getState().connections).toMatchObject({
+      selectedDevice: device1,
+      selectedAppId: d1app1.id,
+    });
+  });
+
+  test('introducing new client DOES steal selection when selected device is disconnected', async () => {
+    device1.disconnect();
     const client3 = await mockFlipper.createClient(device2, 'd2app3');
     expect(store.getState().connections).toMatchObject({
       selectedDevice: device2,
-      selectedPlugin: TestPlugin1.id,
       selectedAppId: client3.id,
-      // other prefs not updated
-      userPreferredDevice: device1.title,
-      userPreferredPlugin: TestPlugin1.id,
-      userPreferredApp: d1app1.query.app,
     });
   });
 

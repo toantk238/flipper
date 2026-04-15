@@ -236,12 +236,11 @@ test('Persist data enabled multiple devices maintain same data', async () => {
   handleDeviceConnected(server, store, logger, device2.description);
   expect(instance.instanceApi.destroy).toBeCalledTimes(0);
   expect(store.getState().connections.devices.length).toBe(2);
-  expect(store.getState().connections.selectedDevice).not.toBe(device);
-  expect(store.getState().connections.selectedDevice?.serial).toBe(
-    device2.serial,
-  );
+  // New rule: a newly connected device does not steal the selection while
+  // the currently selected device is still connected.
+  expect(store.getState().connections.selectedDevice).toBe(device);
 
-  //Connect back the device1
+  //Reconnect the original device; selection stays on it.
   handleDeviceConnected(server, store, logger, device.description);
   expect(instance.instanceApi.destroy).toBeCalledTimes(0);
   expect(store.getState().connections.devices.length).toBe(2);
