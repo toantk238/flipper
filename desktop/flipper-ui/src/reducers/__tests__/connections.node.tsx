@@ -221,17 +221,18 @@ describe('selection changes', () => {
   });
 
   test('basic/ device selection change', async () => {
-    // after registering d1app2, this will have become the selection
+    // initial selection is the first client registered (d1app1); subsequent
+    // devices/clients must not steal the selection while device1 is connected.
     expect(store.getState().connections).toMatchObject({
       selectedDevice: device1,
       selectedPlugin: TestPlugin1.id,
-      selectedAppId: d1app2.id,
+      selectedAppId: d1app1.id,
       // no preferences changes, no explicit selection was made
       userPreferredDevice: device1.title,
       userPreferredPlugin: TestPlugin1.id,
       userPreferredApp: d1app1.query.app,
     });
-    expect(getActiveClient(store.getState())).toBe(d1app2);
+    expect(getActiveClient(store.getState())).toBe(d1app1);
     expect(getActiveDevice(store.getState())).toBe(device1);
 
     // select plugin 2 on d2app2
@@ -250,8 +251,9 @@ describe('selection changes', () => {
       userPreferredApp: d2app2.query.app,
     });
 
-    // disconnect device1, and then register a new device should select it
-    device1.disconnect();
+    // disconnect currently-selected device2, and then register a new
+    // device should select it
+    device2.disconnect();
     const device3 = await mockFlipper.createDevice({});
     expect(store.getState().connections).toMatchObject({
       selectedDevice: device3,
@@ -284,7 +286,7 @@ describe('selection changes', () => {
     expect(store.getState().connections).toMatchObject({
       selectedDevice: device1,
       selectedPlugin: TestPlugin1.id,
-      selectedAppId: d1app2.id,
+      selectedAppId: d1app1.id,
       // other prefs not updated
       userPreferredDevice: device1.title,
       userPreferredPlugin: TestPlugin1.id,
@@ -346,5 +348,17 @@ describe('selection changes', () => {
       userPreferredPlugin: TestPlugin1.id,
       userPreferredApp: d1app1.query.app,
     });
+  });
+
+  test('new device matching userPreferredDevice does NOT steal selection', () => {
+    const device3 = new TestDevice(
+      'serial-3',
+      'physical',
+      device1.title,
+      'Android',
+    );
+    store.dispatch({type: 'REGISTER_DEVICE', payload: device3});
+    expect(store.getState().connections.selectedDevice).toBe(device1);
+    expect(store.getState().connections.selectedAppId).toBe(d1app1.id);
   });
 });

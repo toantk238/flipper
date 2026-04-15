@@ -236,9 +236,7 @@ export default (state: State = INITAL_STATE, action: Actions): State => {
       }
 
       const selectNewDevice =
-        !state.selectedDevice ||
-        !state.selectedDevice.isConnected ||
-        state.userPreferredDevice === payload.title;
+        !state.selectedDevice || !state.selectedDevice.isConnected;
       let selectedAppId = state.selectedAppId;
 
       if (selectNewDevice) {
