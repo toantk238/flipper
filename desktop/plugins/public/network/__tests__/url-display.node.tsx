@@ -34,3 +34,8 @@ test('preserves end of string (most specific path segment)', () => {
   expect(result.endsWith(path.slice(-14))).toBe(true);
   expect(result.length).toBe(30);
 });
+
+test('handles maxLength <= 1 edge cases', () => {
+  expect(truncateMiddle('abcdef', 0)).toBe('');
+  expect(truncateMiddle('abcdef', 1)).toBe('a');
+});

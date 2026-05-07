@@ -81,6 +81,9 @@ const LOCALSTORAGE_RESPONSE_BODY_FORMAT_KEY =
 const LOCALSTORAGE_PATH_ONLY_KEY = '__NETWORK_PATH_ONLY_MODE';
 
 export function truncateMiddle(str: string, maxLength: number = 50): string {
+  if (maxLength <= 1) {
+    return str.slice(0, maxLength);
+  }
   if (str.length <= maxLength) {
     return str;
   }
