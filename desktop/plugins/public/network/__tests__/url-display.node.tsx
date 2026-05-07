@@ -7,6 +7,10 @@
  * @format
  */
 
+import 'core-js/stable/structured-clone';
+import 'fake-indexeddb/auto';
+import {TestUtils} from 'flipper-plugin';
+import * as NetworkPlugin from '../index';
 import {truncateMiddle} from '../index';
 
 test('returns strings at or below maxLength unchanged', () => {
@@ -39,11 +43,6 @@ test('handles maxLength <= 1 edge cases', () => {
   expect(truncateMiddle('abcdef', 0)).toBe('');
   expect(truncateMiddle('abcdef', 1)).toBe('a');
 });
-
-import 'core-js/stable/structured-clone';
-import 'fake-indexeddb/auto';
-import {TestUtils} from 'flipper-plugin';
-import * as NetworkPlugin from '../index';
 
 test('pathOnly defaults to true', () => {
   const {instance} = TestUtils.startPlugin(NetworkPlugin);
