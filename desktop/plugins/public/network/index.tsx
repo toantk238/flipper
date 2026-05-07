@@ -78,6 +78,17 @@ const LOCALSTORAGE_MOCK_ROUTE_LIST_KEY = '__NETWORK_CACHED_MOCK_ROUTE_LIST';
 const LOCALSTORAGE_RESPONSE_BODY_FORMAT_KEY =
   '__NETWORK_CACHED_RESPONSE_BODY_FORMAT';
 
+const LOCALSTORAGE_PATH_ONLY_KEY = '__NETWORK_PATH_ONLY_MODE';
+
+export function truncateMiddle(str: string, maxLength: number = 50): string {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  const endLen = Math.floor((maxLength - 1) / 2);
+  const startLen = maxLength - 1 - endLen;
+  return str.slice(0, startLen) + '…' + str.slice(-endLen);
+}
+
 export const BodyOptions = ['formatted', 'parsed'].map((value) => ({
   label: value,
   value,
