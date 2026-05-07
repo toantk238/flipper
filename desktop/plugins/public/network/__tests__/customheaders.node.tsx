@@ -32,8 +32,8 @@ test('Can handle custom headers', async () => {
     });
   });
 
-  // record visible
-  expect(await renderer.findByText('www.fbflipper.com/')).not.toBeNull();
+  // record visible (pathOnly=true default: show path '/' from http://www.fbflipper.com)
+  expect(await renderer.findByText('/')).not.toBeNull();
   // header not found
   expect(renderer.queryByText('fluffie')).toBeNull();
 
@@ -132,8 +132,8 @@ test('Can handle custom headers', async () => {
       },
     );
 
-    // record visible
-    expect(await renderer2.findByText('www.fbflipper.com/')).not.toBeNull();
+    // record visible (pathOnly=true default: show path '/' from http://www.fbflipper.com)
+    expect(await renderer2.findByText('/')).not.toBeNull();
     expect(await renderer2.findByText('fluffie')).not.toBeNull();
     expect(await renderer2.findByText('dolphins')).not.toBeNull();
 

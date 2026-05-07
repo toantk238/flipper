@@ -7,7 +7,7 @@
  * @format
  */
 
-import React, {createRef, useEffect, useState} from 'react';
+import React, {createRef, useEffect, useMemo, useState} from 'react';
 import {
   Button,
   Form,
@@ -635,6 +635,27 @@ function updateRequestWithResponseInfo(
   return res;
 }
 
+function DomainCell({
+  row,
+  pathOnly,
+}: {
+  row: Request;
+  pathOnly: boolean;
+}) {
+  let display: string;
+  if (pathOnly) {
+    try {
+      const parsed = new URL(row.url);
+      display = truncateMiddle(parsed.pathname || '/');
+    } catch {
+      display = truncateMiddle(row.domain);
+    }
+  } else {
+    display = row.domain;
+  }
+  return <span title={row.url}>{display}</span>;
+}
+
 export function Component() {
   const instance = usePlugin(plugin);
   const routes = useValue(instance.routes);
@@ -642,16 +663,30 @@ export function Component() {
   const showMockResponseDialog = useValue(instance.showMockResponseDialog);
   const networkRouteManager = useValue(instance.networkRouteManager);
   const columns = useValue(instance.columns);
+  const pathOnly = useValue(instance.pathOnly);
+
+  const displayColumns = useMemo(
+    () =>
+      columns.map((col) =>
+        col.key === 'domain'
+          ? {
+              ...col,
+              onRender: (row: Request, _selected: boolean, _index: number) => (
+                <DomainCell row={row} pathOnly={pathOnly} />
+              ),
+            }
+          : col,
+      ),
+    [columns, pathOnly],
+  );
 
   return (
     <NetworkRouteContext.Provider value={networkRouteManager}>
       <Layout.Container
         grow
-        key={
-          columns.length /* make sure to reset the table if colums change */
-        }>
+        key={`${columns.length}-${pathOnly}`}>
         <DataTable
-          columns={columns}
+          columns={displayColumns}
           dataSource={instance.requests}
           onRowStyle={getRowStyle}
           tableManagerRef={instance.tableManagerRef}
