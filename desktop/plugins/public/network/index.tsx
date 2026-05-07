@@ -152,6 +152,12 @@ export function plugin(client: PluginClient<Events, Methods>) {
     localStorage.getItem(LOCALSTORAGE_PATH_ONLY_KEY) !== 'false',
   );
 
+  function togglePathOnly() {
+    const next = !pathOnly.get();
+    pathOnly.set(next);
+    localStorage.setItem(LOCALSTORAGE_PATH_ONLY_KEY, String(next));
+  }
+
   const db = new RequestDataDB();
 
   client.onDeactivate(() => {
@@ -497,11 +503,7 @@ export function plugin(client: PluginClient<Events, Methods>) {
           </Menu.Item>
           <Menu.Item
             key="path-only"
-            onClick={() => {
-              const next = !pathOnly.get();
-              pathOnly.set(next);
-              localStorage.setItem(LOCALSTORAGE_PATH_ONLY_KEY, String(next));
-            }}>
+            onClick={togglePathOnly}>
             {pathOnly.get() ? '\u2713 ' : ''}Show path only
           </Menu.Item>
           <Menu.Item
@@ -520,11 +522,7 @@ export function plugin(client: PluginClient<Events, Methods>) {
     },
     addCustomColumn,
     pathOnly,
-    togglePathOnly() {
-      const next = !pathOnly.get();
-      pathOnly.set(next);
-      localStorage.setItem(LOCALSTORAGE_PATH_ONLY_KEY, String(next));
-    },
+    togglePathOnly,
   };
 }
 
