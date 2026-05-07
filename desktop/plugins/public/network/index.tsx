@@ -496,6 +496,15 @@ export function plugin(client: PluginClient<Events, Methods>) {
             Copy cURL command
           </Menu.Item>
           <Menu.Item
+            key="path-only"
+            onClick={() => {
+              const next = !pathOnly.get();
+              pathOnly.set(next);
+              localStorage.setItem(LOCALSTORAGE_PATH_ONLY_KEY, String(next));
+            }}>
+            {pathOnly.get() ? '\u2713 ' : ''}Show path only
+          </Menu.Item>
+          <Menu.Item
             key="custom header"
             onClick={() => {
               showCustomColumnDialog(addCustomColumn);
