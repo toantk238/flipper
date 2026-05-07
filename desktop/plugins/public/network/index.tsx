@@ -635,7 +635,7 @@ function updateRequestWithResponseInfo(
   return res;
 }
 
-function DomainCell({
+const DomainCell = React.memo(function DomainCell({
   row,
   pathOnly,
 }: {
@@ -654,7 +654,7 @@ function DomainCell({
     display = row.domain;
   }
   return <span title={row.url}>{display}</span>;
-}
+});
 
 export function Component() {
   const instance = usePlugin(plugin);
