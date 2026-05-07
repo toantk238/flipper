@@ -147,6 +147,10 @@ export function plugin(client: PluginClient<Events, Methods>) {
   });
   const columns = createState<DataTableColumn<Request>[]>(baseColumns); // not persistable
 
+  const pathOnly = createState<boolean>(
+    localStorage.getItem(LOCALSTORAGE_PATH_ONLY_KEY) !== 'false',
+  );
+
   const db = new RequestDataDB();
 
   client.onDeactivate(() => {
@@ -505,6 +509,12 @@ export function plugin(client: PluginClient<Events, Methods>) {
       message.success('Text copied to clipboard');
     },
     addCustomColumn,
+    pathOnly,
+    togglePathOnly() {
+      const next = !pathOnly.get();
+      pathOnly.set(next);
+      localStorage.setItem(LOCALSTORAGE_PATH_ONLY_KEY, String(next));
+    },
   };
 }
 

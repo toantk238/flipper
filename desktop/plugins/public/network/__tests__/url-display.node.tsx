@@ -39,3 +39,21 @@ test('handles maxLength <= 1 edge cases', () => {
   expect(truncateMiddle('abcdef', 0)).toBe('');
   expect(truncateMiddle('abcdef', 1)).toBe('a');
 });
+
+import 'core-js/stable/structured-clone';
+import 'fake-indexeddb/auto';
+import {TestUtils} from 'flipper-plugin';
+import * as NetworkPlugin from '../index';
+
+test('pathOnly defaults to true', () => {
+  const {instance} = TestUtils.startPlugin(NetworkPlugin);
+  expect(instance.pathOnly.get()).toBe(true);
+});
+
+test('togglePathOnly flips the state', () => {
+  const {instance} = TestUtils.startPlugin(NetworkPlugin);
+  instance.togglePathOnly();
+  expect(instance.pathOnly.get()).toBe(false);
+  instance.togglePathOnly();
+  expect(instance.pathOnly.get()).toBe(true);
+});
