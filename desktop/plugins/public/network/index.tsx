@@ -147,6 +147,7 @@ export function plugin(client: PluginClient<Events, Methods>) {
   });
   const columns = createState<DataTableColumn<Request>[]>(baseColumns); // not persistable
 
+  // defaults to true; only false if explicitly stored as 'false'
   const pathOnly = createState<boolean>(
     localStorage.getItem(LOCALSTORAGE_PATH_ONLY_KEY) !== 'false',
   );

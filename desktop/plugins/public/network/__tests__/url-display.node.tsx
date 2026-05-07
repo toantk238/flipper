@@ -44,6 +44,10 @@ test('handles maxLength <= 1 edge cases', () => {
   expect(truncateMiddle('abcdef', 1)).toBe('a');
 });
 
+beforeEach(() => {
+  localStorage.removeItem('__NETWORK_PATH_ONLY_MODE');
+});
+
 test('pathOnly defaults to true', () => {
   const {instance} = TestUtils.startPlugin(NetworkPlugin);
   expect(instance.pathOnly.get()).toBe(true);
