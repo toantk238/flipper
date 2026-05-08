@@ -642,18 +642,41 @@ const DomainCell = React.memo(function DomainCell({
   row: Request;
   pathOnly: boolean;
 }) {
-  let display: string;
-  if (pathOnly) {
-    try {
-      const parsed = new URL(row.url);
-      display = truncateMiddle(parsed.pathname || '/');
-    } catch {
-      display = truncateMiddle(row.domain);
-    }
-  } else {
-    display = row.domain;
+  if (!pathOnly) {
+    return <span title={row.url}>{row.domain}</span>;
   }
-  return <span title={row.url}>{display}</span>;
+
+  let path: string;
+  try {
+    path = new URL(row.url).pathname || '/';
+  } catch {
+    path = row.domain;
+  }
+
+  const trimmed = path.endsWith('/') && path.length > 1 ? path.slice(0, -1) : path;
+  const segments = trimmed.split('/').filter(Boolean);
+  const rightSegments = segments.slice(-3);
+  const leftSegments = segments.slice(0, -3);
+  const right = '/' + rightSegments.join('/');
+  const left = leftSegments.length > 0 ? '/' + leftSegments.join('/') : '';
+
+  return (
+    <span
+      title={row.url}
+      style={{display: 'flex', overflow: 'hidden', minWidth: 0, width: '100%'}}>
+      <span
+        style={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          minWidth: 0,
+          flexShrink: 1,
+        }}>
+        {left}
+      </span>
+      <span style={{flexShrink: 0, whiteSpace: 'nowrap'}}>{right}</span>
+    </span>
+  );
 });
 
 export function Component() {
