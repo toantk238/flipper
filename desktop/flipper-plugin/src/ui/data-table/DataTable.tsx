@@ -201,6 +201,7 @@ export function DataTable<T extends object>(
 
   const latestSelectionRef = useLatestRef(selection);
   const latestOnSelectRef = useLatestRef(onSelect);
+  const selectedEntryRef = useRef<ReturnType<typeof dataView.getEntry> | null>(null);
   useEffect(() => {
     if (dataView) {
       const unsubscribe = dataView.addListener((change) => {
@@ -212,6 +213,25 @@ export function DataTable<T extends object>(
             getSelectedItem(dataView, latestSelectionRef.current),
             getSelectedItems(dataView, latestSelectionRef.current),
           );
+        } else if (change.type === 'shift' || change.type === 'reset') {
+          // Reanchor selection when the view reshuffles (new rows inserted or sort changed).
+          // Uses the stored entry object (whose approxIndex is updated in-place by DataSource)
+          // to find the entry's new view position. Multi-selection collapses to single — consistent
+          // with how setFilter reanchors selection elsewhere in this file.
+          const entry = selectedEntryRef.current;
+          if (entry != null && latestSelectionRef.current.current >= 0) {
+            const newIdx = dataView.getViewIndexOfEntry(entry);
+            if (newIdx === -1) {
+              dispatch({type: 'clearSelection'});
+            } else if (newIdx !== latestSelectionRef.current.current) {
+              dispatch({
+                type: 'selectItem',
+                nextIndex: newIdx,
+                addToSelection: false,
+                allowUnselect: false,
+              });
+            }
+          }
         }
       });
 
@@ -469,6 +489,10 @@ export function DataTable<T extends object>(
         );
       }
       isMounted.current = true;
+      selectedEntryRef.current =
+        tableState.selection.current >= 0
+          ? dataView.getEntry(tableState.selection.current)
+          : null;
     },
     [onSelect, dataView, tableState.selection],
   );

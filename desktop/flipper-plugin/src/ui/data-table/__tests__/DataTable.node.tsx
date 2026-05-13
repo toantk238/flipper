@@ -1038,3 +1038,149 @@ test('open second panel and closing deletes dataView', async () => {
   });
   expect(Object.keys(ds.additionalViews).length).toBe(0);
 });
+
+test('selection reanchors when item inserted before it in descending-sorted view', async () => {
+  type Item = {id: number; label: string};
+  const ds = createDataSource<Item, 'id'>(
+    [
+      {id: 1, label: 'one'},
+      {id: 2, label: 'two'},
+    ],
+    {key: 'id'},
+  );
+
+  const onSelect = jest.fn();
+  const ref = createRef<DataTableManager<Item>>();
+  const itemColumns: DataTableColumn<Item>[] = [
+    {key: 'id', wrap: false},
+    {key: 'label', wrap: false},
+  ];
+
+  render(
+    <DataTable
+      dataSource={ds}
+      columns={itemColumns}
+      tableManagerRef={ref}
+      onSelect={onSelect}
+    />,
+  );
+
+  // Set descending sort: [id=2 (view 0), id=1 (view 1)]
+  act(() => {
+    ref.current!.sortColumn('id', 'desc');
+  });
+
+  // Select view index 1 (id=1, the bottom row)
+  act(() => {
+    ref.current!.selectItem(1);
+  });
+  expect(onSelect).toHaveBeenLastCalledWith(
+    {id: 1, label: 'one'},
+    [{id: 1, label: 'one'}],
+  );
+
+  // Append id=3 → descending: [id=3 (view 0), id=2 (view 1), id=1 (view 2)]
+  // Bug: selection stays at index 1 → now shows id=2 (wrong)
+  // Fix: selection moves to index 2 → still shows id=1 (correct)
+  act(() => {
+    ds.append({id: 3, label: 'three'});
+  });
+
+  expect(onSelect).toHaveBeenLastCalledWith(
+    {id: 1, label: 'one'},
+    [{id: 1, label: 'one'}],
+  );
+  expect(ref.current!.getSelectedItem()).toEqual({id: 1, label: 'one'});
+});
+
+test('selection reanchors after sort order change (reset event)', async () => {
+  type Item = {id: number; label: string};
+  const ds = createDataSource<Item, 'id'>(
+    [
+      {id: 1, label: 'one'},
+      {id: 2, label: 'two'},
+      {id: 3, label: 'three'},
+    ],
+    {key: 'id'},
+  );
+
+  const onSelect = jest.fn();
+  const ref = createRef<DataTableManager<Item>>();
+  const itemColumns: DataTableColumn<Item>[] = [
+    {key: 'id', wrap: false},
+    {key: 'label', wrap: false},
+  ];
+
+  render(
+    <DataTable
+      dataSource={ds}
+      columns={itemColumns}
+      tableManagerRef={ref}
+      onSelect={onSelect}
+    />,
+  );
+
+  // No sort: insertion order [id=1 (view 0), id=2 (view 1), id=3 (view 2)]
+  // Select view index 2 (id=3)
+  act(() => {
+    ref.current!.selectItem(2);
+  });
+  expect(onSelect).toHaveBeenLastCalledWith(
+    {id: 3, label: 'three'},
+    [{id: 3, label: 'three'}],
+  );
+
+  // Sort descending → [id=3 (view 0), id=2 (view 1), id=1 (view 2)]
+  // Bug: selection stays at index 2 → now shows id=1 (wrong)
+  // Fix: selection moves to index 0 → still shows id=3 (correct)
+  act(() => {
+    ref.current!.sortColumn('id', 'desc');
+  });
+
+  // getSelectedItem reads selection.current from the current view:
+  //   without fix → index 2 in desc view → id=1 (wrong)
+  //   with fix    → index 0 in desc view → id=3 (correct)
+  expect(ref.current!.getSelectedItem()).toEqual({id: 3, label: 'three'});
+});
+
+test('shift and reset events with no prior selection are a no-op', () => {
+  type Item = {id: number; label: string};
+  const ds = createDataSource<Item, 'id'>(
+    [
+      {id: 1, label: 'one'},
+      {id: 2, label: 'two'},
+    ],
+    {key: 'id'},
+  );
+
+  const onSelect = jest.fn();
+  const ref = createRef<DataTableManager<Item>>();
+  const itemColumns: DataTableColumn<Item>[] = [
+    {key: 'id', wrap: false},
+    {key: 'label', wrap: false},
+  ];
+
+  render(
+    <DataTable
+      dataSource={ds}
+      columns={itemColumns}
+      tableManagerRef={ref}
+      onSelect={onSelect}
+    />,
+  );
+
+  // No selection. Sort, append, and re-sort — must not crash or call onSelect.
+  expect(() => {
+    act(() => {
+      ref.current!.sortColumn('id', 'desc');
+    });
+    act(() => {
+      ds.append({id: 3, label: 'three'});
+    });
+    act(() => {
+      ref.current!.sortColumn('id', 'asc');
+    });
+  }).not.toThrow();
+  expect(onSelect).not.toHaveBeenCalled();
+  expect(ref.current!.getSelectedItem()).toBeUndefined();
+});
