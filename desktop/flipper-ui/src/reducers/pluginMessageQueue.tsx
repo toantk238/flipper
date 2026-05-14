@@ -46,6 +46,13 @@ export type Action =
   | {
       type: 'CLEAR_PLUGIN_STATE';
       payload: {pluginId: string};
+    }
+  | {
+      type: 'CLIENT_RECONNECTED';
+      payload: {
+        oldClientId: string;
+        newClient: {id: string};
+      };
     };
 
 const INITIAL_STATE: State = {};
@@ -116,6 +123,20 @@ export default function reducer(
           }
         });
       });
+    }
+
+    case 'CLIENT_RECONNECTED': {
+      const {oldClientId, newClient} = action.payload;
+      const result: State = {};
+      for (const pluginKey of Object.keys(state)) {
+        const {client: keyClientId, pluginName} = deconstructPluginKey(pluginKey);
+        if (keyClientId === oldClientId) {
+          result[`${newClient.id}#${pluginName}`] = state[pluginKey];
+        } else {
+          result[pluginKey] = state[pluginKey];
+        }
+      }
+      return result;
     }
 
     default:

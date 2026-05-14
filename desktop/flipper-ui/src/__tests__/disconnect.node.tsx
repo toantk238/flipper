@@ -20,6 +20,7 @@ import {
   handleDeviceConnected,
   handleDeviceDisconnected,
 } from '../dispatcher/flipperServer';
+import {selectPlugin} from '../reducers/connections';
 import {TestDevice} from '../devices/TestDevice';
 
 test('Devices can disconnect', async () => {
@@ -409,4 +410,68 @@ test('new clients replace old ones', async () => {
   expect(instance.instanceApi.destroy).toBeCalledTimes(1);
   expect(instance.instanceApi.connect).toBeCalledTimes(1);
   expect(instance.instanceApi.disconnect).toBeCalledTimes(1);
+});
+
+test('reconnecting app reuses existing client to preserve plugin state and selection', async () => {
+  const plugin = new _SandyPluginDefinition(
+    TestUtils.createMockPluginDetails(),
+    {
+      plugin(_client: PluginClient) {
+        return {};
+      },
+      Component() {
+        return null;
+      },
+    },
+  );
+
+  const {store, device, client: client1, logger} =
+    await createMockFlipperWithPlugin(plugin, {asBackgroundPlugin: true});
+
+  const server = TestUtils.createFlipperServerMock({
+    'client-request-response': async () => ({success: [], length: 0}),
+  });
+
+  // Select plugin on initial client
+  store.dispatch(
+    selectPlugin({
+      selectedPlugin: plugin.id,
+      selectedAppId: client1.id,
+      selectedDevice: device,
+    }),
+  );
+  expect(store.getState().connections.selectedAppId).toBe(client1.id);
+  expect(store.getState().connections.selectedPlugin).toBe(plugin.id);
+
+  // Simulate a queued background message
+  const pluginKey = `${client1.id}#${plugin.id}`;
+  store.dispatch({
+    type: 'QUEUE_MESSAGES',
+    payload: {
+      pluginKey,
+      messages: [{method: 'backgroundEvent', rawSize: 10}],
+      maxQueueSize: 1000,
+    },
+  });
+
+  // App disconnects — client stays in map, connected = false
+  client1.disconnect();
+  expect(client1.connected.get()).toBe(false);
+  expect(store.getState().connections.clients.has(client1.id)).toBe(true);
+
+  // App reconnects with same query (most common case: same serial, same app).
+  // handleClientConnected reuses the existing client in-place: updates its
+  // connection and resumes plugins without any Redux dispatch.
+  await handleClientConnected(server, store, logger, client1);
+
+  // Client is reconnected in-place — no dispatch, no map swap
+  expect(client1.connected.get()).toBe(true);
+  expect(store.getState().connections.clients.has(client1.id)).toBe(true);
+  // Selection preserved — no flash during reconnect
+  expect(store.getState().connections.selectedAppId).toBe(client1.id);
+  expect(store.getState().connections.selectedPlugin).toBe(plugin.id);
+  // Queued messages preserved under the same plugin key (no re-keying needed)
+  expect(store.getState().pluginMessageQueue[pluginKey]).toEqual([
+    {method: 'backgroundEvent', rawSize: 10},
+  ]);
 });

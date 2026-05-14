@@ -464,19 +464,54 @@ export async function handleClientConnected(
 ) {
   const {connections} = store.getState();
   const existingClient = connections.clients.get(id);
-  if (existingClient) {
-    existingClient.destroy();
-    store.dispatch({
-      type: 'CLEAR_CLIENT_PLUGINS_STATE',
-      payload: {
-        clientId: id,
-        devicePlugins: new Set(),
+
+  if (existingClient && !existingClient.connected.get()) {
+    // Same-ID reconnect after a graceful disconnect (most common case: same
+    // device serial, same app). Reuse the existing client in-place: update its
+    // connection and resume plugin instances. This preserves Sandy plugin
+    // DataSource state (e.g. accumulated network requests) without requiring
+    // any Redux dispatch or plugin instance teardown.
+    existingClient.connection = {
+      send(data: any) {
+        server.exec('client-request', id, data).catch((e) => {
+          console.warn(e);
+        });
       },
+      async sendExpectResponse(data: any) {
+        return await server.exec('client-request-response', id, data);
+      },
+    };
+    existingClient.connected.set(true);
+    // Re-activate plugins that were active before the disconnect so the device
+    // starts streaming events again without waiting for the user to re-select.
+    existingClient.activePlugins.forEach((pluginId) => {
+      existingClient.initPlugin(pluginId);
     });
-    store.dispatch({
-      type: 'CLIENT_REMOVED',
-      payload: id,
-    });
+    try {
+      await timeout(
+        30 * 1000,
+        existingClient.refreshPlugins(),
+        `Failed to initialize client ${query.app} on ${query.device_id} in a timely manner`,
+      );
+      if (process.env.NODE_ENV !== 'test') {
+        console.log(`${query.app} on ${query.device_id} reconnected and ready.`);
+      }
+    } catch (e) {
+      if (e instanceof NoLongerConnectedToClientError) {
+        console.warn(
+          `Client ${query.app} on ${query.device_id} disconnected while reconnecting`,
+        );
+        return;
+      }
+      console.warn(`Failed to handle client reconnected: ${e}`);
+    }
+    return;
+  }
+
+  if (existingClient) {
+    // Existing connection is still alive — unexpected duplicate connection.
+    // Destroy the old session and fall through to register the new client.
+    existingClient.destroy();
   }
 
   if (process.env.NODE_ENV !== 'test') {
@@ -534,10 +569,28 @@ export async function handleClientConnected(
     'server',
   );
 
-  store.dispatch({
-    type: 'NEW_CLIENT',
-    payload: client,
-  });
+  // Different-ID reconnect: same app+device but a different session ID
+  // (e.g. network reconnect with a new IP). Replace the stale client atomically.
+  const staleClient = Array.from(
+    store.getState().connections.clients.values(),
+  ).find(
+    (c) =>
+      c.query.app === query.app &&
+      c.query.device_id === query.device_id &&
+      !c.connected.get(),
+  );
+
+  if (staleClient) {
+    store.dispatch({
+      type: 'CLIENT_RECONNECTED',
+      payload: {oldClientId: staleClient.id, newClient: client},
+    });
+  } else {
+    store.dispatch({
+      type: 'NEW_CLIENT',
+      payload: client,
+    });
+  }
   try {
     await timeout(
       30 * 1000,

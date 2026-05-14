@@ -364,3 +364,50 @@ describe('selection changes', () => {
     expect(store.getState().connections.selectedAppId).toBe(d1app1.id);
   });
 });
+
+test('CLIENT_RECONNECTED replaces stale client and updates selectedAppId', async () => {
+  const TestPlugin = new _SandyPluginDefinition(
+    TestUtils.createMockPluginDetails(),
+    {
+      plugin(_client: any) {
+        return {};
+      },
+      Component() {
+        return null;
+      },
+    },
+  );
+  const {store, device, client: oldClient, createClient} =
+    await createMockFlipperWithPlugin(TestPlugin);
+
+  store.dispatch(
+    selectPlugin({
+      selectedPlugin: TestPlugin.id,
+      selectedAppId: oldClient.id,
+      selectedDevice: device,
+    }),
+  );
+  expect(store.getState().connections.selectedAppId).toBe(oldClient.id);
+  expect(store.getState().connections.selectedPlugin).toBe(TestPlugin.id);
+
+  oldClient.disconnect();
+
+  // Create a new client with a distinct query (different device_id simulates new session)
+  const newClient = await createClient(device, oldClient.query.app, {
+    ...oldClient.query,
+    app: oldClient.query.app,
+    device_id: `${device.serial}-session2`,
+  });
+
+  expect(newClient.id).not.toBe(oldClient.id);
+
+  store.dispatch({
+    type: 'CLIENT_RECONNECTED',
+    payload: {oldClientId: oldClient.id, newClient},
+  });
+
+  expect(store.getState().connections.clients.has(oldClient.id)).toBe(false);
+  expect(store.getState().connections.clients.has(newClient.id)).toBe(true);
+  expect(store.getState().connections.selectedAppId).toBe(newClient.id);
+  expect(store.getState().connections.selectedPlugin).toBe(TestPlugin.id);
+});

@@ -13,7 +13,6 @@ import {produce} from 'immer';
 import type BaseDevice from '../devices/BaseDevice';
 import type Client from '../Client';
 import type {UninitializedClient, DeviceOS, Logger} from 'flipper-common';
-import type {Actions} from '.';
 import {WelcomeScreenStaticView} from '../sandy-chrome/WelcomeScreen';
 import {isDevicePluginDefinition} from '../utils/pluginUtils';
 import {getPluginKey} from '../utils/pluginKey';
@@ -122,6 +121,13 @@ export type Action =
       payload: string;
     }
   | {
+      type: 'CLIENT_RECONNECTED';
+      payload: {
+        oldClientId: string;
+        newClient: Client;
+      };
+    }
+  | {
       type: 'START_CLIENT_SETUP';
       payload: UninitializedClient;
     }
@@ -190,6 +196,7 @@ const INITAL_STATE: State = {
   selectedAppPluginListRevision: 0,
 };
 
+import type {Actions} from '.';
 export default (state: State = INITAL_STATE, action: Actions): State => {
   switch (action.type) {
     case 'SET_STATIC_VIEW': {
@@ -398,6 +405,31 @@ export default (state: State = INITAL_STATE, action: Actions): State => {
         draft.clients.delete(payload);
         if (draft.selectedAppId === payload) {
           draft.selectedAppId = null;
+        }
+      });
+    }
+
+    case 'CLIENT_RECONNECTED': {
+      const {oldClientId} = action.payload;
+      // The Actions union widens newClient to Client | {id: string} because
+      // pluginMessageQueue also handles this action with a narrower type.
+      // At runtime handleClientConnected always dispatches a full Client.
+      const newClient = action.payload.newClient as Client;
+      return produce(state, (draft) => {
+        // delete is a no-op when IDs match (same-serial reconnect); required
+        // for the different-session path (e.g. network reconnect, new IP).
+        draft.clients.delete(oldClientId);
+        draft.clients.set(newClient.id, newClient);
+        if (draft.selectedAppId === oldClientId) {
+          draft.selectedAppId = newClient.id;
+        }
+        const unitialisedIndex = draft.uninitializedClients.findIndex(
+          (c) =>
+            c.deviceName === newClient.query.device ||
+            c.appName === newClient.query.app,
+        );
+        if (unitialisedIndex !== -1) {
+          draft.uninitializedClients.splice(unitialisedIndex, 1);
         }
       });
     }
