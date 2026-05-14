@@ -34,10 +34,13 @@ export function createFlipperServer(
   port: number,
   tokenProvider: () => string | null | undefined,
   onStateChange: (state: FlipperServerState) => void,
+  secure?: boolean,
 ): Promise<FlipperServer> {
   const URLProvider = () => {
     const token = tokenProvider();
-    return `ws://${host}:${port}?token=${token}`;
+    const scheme = secure ? 'wss' : 'ws';
+    const portSuffix = port && !isNaN(port) ? `:${port}` : '';
+    return `${scheme}://${host}${portSuffix}?token=${token}`;
   };
 
   const socket = new ReconnectingWebSocket(URLProvider);
