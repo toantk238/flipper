@@ -176,6 +176,7 @@ async function startHTTPServer(
       const processedContent = content
         .toString()
         .replace('FLIPPER_CONFIG_PLACEHOLDER', util.inspect(flipperConfig));
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.end(processedContent);
     });
   };
