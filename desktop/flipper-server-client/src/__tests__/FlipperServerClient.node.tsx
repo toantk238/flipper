@@ -22,22 +22,27 @@ function captureUrl(
   token: string,
   secure?: boolean,
 ): string {
-  jest.useFakeTimers();
   MockRWS.mockClear();
   createFlipperServer(host, port, () => token, () => {}, secure);
+  expect(MockRWS).toHaveBeenCalledTimes(1);
   const urlProvider = MockRWS.mock.calls[0][0] as () => string;
-  jest.useRealTimers();
   return urlProvider();
 }
 
 describe('createFlipperServer - WebSocket URL construction', () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
+
   test('HTTP on localhost: uses ws:// with port', () => {
     expect(captureUrl('localhost', 52342, 'my-token')).toBe(
       'ws://localhost:52342?token=my-token',
     );
   });
 
-  test('HTTPS default port: uses wss:// and omits port when port is NaN', () => {
+  test('HTTPS no port: uses wss:// and omits port suffix when port is NaN', () => {
     expect(captureUrl('flipper.example.com', NaN, 'my-token', true)).toBe(
       'wss://flipper.example.com?token=my-token',
     );
@@ -55,7 +60,9 @@ describe('createFlipperServer - WebSocket URL construction', () => {
     );
   });
 
-  test('secure defaults to false: ws:// when flag omitted', () => {
+  // Separate test from the explicit `false` case above to verify the default
+  // (undefined) also produces ws://, not just explicit false.
+  test('secure omitted: defaults to ws://', () => {
     expect(captureUrl('localhost', 52342, 'my-token', undefined)).toBe(
       'ws://localhost:52342?token=my-token',
     );

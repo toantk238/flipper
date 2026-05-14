@@ -39,7 +39,7 @@ export function createFlipperServer(
   const URLProvider = () => {
     const token = tokenProvider();
     const scheme = secure ? 'wss' : 'ws';
-    const portSuffix = port && !isNaN(port) ? `:${port}` : '';
+    const portSuffix = Number.isFinite(port) && port > 0 ? `:${port}` : '';
     return `${scheme}://${host}${portSuffix}?token=${token}`;
   };
 
