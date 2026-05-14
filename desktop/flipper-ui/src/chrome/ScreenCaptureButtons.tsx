@@ -16,31 +16,25 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import {useStore} from '../utils/useStore';
-import {path, theme} from 'flipper-plugin';
+import {path, theme, getFlipperLib} from 'flipper-plugin';
 import {NavbarButton} from '../sandy-chrome/Navbar';
-import {getFlipperServer} from '../flipperServer';
-
-async function openFile(path: string) {
-  getFlipperServer().exec('open-file', path);
-}
+import {exportFileBinary} from '../utils/exportFile';
 
 export function NavbarScreenshotButton() {
   const selectedDevice = useStore((state) => state.connections.selectedDevice);
   const [isTakingScreenshot, setIsTakingScreenshot] = useState(false);
 
-  const handleScreenshot = useCallback(() => {
+  const handleScreenshot = useCallback(async () => {
     setIsTakingScreenshot(true);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return capture(selectedDevice!)
-      .then(openFile)
-      .catch((e) => {
-        console.error('Taking screenshot failed:', e);
-        message.error(`Taking screenshot failed:${e}`);
-      })
-      .finally(() => {
-        setIsTakingScreenshot(false);
-      });
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      await capture(selectedDevice!);
+    } catch (e) {
+      console.error('Taking screenshot failed:', e);
+      message.error(`Taking screenshot failed:${e}`);
+    } finally {
+      setIsTakingScreenshot(false);
+    }
   }, [selectedDevice]);
 
   return (
@@ -76,9 +70,20 @@ export function NavbarScreenRecordButton() {
     } else {
       return selectedDevice
         .stopScreenCapture()
-        .then((f) => {
+        .then(async (f) => {
           if (f) {
-            return openFile(f);
+            const lib = getFlipperLib();
+            try {
+              const buffer =
+                await lib.remoteServerContext.fs.readFileBinary(f);
+              exportFileBinary(buffer, {defaultPath: getFileName('mp4')});
+            } finally {
+              lib.remoteServerContext.fs
+                .unlink(f)
+                .catch((e: unknown) =>
+                  console.warn('Failed to delete recording temp file', e),
+                );
+            }
           }
         })
         .catch((e) => {

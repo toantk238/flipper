@@ -8,10 +8,10 @@
  */
 
 import {reportPlatformFailures} from 'flipper-common';
-import {getFlipperLib, path} from 'flipper-plugin';
 import BaseDevice from '../devices/BaseDevice';
 import {getFlipperServerConfig} from '../flipperServer';
 import {assertNotNull} from './assertNotNull';
+import {exportFileBinary} from './exportFile';
 
 export function getCaptureLocation() {
   return (
@@ -20,34 +20,24 @@ export function getCaptureLocation() {
   );
 }
 
-// TODO: refactor so this doesn't need to be exported
 export function getFileName(extension: 'png' | 'mp4'): string {
   // Windows does not like `:` in its filenames. Yes, I know ...
   return `screencap-${new Date().toISOString().replace(/:/g, '')}.${extension}`;
 }
 
-export async function capture(device: BaseDevice): Promise<string> {
+export async function capture(device: BaseDevice): Promise<void> {
   if (!device.connected.get()) {
     console.info('Skipping screenshot for disconnected device');
-    return '';
+    return;
   }
-  const pngPath = path.join(getCaptureLocation(), getFileName('png'));
   return reportPlatformFailures(
-    // TODO: there is no reason to read the screenshot first, grab it over the websocket, than send it back
-    // again to write in a file, probably easier to change screenshot api to `device.screenshot(): path`
-    device
-      .screenshot()
-      .then((buffer) => {
-        assertNotNull(
-          buffer,
-          `Device ${device.description.deviceType}:${device.description.os} does not support taking screenshots`,
-        );
-        return getFlipperLib().remoteServerContext.fs.writeFileBinary(
-          pngPath,
-          buffer,
-        );
-      })
-      .then(() => pngPath),
+    device.screenshot().then((buffer) => {
+      assertNotNull(
+        buffer,
+        `Device ${device.description.deviceType}:${device.description.os} does not support taking screenshots`,
+      );
+      exportFileBinary(buffer, {defaultPath: getFileName('png')});
+    }),
     'captureScreenshot',
   );
 }
