@@ -90,7 +90,8 @@ async function start() {
       token = window.flipperConfig.authToken;
     }
 
-    const socket = new WebSocket(`ws://${location.host}?token=${token}`);
+    const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const socket = new WebSocket(`${wsProtocol}//${location.host}?token=${token}`);
     socket.addEventListener('message', ({data: dataRaw}) => {
       const message = JSON.parse(dataRaw.toString());
 
@@ -174,6 +175,7 @@ async function start() {
           break;
       }
     },
+    location.protocol === 'https:',
   );
 
   getLogger().info('[flipper-client][ui-browser] WS client connected');
