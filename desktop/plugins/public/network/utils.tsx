@@ -327,3 +327,101 @@ export function requestsToText(requests: RequestWithData[]): string {
   }
   return copyText;
 }
+
+export type ParsedPart = {
+  name: string;
+  filename?: string;
+  partContentType?: string;
+  textValue?: string;
+  byteLength: number;
+};
+
+function findSequence(
+  haystack: Uint8Array,
+  needle: Uint8Array,
+  start = 0,
+): number {
+  outer: for (let i = start; i <= haystack.length - needle.length; i++) {
+    for (let j = 0; j < needle.length; j++) {
+      if (haystack[i + j] !== needle[j]) continue outer;
+    }
+    return i;
+  }
+  return -1;
+}
+
+function tryParsePart(
+  partBytes: Uint8Array,
+  sepIdx: number,
+): ParsedPart | null {
+  // Part headers are always ASCII/UTF-8 text; use Buffer.from for compatibility
+  // across browser (via polyfill) and Node.js test environments.
+  const headerStr = Buffer.from(partBytes.slice(0, sepIdx)).toString('utf-8');
+
+  const bodyBytes = partBytes.slice(sepIdx + 4); // skip \r\n\r\n
+
+  const dispositionMatch = headerStr.match(
+    /Content-Disposition:\s*form-data;([^\r\n]*)/i,
+  );
+  if (!dispositionMatch) return null;
+
+  const nameMatch = dispositionMatch[1].match(/name="([^"]*)"/);
+  if (!nameMatch) return null;
+  const name = nameMatch[1];
+
+  const filenameMatch = dispositionMatch[1].match(/filename="([^"]*)"/);
+  const filename = filenameMatch?.[1];
+
+  const ctMatch = headerStr.match(/Content-Type:\s*([^\r\n]+)/i);
+  const partContentType = ctMatch?.[1]?.trim();
+
+  if (filename !== undefined) {
+    return {name, filename, partContentType, byteLength: bodyBytes.length};
+  }
+
+  // Decode text field body; undefined if it contains replacement characters
+  // (indicating non-UTF-8 binary content).
+  const decoded = Buffer.from(bodyBytes).toString('utf-8');
+  const textValue = decoded.includes('�') ? undefined : decoded;
+  return {name, textValue, byteLength: bodyBytes.length};
+}
+
+export function parseMultipartBody(
+  body: Uint8Array,
+  boundary: string,
+): ParsedPart[] {
+  const delimiter = new Uint8Array(Buffer.from(`--${boundary}\r\n`, 'utf-8'));
+  const finalDelimiter = new Uint8Array(Buffer.from(`--${boundary}--`, 'utf-8'));
+  const headerSep = new Uint8Array([0x0d, 0x0a, 0x0d, 0x0a]); // \r\n\r\n
+  const parts: ParsedPart[] = [];
+
+  let searchFrom = 0;
+  while (true) {
+    const delimPos = findSequence(body, delimiter, searchFrom);
+    if (delimPos === -1) break;
+
+    const partStart = delimPos + delimiter.length;
+    const nextDelim = findSequence(body, delimiter, partStart);
+    const finalDelimPos = findSequence(body, finalDelimiter, partStart);
+
+    // trim the trailing \r\n that precedes the next --boundary
+    const partEnd =
+      nextDelim !== -1
+        ? nextDelim - 2
+        : finalDelimPos !== -1
+          ? finalDelimPos - 2
+          : body.length;
+
+    const partBytes = body.slice(partStart, partEnd);
+    const sepIdx = findSequence(partBytes, headerSep);
+    if (sepIdx !== -1) {
+      const parsed = tryParsePart(partBytes, sepIdx);
+      if (parsed) parts.push(parsed);
+    }
+
+    if (nextDelim === -1) break;
+    searchFrom = partStart;
+  }
+
+  return parts;
+}
