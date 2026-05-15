@@ -46,7 +46,6 @@ export function isTextual(
       contentType.startsWith('text/') ||
       contentType.startsWith('application/x-www-form-urlencoded') ||
       jsonContentTypeRegex.test(contentType) ||
-      contentType.startsWith('multipart/') ||
       contentType.startsWith('message/') ||
       contentType.startsWith('image/svg') ||
       contentType.startsWith('application/xhtml+xml') ||

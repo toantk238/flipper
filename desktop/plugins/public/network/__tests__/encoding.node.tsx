@@ -140,6 +140,18 @@ describe('network data encoding', () => {
   });
 });
 
+test('isTextual returns false for multipart/form-data', () => {
+  expect(
+    isTextual([{key: 'Content-Type', value: 'multipart/form-data; boundary=abc'}]),
+  ).toBe(false);
+});
+
+test('isTextual returns false for multipart/mixed', () => {
+  expect(
+    isTextual([{key: 'Content-Type', value: 'multipart/mixed; boundary=abc'}]),
+  ).toBe(false);
+});
+
 test('detects utf8 strings in binary arrays', async () => {
   const binaryBuffer = readFileSync(
     path.join(__dirname, 'fixtures', 'tiny_logo.png'),
@@ -271,4 +283,16 @@ test('binary data gets serialized correctly', async () => {
   expect(persistedRequestData2).toEqual(donatingExpected);
   const persistedResponseData2 = await instance2.db.getResponseData('0');
   expect(persistedResponseData2).toEqual(new Uint8Array(tinyLogoExpected));
+});
+
+test('isTextual returns false for multipart/form-data', () => {
+  expect(
+    isTextual([{key: 'Content-Type', value: 'multipart/form-data; boundary=abc'}]),
+  ).toBe(false);
+});
+
+test('isTextual returns false for multipart/mixed', () => {
+  expect(
+    isTextual([{key: 'Content-Type', value: 'multipart/mixed; boundary=abc'}]),
+  ).toBe(false);
 });
