@@ -28,6 +28,8 @@ import {
   formatBytes,
   getHeaderValue,
   parseJsonWithBigInt,
+  parseMultipartBody,
+  ParsedPart,
   queryToObj,
 } from './utils';
 import {Header, Insights, RetryInsights, RequestWithData} from './types';
@@ -761,7 +763,45 @@ class ProtobufFormatter {
   }
 }
 
+class MultipartFormatter {
+  formatRequest(request: RequestWithData) {
+    const contentType = getHeaderValue(request.requestHeaders, 'content-type');
+    if (!contentType.startsWith('multipart/form-data')) {
+      return undefined;
+    }
+    if (!(request.requestData instanceof Uint8Array)) {
+      return undefined;
+    }
+    const boundaryMatch = contentType.match(/boundary=([^;,\s]+)/);
+    if (!boundaryMatch) {
+      return undefined;
+    }
+    const boundary = boundaryMatch[1].replace(/^"(.*)"$/, '$1');
+
+    let parts: ParsedPart[];
+    try {
+      parts = parseMultipartBody(request.requestData, boundary);
+    } catch {
+      return undefined;
+    }
+    if (parts.length === 0) {
+      return undefined;
+    }
+
+    const items: KeyValueItem[] = parts.map((part) => ({
+      key: part.filename != null ? `${part.name} (file)` : part.name,
+      value:
+        part.filename != null
+          ? `${part.filename} · ${part.partContentType ?? 'application/octet-stream'} · ${formatBytes(part.byteLength)}`
+          : (part.textValue ?? '(binary field)'),
+    }));
+
+    return <KeyValueTable items={items} />;
+  }
+}
+
 const BodyFormatters: Array<BodyFormatter> = [
+  new MultipartFormatter(),
   new ImageFormatter(),
   new VideoFormatter(),
   new LogEventFormatter(),
