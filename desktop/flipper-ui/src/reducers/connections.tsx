@@ -169,6 +169,10 @@ export type Action =
   | {
       type: 'APP_PLUGIN_LIST_CHANGED';
     }
+  | {
+      type: 'REMOVE_UNINITIALIZED_CLIENT';
+      payload: {app: string; device: string};
+    }
   | RegisterPluginAction;
 
 const DEFAULT_DEVICE_BLACKLIST: DeviceOS[] = ['MacOS', 'Metro', 'Windows'];
@@ -430,6 +434,18 @@ export default (state: State = INITAL_STATE, action: Actions): State => {
         );
         if (unitialisedIndex !== -1) {
           draft.uninitializedClients.splice(unitialisedIndex, 1);
+        }
+      });
+    }
+
+    case 'REMOVE_UNINITIALIZED_CLIENT': {
+      const {app, device} = action.payload;
+      return produce(state, (draft) => {
+        const idx = draft.uninitializedClients.findIndex(
+          (c) => c.appName === app || c.deviceName === device,
+        );
+        if (idx !== -1) {
+          draft.uninitializedClients.splice(idx, 1);
         }
       });
     }

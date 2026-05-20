@@ -111,6 +111,10 @@ export function connectFlipperServerToStore(
   });
 
   server.on('client-setup-error', ({client, type, message}) => {
+    store.dispatch({
+      type: 'REMOVE_UNINITIALIZED_CLIENT',
+      payload: {app: client.appName, device: client.deviceName},
+    });
     connectionUpdate(
       {
         key: buildGenericClientId(client),
@@ -482,6 +486,11 @@ export async function handleClientConnected(
       },
     };
     existingClient.connected.set(true);
+    // Clear "Currently connecting..." indicator — the client is back.
+    store.dispatch({
+      type: 'CLIENT_RECONNECTED',
+      payload: {oldClientId: id, newClient: existingClient},
+    });
     // Re-activate plugins that were active before the disconnect so the device
     // starts streaming events again without waiting for the user to re-select.
     existingClient.activePlugins.forEach((pluginId) => {
