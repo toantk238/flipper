@@ -31,6 +31,7 @@
     "string-natural-compare": "^3.0.0"
   },
   "devDependencies": {
+    "@ant-design/icons": "^6.0.0",
     "@types/react": "^18.0.0",
     "@types/string-natural-compare": "^3.0.2",
     "jest-mock-console": "^1.2.3"
