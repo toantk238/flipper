@@ -65,7 +65,7 @@ function AntdThemeProvider({children}: {children?: React.ReactNode}) {
           borderRadius: 6,
         },
       }}>
-      <App>{children}</App>
+      <App style={{display: 'contents'}}>{children}</App>
     </ConfigProvider>
   );
 }

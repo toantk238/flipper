@@ -63,10 +63,6 @@
   --flipper-border-radius: 6px;
   --flipper-border-color: #121212;
 }
-body {
-  color: var(--flipper-text-color-primary);
-  background-color: var(--flipper-background-default);
-}
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

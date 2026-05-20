@@ -63,7 +63,3 @@
   --flipper-border-radius: 6px;
   --flipper-border-color: #f2f2f2;
 }
-body {
-  color: var(--flipper-text-color-primary);
-  background-color: var(--flipper-background-default);
-}
