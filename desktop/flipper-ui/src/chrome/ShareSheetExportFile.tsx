@@ -70,7 +70,7 @@ type State = {
 };
 
 export default class ShareSheetExportFile extends Component<Props, State> {
-  static contextType: React.Context<ReactReduxContextValue> = ReactReduxContext;
+  static contextType = ReactReduxContext as unknown as React.Context<ReactReduxContextValue>;
 
   state: State = {
     fetchMetaDataErrors: null,
@@ -79,7 +79,7 @@ export default class ShareSheetExportFile extends Component<Props, State> {
   };
 
   get store(): MiddlewareAPI {
-    return this.context.store;
+    return (this.context as ReactReduxContextValue).store;
   }
 
   idler = new IdlerImpl();

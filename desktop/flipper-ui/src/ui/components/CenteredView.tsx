@@ -15,7 +15,7 @@ import {Layout, theme} from 'flipper-plugin';
  * Recommended to combine with RoundedSection
  * @deprecated
  */
-const CenteredView: React.FC<{}> = ({children}) => (
+const CenteredView: React.FC<{children?: React.ReactNode}> = ({children}) => (
   <Layout.ScrollContainer style={{background: theme.backgroundWash}}>
     <Layout.Container
       center

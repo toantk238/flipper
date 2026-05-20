@@ -39,6 +39,7 @@ export const Panel: React.FC<{
   stickyHeader?: boolean;
   extraActions?: React.ReactElement | null;
   className?: string;
+  children?: React.ReactNode;
 }> = (props) => {
   const [collapsed, setCollapsed] = useLocalStorageState(
     `panel:${props.title}:collapsed`,

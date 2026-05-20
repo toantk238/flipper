@@ -69,7 +69,7 @@ export const suggestNewPlugin = ({
       type="primary"
       size="small"
       onClick={() => {
-        notification.close(key);
+        notification.destroy(key);
         client.selectPlugin(newPluginId, undefined);
       }}>
       Try it now!

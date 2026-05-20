@@ -65,13 +65,13 @@ export async function downloadIcons(buildFolder: string) {
           // not available at this size, pick the next
           continue;
         }
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
           const fileStream = fs.createWriteStream(
             path.join(buildFolder, buildLocalIconPath(icon)),
           );
           res.body.pipe(fileStream);
           res.body.on('error', reject);
-          fileStream.on('finish', resolve);
+          fileStream.on('finish', () => resolve());
         });
       }
       console.error(

@@ -223,7 +223,7 @@ export function MasterDetailWithPowerSearch<T extends object>({
             <Tooltip
               title={`Click to ${pausedState ? 'resume' : 'pause'} the stream`}>
               <Button
-                type="ghost"
+                ghost
                 danger={pausedState}
                 onClick={handleTogglePause}>
                 {pausedState ? <PlayCircleOutlined /> : <PauseCircleOutlined />}
@@ -232,7 +232,7 @@ export function MasterDetailWithPowerSearch<T extends object>({
           )}
           {connected && enableClear && (
             <Tooltip title="Clear records">
-              <Button type="ghost" onClick={handleClear}>
+              <Button ghost onClick={handleClear}>
                 <DeleteOutlined />
               </Button>
             </Tooltip>

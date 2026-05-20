@@ -81,7 +81,7 @@ export const PluginList = memo(function PluginList({
   );
 
   const handleAppPluginClick = useCallback(
-    (pluginId) => {
+    (pluginId: string) => {
       dispatch(
         selectPlugin({
           selectedPlugin: pluginId,

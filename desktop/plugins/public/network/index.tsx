@@ -720,13 +720,13 @@ export function Component() {
           extraActions={
             <Layout.Horizontal gap>
               <Button
-                type="ghost"
+                ghost
                 title="Clear logs"
                 onClick={instance.clearLogs}>
                 <DeleteOutlined />
               </Button>
               {isMockResponseSupported && (
-                <Button type="ghost" onClick={instance.onMockButtonPressed}>
+                <Button ghost onClick={instance.onMockButtonPressed}>
                   Mock
                 </Button>
               )}

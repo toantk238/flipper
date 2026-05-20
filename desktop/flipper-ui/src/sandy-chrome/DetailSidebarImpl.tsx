@@ -32,7 +32,8 @@ export function DetailSidebarImpl({
     document.getElementById('detailsSidebar'),
   );
 
-  if (typeof jest !== 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (typeof (globalThis as any).jest !== 'undefined') {
     // For unit tests, make sure to render elements inline
     return <div>{children}</div>;
   }

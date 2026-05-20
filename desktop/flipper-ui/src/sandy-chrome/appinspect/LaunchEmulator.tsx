@@ -31,7 +31,7 @@ import {DeviceTarget} from 'flipper-common';
 import SettingsSheet from '../../chrome/SettingsSheet';
 import {Link} from '../../ui';
 import {chain, uniq, without} from 'lodash';
-import {ReactNode} from 'react-markdown';
+import type {ReactNode} from 'react';
 import {produce} from 'immer';
 import {getFlipperServer, getFlipperServerConfig} from '../../flipperServer';
 
@@ -297,7 +297,7 @@ export const LaunchEmulatorDialog = withTrackingScope(
                       typeof e === 'string' &&
                       e.includes('command timeout')
                     ) {
-                      message.warn(
+                      message.warning(
                         'Launching simulator may take up to 2 minutes for the first time. Please wait.',
                         // seconds
                         20,

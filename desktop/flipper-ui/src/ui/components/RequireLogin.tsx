@@ -14,7 +14,9 @@ import config from '../../fb-stubs/config';
 import {Alert} from 'antd';
 import {LoginOutlined} from '@ant-design/icons';
 
-export const RequireLogin: React.FC<{}> = ({children}) => {
+export const RequireLogin: React.FC<{children?: React.ReactNode}> = ({
+  children,
+}) => {
   const loggedIn = useValue(currentUser());
   if (!config.isFBBuild) {
     return (

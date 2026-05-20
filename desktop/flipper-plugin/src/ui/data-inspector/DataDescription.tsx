@@ -421,7 +421,7 @@ class ColorEditor extends PureComponent<{
     return (
       <Popover
         trigger={'click'}
-        onVisibleChange={this.onBlur}
+        onOpenChange={this.onBlur}
         content={() =>
           this.props.colorSet ? (
             <CompactPicker

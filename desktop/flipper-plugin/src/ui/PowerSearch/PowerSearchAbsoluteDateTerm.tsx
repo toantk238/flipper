@@ -8,11 +8,8 @@
  */
 
 import {Button, DatePicker, DatePickerProps} from 'antd';
-import dayjs from 'dayjs';
+import dayjs, {Dayjs} from 'dayjs';
 import React from 'react';
-// Use this exact version of moment to match what antd has
-// eslint-disable-next-line no-restricted-imports
-import moment from 'antd/node_modules/moment';
 
 type PowerSearchAbsoluteTermProps = {
   onCancel: () => void;
@@ -32,11 +29,11 @@ export const PowerSearchAbsoluteDateTerm: React.FC<
   const [editing, setEditing] = React.useState(!defaultValue);
 
   const disabledDate: DatePickerProps['disabledDate'] = React.useCallback(
-    (date) => {
-      if (minValue !== undefined && date < minValue) {
+    (date: Dayjs) => {
+      if (minValue !== undefined && date.valueOf() < minValue.valueOf()) {
         return true;
       }
-      if (maxValue !== undefined && date > maxValue) {
+      if (maxValue !== undefined && date.valueOf() > maxValue.valueOf()) {
         return true;
       }
       return false;
@@ -82,7 +79,7 @@ export const PowerSearchAbsoluteDateTerm: React.FC<
         disabledDate={disabledDate}
         showTime={!dateOnly}
         defaultOpen
-        defaultValue={defaultValue ? moment(defaultValue) : undefined}
+        defaultValue={defaultValue ? dayjs(defaultValue) : undefined}
       />
     );
   }

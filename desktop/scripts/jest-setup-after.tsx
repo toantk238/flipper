@@ -87,10 +87,11 @@ Object.defineProperty(global, 'performance', {
           name: '',
           detail: '',
           duration: 0,
-          entryType: '',
+          entryType: 'mark' as const,
           startTime: 0,
           toJSON() {},
-        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any;
       };
     }
 
@@ -107,10 +108,11 @@ Object.defineProperty(global, 'performance', {
           name: '',
           detail: '',
           duration: 0,
-          entryType: '',
+          entryType: 'measure' as const,
           startTime: 0,
           toJSON() {},
-        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any;
       };
     }
   },

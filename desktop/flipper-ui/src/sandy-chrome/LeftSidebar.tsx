@@ -14,7 +14,9 @@ import {Layout} from '../ui';
 import {Button, Tooltip, Typography} from 'antd';
 import {InfoCircleOutlined} from '@ant-design/icons';
 
-export const LeftSidebar: React.FC = ({children}) => (
+export const LeftSidebar: React.FC<{children?: React.ReactNode}> = ({
+  children,
+}) => (
   <Layout.Container style={{paddingTop: theme.space.small}} grow shrink>
     {children}
   </Layout.Container>
@@ -45,7 +47,9 @@ const LeftMenuTitle = styled(Layout.Horizontal)({
   },
 });
 
-export const InfoIcon: React.FC<{}> = ({children}) => (
+export const InfoIcon: React.FC<{children?: React.ReactNode}> = ({
+  children,
+}) => (
   <Tooltip placement="bottom" title={children} mouseEnterDelay={0.5}>
     <Button
       size="small"

@@ -42,7 +42,7 @@ import {startGlobalErrorHandling} from './utils/globalErrorHandling';
 import {loadTheme} from './utils/loadTheme';
 import {connectFlipperServerToStore} from './dispatcher/flipperServer';
 import {enableConnectivityHook} from './chrome/ConnectivityLogs';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {uiPerfTracker} from './utils/UIPerfTracker';
 import {getFlipperServerConfig} from './flipperServer';
 
@@ -188,13 +188,11 @@ export function startFlipperDesktop(flipperServer: FlipperServer) {
 
   Notification.requestPermission();
 
-  // TODO T116224873: Return the following code back instead of ReactDOM.react when the following issue is fixed: https://github.com/react-component/trigger/issues/288
-  // const root = createRoot(document.getElementById('root')!);
-  // root.render(<AppFrame logger={logger} persistor={persistor} />);
-
-  const root = document.getElementById('root');
-  if (root) {
-    ReactDOM.render(<AppFrame logger={logger} persistor={persistor} />, root);
+  const rootElement = document.getElementById('root');
+  if (rootElement) {
+    createRoot(rootElement).render(
+      <AppFrame logger={logger} persistor={persistor} />,
+    );
   }
 
   const launcherMessage = getFlipperServerConfig().processConfig.launcherMsg;

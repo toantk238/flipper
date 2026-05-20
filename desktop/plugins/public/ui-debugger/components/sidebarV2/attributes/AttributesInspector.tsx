@@ -669,7 +669,7 @@ function AttributeValue({
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          type="ghost">
+          ghost>
           <span
             style={{
               marginTop: 2,
@@ -697,7 +697,7 @@ function AttributeValue({
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          type="ghost">
+          ghost>
           <span
             style={{
               marginTop: 2,

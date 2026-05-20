@@ -42,13 +42,8 @@ export const PowerSearchTermFinder = React.forwardRef<
 
     return (
       <AutoComplete<string, PowerSearchTermFinderOption>
-        ref={
-          ref as React.Ref<{
-            focus: () => void;
-            blur: () => void;
-            scrollTo: () => void;
-          }>
-        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ref={ref as any}
         style={{flex: '1', minWidth: 200}}
         options={options}
         bordered={false}

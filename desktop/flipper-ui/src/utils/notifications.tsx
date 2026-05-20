@@ -32,7 +32,7 @@ export function showErrorNotification(message: string, description?: string) {
           <Link
             onClick={() => {
               getStore().dispatch(setStaticView(FlipperDevTools));
-              notification.close(key);
+              notification.destroy(key);
             }}>
             logs
           </Link>{' '}

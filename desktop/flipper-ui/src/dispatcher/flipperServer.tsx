@@ -449,7 +449,7 @@ function showConnectivityTroubleshootNotification(
             style={{float: 'right'}}
             onClick={() => {
               store.dispatch(toggleConnectivityModal());
-              notification.close(key);
+              notification.destroy(key);
             }}>
             Troubleshoot
           </Button>

@@ -53,7 +53,7 @@ export function tableContextMenuFactory<T extends object>(
       </Menu>
     );
   }
-  const hasSelection = selection.items.size > 0 ?? false;
+  const hasSelection = selection.items.size > 0;
   return (
     <Menu>
       {onContextMenu

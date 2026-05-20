@@ -79,7 +79,8 @@ const SandySplitContainer = styled.div<{
   boxSizing: 'border-box',
   display: 'flex',
   flex: `1 1 0`,
-  flexDirection: props.flexDirection,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  flexDirection: props.flexDirection as any,
   alignItems: props.center ? 'center' : 'stretch',
   gap: normalizeSpace(props.gap, theme.space.small),
   overflow: props.center ? undefined : 'hidden', // only use overflow hidden in container mode, to avoid weird resizing issues

@@ -128,21 +128,21 @@ test('Can render and launch android apps', async () => {
   await sleep(1); // give exec time to resolve
 
   expect(await renderer.findAllByText(/emulator/)).toMatchInlineSnapshot(`
-    [
-      <h3
-        class="ant-typography"
-        style="padding: 4px;"
-      >
-        Android emulators
-      </h3>,
-      <span>
-        emulator1
-      </span>,
-      <span>
-        emulator2
-      </span>,
-    ]
-  `);
+[
+  <h3
+    class="ant-typography css-dev-only-do-not-override-mncuj7"
+    style="padding: 4px;"
+  >
+    Android emulators
+  </h3>,
+  <span>
+    emulator1
+  </span>,
+  <span>
+    emulator2
+  </span>,
+]
+`);
 
   expect(onClose).not.toBeCalled();
   fireEvent.click(renderer.getByText('emulator2'));
@@ -191,39 +191,39 @@ test('Favouriting a virtual device brings it to the top', async () => {
   await sleep(1); // give exec time to resolve
 
   expect(await renderer.findAllByText(/emulator/)).toMatchInlineSnapshot(`
-    [
-      <h3
-        class="ant-typography"
-        style="padding: 4px;"
-      >
-        Android emulators
-      </h3>,
-      <span>
-        emulator1
-      </span>,
-      <span>
-        emulator2
-      </span>,
-    ]
-  `);
+[
+  <h3
+    class="ant-typography css-dev-only-do-not-override-mncuj7"
+    style="padding: 4px;"
+  >
+    Android emulators
+  </h3>,
+  <span>
+    emulator1
+  </span>,
+  <span>
+    emulator2
+  </span>,
+]
+`);
 
   const lastFavourite = last(renderer.getAllByLabelText('not-favorite'))!;
   fireEvent.click(lastFavourite);
 
   expect(await renderer.findAllByText(/emulator/)).toMatchInlineSnapshot(`
-    [
-      <h3
-        class="ant-typography"
-        style="padding: 4px;"
-      >
-        Android emulators
-      </h3>,
-      <span>
-        emulator2
-      </span>,
-      <span>
-        emulator1
-      </span>,
-    ]
-  `);
+[
+  <h3
+    class="ant-typography css-dev-only-do-not-override-mncuj7"
+    style="padding: 4px;"
+  >
+    Android emulators
+  </h3>,
+  <span>
+    emulator2
+  </span>,
+  <span>
+    emulator1
+  </span>,
+]
+`);
 });

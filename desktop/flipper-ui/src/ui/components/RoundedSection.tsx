@@ -34,7 +34,10 @@ Container.displayName = 'RoundedSection:Container';
  *
  * Recommended to be used inside a CenteredView
  */
-const RoundedSection: React.FC<{title: string}> = ({title, children}) => (
+const RoundedSection: React.FC<{title: string; children?: React.ReactNode}> = ({
+  title,
+  children,
+}) => (
   <Container>
     <Typography.Title level={3}>{title}</Typography.Title>
     <Divider />

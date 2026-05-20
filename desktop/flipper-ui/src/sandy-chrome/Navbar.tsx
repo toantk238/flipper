@@ -76,8 +76,8 @@ import {SandyRatingButton} from './RatingButton';
 import {getFlipperServer, getFlipperServerConfig} from '../flipperServer';
 import {showChangelog} from '../chrome/ChangelogSheet';
 import {FlipperSetupWizard} from '../chrome/FlipperSetupWizard';
-// eslint-disable-next-line no-restricted-imports
-import {ItemType} from 'antd/lib/menu/hooks/useItems';
+import type {MenuProps} from 'antd';
+type ItemType = NonNullable<MenuProps['items']>[number];
 import {TroubleshootingGuideV2} from './appinspect/fb-stubs/TroubleshootingGuideV2';
 
 export const Navbar = withTrackingScope(function Navbar() {

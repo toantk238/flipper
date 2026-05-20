@@ -14,7 +14,7 @@ import {
 } from 'flipper-common';
 import {getFlipperServer} from '../flipperServer';
 
-let healthcheckIsRunning: boolean;
+let healthcheckIsRunning = false;
 let runningHealthcheck: Promise<void>;
 
 export type HealthcheckEventsHandler = {

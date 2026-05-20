@@ -231,7 +231,7 @@ export function BottomPanel({
               justifyContent: 'space-between',
             }}>
             <Typography.Title level={3}>{title}</Typography.Title>
-            <Button type="ghost" onClick={dismiss}>
+            <Button ghost onClick={dismiss}>
               Dismiss
             </Button>
           </Layout.Horizontal>

@@ -135,7 +135,7 @@ export function PluginActionsMenu() {
               <Button
                 icon={<Icon component={MagicIcon} />}
                 title="Plugin actions"
-                type="ghost"
+                ghost
               />
             }
             className={submenu}>

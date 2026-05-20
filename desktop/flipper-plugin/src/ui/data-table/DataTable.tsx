@@ -526,7 +526,7 @@ export function DataTable<T extends object>(
   const hideRange = useRef<any>();
 
   const onRangeChange = useCallback(
-    (start: number, end: number, total: number, offset) => {
+    (start: number, end: number, total: number, offset: number) => {
       setRange(`${start} - ${end} / ${total}`);
       lastOffset.current = offset;
       // TODO: Fix this the next time the file is edited.

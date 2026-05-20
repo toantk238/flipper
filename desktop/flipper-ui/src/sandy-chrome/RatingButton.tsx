@@ -322,7 +322,7 @@ export function SandyRatingButton() {
   }
   return (
     <Popover
-      visible={isShown}
+      open={isShown}
       content={
         <FeedbackComponent
           submitRating={submitRating}

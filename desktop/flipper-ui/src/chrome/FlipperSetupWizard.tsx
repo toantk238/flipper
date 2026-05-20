@@ -86,7 +86,7 @@ function Footer({
 }: {
   onNext: () => void;
   nextDisabled: boolean;
-  onPrev: (() => void) | void;
+  onPrev?: (() => void) | null;
   onSkip: null | (() => void);
   hasNext: boolean;
 }) {
@@ -94,7 +94,7 @@ function Footer({
     <div style={{display: 'flex'}}>
       {onSkip && <Button onClick={onSkip}>Skip Setup Wizard</Button>}
       <div style={{marginLeft: 'auto'}}>
-        {onPrev && <Button onClick={onPrev}>Back</Button>}
+        {onPrev != null && <Button onClick={onPrev}>Back</Button>}
         {hasNext && (
           <Button onClick={onNext} disabled={nextDisabled} type="primary">
             Next
@@ -218,7 +218,7 @@ export function FlipperSetupWizard({
               ? null
               : () => {
                   onClose();
-                  notification.warn({
+                  notification.warning({
                     key: 'setup-wizard-reopen',
                     message: 'Setup Wizard is skipped',
                     description: (

@@ -24,7 +24,8 @@ export async function exportFileBinary(
   data: Uint8Array,
   {defaultPath}: {defaultPath?: string},
 ) {
-  const file = new File([data], defaultPath ?? 'unknown', {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const file = new File([data as any], defaultPath ?? 'unknown', {
     type: 'application/octet-stream',
   });
   FileSaver.saveAs(file);

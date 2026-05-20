@@ -8,8 +8,7 @@
  */
 
 import * as React from 'react';
-import {Children} from 'react';
-import {Tabs as AntdTabs, TabsProps, TabPaneProps} from 'antd';
+import {Tabs as AntdTabs, TabsProps} from 'antd';
 import {css, cx} from '@emotion/css';
 import {Layout} from './Layout';
 import {Spacing} from './theme';
@@ -25,32 +24,38 @@ export function Tabs({
   localStorageKeyOverride, //set this if you need to have a dynamic number of tabs, you do *not* need to namespace with the plugin name
   ...baseProps
 }: {grow?: boolean; localStorageKeyOverride?: string} & TabsProps) {
-  const keys: string[] = baseProps.items?.map((item) => item.key) ?? [];
-  const keyedChildren = Children.map(children, (child: any, idx) => {
-    if (!child || typeof child !== 'object') {
-      return;
-    }
-    const tabKey =
-      (child.props.hasOwnProperty('tabKey') &&
-        typeof child.props.tabKey === 'string' &&
-        child.props.tabKey) ||
-      (child.props.hasOwnProperty('tab') &&
-        typeof child.props.tab === 'string' &&
-        child.props.tab) ||
-      (child.props.hasOwnProperty('key') &&
-        typeof child.props.key === 'string' &&
-        child.props.key) ||
-      `tab_${idx}`;
-    keys.push(tabKey);
-    return {
-      ...child,
-      props: {
-        ...child.props,
+  const keys: string[] = baseProps.items?.map((item) => item.key as string) ?? [];
+
+  // Convert child Tab components into antd v5 items format
+  const childItems = React.Children.toArray(children)
+    .filter((child): child is React.ReactElement => React.isValidElement(child))
+    .map((child, idx) => {
+      const tabKey =
+        (child.props.tabKey && typeof child.props.tabKey === 'string' && child.props.tabKey) ||
+        (child.props.tab && typeof child.props.tab === 'string' && child.props.tab) ||
+        (typeof child.key === 'string' && child.key) ||
+        `tab_${idx}`;
+      keys.push(tabKey);
+      return {
         key: tabKey,
-        tabKey,
-      },
-    };
-  });
+        label: child.props.tab,
+        disabled: child.props.disabled,
+        children: (
+          <Layout.Container
+            gap={child.props.gap}
+            pad={child.props.pad}
+            grow
+            style={{maxWidth: '100%'}}>
+            {child.props.children}
+          </Layout.Container>
+        ),
+      };
+    });
+
+  const items =
+    childItems.length > 0
+      ? [...(baseProps.items ?? []), ...childItems]
+      : baseProps.items;
 
   const [activeTab, setActiveTab] = useLocalStorageState<string | undefined>(
     `Tabs:${localStorageKeyOverride ?? keys.join(',')}`,
@@ -64,29 +69,31 @@ export function Tabs({
         setActiveTab(key);
       }}
       {...baseProps}
+      items={items}
       className={cx(
         className,
         baseTabs,
         grow !== false ? growingTabs : undefined,
-      )}>
-      {keyedChildren}
-    </AntdTabs>
+      )}
+    />
   );
 }
 
-export const Tab: React.FC<
-  TabPaneProps & {
-    pad?: Spacing;
-    gap?: Spacing;
-  }
-> = function Tab({pad, gap, children, ...baseProps}) {
-  return (
-    <AntdTabs.TabPane {...baseProps}>
-      <Layout.Container gap={gap} pad={pad} grow style={{maxWidth: '100%'}}>
-        {children}
-      </Layout.Container>
-    </AntdTabs.TabPane>
-  );
+export type TabProps = {
+  tab: React.ReactNode;
+  tabKey?: string;
+  pad?: Spacing;
+  gap?: Spacing;
+  disabled?: boolean;
+  children?: React.ReactNode;
+};
+
+/**
+ * A tab pane. Must be used as a direct child of Tabs.
+ * Props are consumed by the parent Tabs component to build the items array.
+ */
+export const Tab: React.FC<TabProps> = function Tab() {
+  return null;
 };
 
 const baseTabs = css`

@@ -723,7 +723,7 @@ export default class Client extends EventEmitter {
       });
     }).catch((error) => {
       if (error instanceof NoLongerConnectedToClientError) {
-        message.warn({
+        message.warning({
           content: 'Not connected',
           key: 'appnotconnectedwarning',
           duration: 0.5,

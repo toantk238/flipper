@@ -7,7 +7,7 @@
  * @format
  */
 
-import React, {CSSProperties, ReactNode} from 'react';
+import React, {CSSProperties} from 'react';
 import styled from '@emotion/styled';
 import ReactMarkdown from 'react-markdown';
 import {getFlipperLib, theme} from 'flipper-plugin';
@@ -55,9 +55,10 @@ const Pre = styled(Row)({
   backgroundColor: theme.backgroundWash,
 });
 function CodeBlock(props: {
-  children: ReactNode[];
+  children?: React.ReactNode;
   className?: string;
   inline?: boolean;
+  [key: string]: unknown;
 }) {
   return props.inline ? (
     <Code>{props.children}</Code>
@@ -70,9 +71,13 @@ function CodeBlock(props: {
 const Link = styled.span({
   color: theme.textColorActive,
 });
-function LinkReference(props: {href: string; children: Array<ReactNode>}) {
+function LinkReference(props: {
+  href?: string;
+  children?: React.ReactNode;
+  [key: string]: unknown;
+}) {
   return (
-    <Link onClick={() => getFlipperLib().openLink(props.href)}>
+    <Link onClick={() => props.href && getFlipperLib().openLink(props.href)}>
       {props.children}
     </Link>
   );
@@ -82,20 +87,19 @@ export function Markdown(props: {source: string; style?: CSSProperties}) {
   return (
     <Container style={props.style}>
       <ReactMarkdown
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         components={{
-          h1: Heading,
-          h2: SubHeading,
+          h1: Heading as any,
+          h2: SubHeading as any,
           h3: 'h2',
-          li: ListItem,
-          p: Row,
-          strong: Strong,
-          em: Emphasis,
-          code: CodeBlock,
-          // @ts-ignore missing in declaration
-          blockquote: Quote,
-          // @ts-ignore props missing href but existing run-time
-          a: LinkReference,
-        }}>
+          li: ListItem as any,
+          p: Row as any,
+          strong: Strong as any,
+          em: Emphasis as any,
+          code: CodeBlock as any,
+          blockquote: Quote as any,
+          a: LinkReference as any,
+        } as any}>
         {props.source}
       </ReactMarkdown>
     </Container>

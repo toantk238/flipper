@@ -75,7 +75,7 @@ export const connectionUpdate = (
               type="primary"
               style={{float: 'right'}}
               onClick={() => {
-                notification.close(update.key);
+                notification.destroy(update.key);
 
                 onClick();
               }}>

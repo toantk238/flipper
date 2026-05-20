@@ -851,7 +851,7 @@ export function DataTable<T extends object>(
   const hideRange = useRef<any>();
 
   const onRangeChange = useCallback(
-    (start: number, end: number, total: number, offset) => {
+    (start: number, end: number, total: number, offset: number) => {
       setRange(`${start} - ${end} / ${total}`);
       lastOffset.current = offset;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -974,7 +974,7 @@ export function DataTable<T extends object>(
           <ActionsPanel>
             {contexMenu && (
               <Dropdown overlay={contexMenu} placement="bottomRight">
-                <Button type="ghost">
+                <Button ghost>
                   <MenuOutlined />
                 </Button>
               </Dropdown>

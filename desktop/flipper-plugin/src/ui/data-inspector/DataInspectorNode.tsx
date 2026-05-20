@@ -400,7 +400,7 @@ export const DataInspectorNode: React.FC<DataInspectorProps> = memo(
     );
 
     const handleClick = useCallback(
-      (event) => {
+      (event: React.MouseEvent) => {
         if (!isUnitTest) {
           cancelIdleCallback(expandHandle.current);
         }

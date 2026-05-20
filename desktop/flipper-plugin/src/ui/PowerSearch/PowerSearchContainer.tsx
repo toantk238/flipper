@@ -30,6 +30,8 @@ const containerStyle = css`
   }
 `;
 
-export const PowerSearchContainer: React.FC = ({children}) => {
+export const PowerSearchContainer: React.FC<{children?: React.ReactNode}> = ({
+  children,
+}) => {
   return <div className={containerStyle}>{children}</div>;
 };

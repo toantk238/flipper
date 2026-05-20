@@ -125,9 +125,8 @@ interface TooltipManager {
 
 export const TooltipContext = createContext<TooltipManager>(undefined as any);
 
-const TooltipProvider: React.FC<{}> = memo(function TooltipProvider({
-  children,
-}) {
+const TooltipProvider: React.FC<{children?: React.ReactNode}> = memo(
+  function TooltipProvider({children}) {
   const timeoutID = useRef<any>();
   const [tooltip, setTooltip] = useState<TooltipObject | undefined>(undefined);
   const tooltipManager = useMemo(

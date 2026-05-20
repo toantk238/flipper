@@ -7,8 +7,7 @@
     "types": [
       "jest",
       "../types/jest-extensions",
-      "react/next",
-      "react-dom/next"
+      "react"
     ]
   },
   "include": ["./src/**/*"],

@@ -13,7 +13,8 @@ exports[`ShareSheetPendingDialog is rendered with status update 1`] = `
   <div
     aria-busy={true}
     aria-live="polite"
-    className="ant-spin ant-spin-spinning"
+    className="ant-spin ant-spin-spinning css-dev-only-do-not-override-mncuj7"
+    style={{}}
   >
     <span
       aria-label="loading"
@@ -41,7 +42,7 @@ exports[`ShareSheetPendingDialog is rendered with status update 1`] = `
     </span>
   </div>
   <span
-    className="ant-typography"
+    className="ant-typography css-dev-only-do-not-override-mncuj7"
     style={
       {
         "WebkitLineClamp": undefined,
@@ -57,9 +58,10 @@ exports[`ShareSheetPendingDialog is rendered with status update 1`] = `
   >
     <div />
     <button
-      className="ant-btn ant-btn-default"
+      className="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
       disabled={false}
       onClick={[Function]}
+      style={{}}
       type="button"
     >
       <span>
@@ -83,7 +85,8 @@ exports[`ShareSheetPendingDialog is rendered without status update 1`] = `
   <div
     aria-busy={true}
     aria-live="polite"
-    className="ant-spin ant-spin-spinning"
+    className="ant-spin ant-spin-spinning css-dev-only-do-not-override-mncuj7"
+    style={{}}
   >
     <span
       aria-label="loading"
@@ -111,7 +114,7 @@ exports[`ShareSheetPendingDialog is rendered without status update 1`] = `
     </span>
   </div>
   <span
-    className="ant-typography"
+    className="ant-typography css-dev-only-do-not-override-mncuj7"
     style={
       {
         "WebkitLineClamp": undefined,
@@ -127,9 +130,10 @@ exports[`ShareSheetPendingDialog is rendered without status update 1`] = `
   >
     <div />
     <button
-      className="ant-btn ant-btn-default"
+      className="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
       disabled={false}
       onClick={[Function]}
+      style={{}}
       type="button"
     >
       <span>

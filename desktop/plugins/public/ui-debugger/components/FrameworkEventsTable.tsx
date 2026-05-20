@@ -121,7 +121,7 @@ export function FrameworkEventsTable({
           <>
             <Tooltip title="Back to tree">
               <Button
-                type="ghost"
+                ghost
                 onClick={() => {
                   instance.uiActions.onFocusNode(undefined);
                   instance.uiActions.onSetViewMode({mode: 'default'});
@@ -130,7 +130,7 @@ export function FrameworkEventsTable({
             </Tooltip>
             <Tooltip title="Delete all events">
               <Button
-                type="ghost"
+                ghost
                 onClick={() => {
                   instance.frameworkEvents.clear();
                   managerRef.current?.clearSelection();

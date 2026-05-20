@@ -168,9 +168,11 @@ export class Interactive extends React.Component<
       onMoveStart();
     }
 
-    if (this.context.os) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((this.context as any)?.os) {
       // pause OS timers to avoid lag when dragging
-      this.context.os.timers.pause();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (this.context as any).os.timers.pause();
     }
 
     const topLpf = new LowPassFilter();
@@ -280,9 +282,11 @@ export class Interactive extends React.Component<
       onMoveEnd();
     }
 
-    if (this.context.os) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((this.context as any)?.os) {
       // resume os timers
-      this.context.os.timers.resume();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (this.context as any).os.timers.resume();
     }
 
     this.setState({

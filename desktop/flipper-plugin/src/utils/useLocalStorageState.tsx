@@ -42,10 +42,12 @@ export function useLocalStorageState<T>(
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
   const setValue = useCallback(
-    (value) => {
+    (value: T | ((current: T) => T)) => {
       setStoredValue((storedValue) => {
         const nextValue =
-          typeof value === 'function' ? value(storedValue) : value;
+          typeof value === 'function'
+            ? (value as (current: T) => T)(storedValue)
+            : value;
         // Save to local storage
         window.localStorage.setItem(storageKey, JSON.stringify(nextValue));
         return nextValue;

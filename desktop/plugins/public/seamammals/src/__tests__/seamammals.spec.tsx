@@ -65,34 +65,34 @@ test('It can have selection and render details', async () => {
   expect(await renderer.findByTestId('Dolphin')).not.toBeNull();
   // Let's assert the structure of the Turtle card as well
   expect(await renderer.findByTestId('Turtle')).toMatchInlineSnapshot(`
+<div
+  class="ant-card ant-card-bordered ant-card-hoverable css-dev-only-do-not-override-mncuj7"
+  data-testid="Turtle"
+  style="width: 150px;"
+>
+  <div
+    class="ant-card-head"
+  >
     <div
-      class="ant-card ant-card-bordered ant-card-hoverable"
-      data-testid="Turtle"
-      style="width: 150px;"
+      class="ant-card-head-wrapper"
     >
       <div
-        class="ant-card-head"
+        class="ant-card-head-title"
       >
-        <div
-          class="ant-card-head-wrapper"
-        >
-          <div
-            class="ant-card-head-title"
-          >
-            Turtle
-          </div>
-        </div>
-      </div>
-      <div
-        class="ant-card-body"
-      >
-        <div
-          class="css-vgz97s"
-          style="background-image: url(http://turtle.png);"
-        />
+        Turtle
       </div>
     </div>
-  `);
+  </div>
+  <div
+    class="ant-card-body"
+  >
+    <div
+      class="css-vgz97s"
+      style="background-image: url(http://turtle.png);"
+    />
+  </div>
+</div>
+`);
   // Nothing selected, so we should not have a sidebar
   expect(renderer.queryAllByText('Extras').length).toBe(0);
 

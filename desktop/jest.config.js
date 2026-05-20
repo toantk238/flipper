@@ -36,4 +36,10 @@ module.exports = {
   testMatch: ['**/**.(node|spec).(ts|tsx)'],
   testEnvironment: 'jsdom',
   resolver: '<rootDir>/jest.resolver.js',
+  // Prettier 3 changed its API; disable Prettier for inline snapshot formatting
+  prettierPath: null,
+  // react-markdown v8+ and its deps are ESM-only; transform them through babel
+  transformIgnorePatterns: [
+    'node_modules/(?!(react-markdown|is-plain-obj|comma-separated-tokens|hast-util-whitespace|property-information|remark-parse|mdast-util-from-markdown|decode-named-character-reference|character-entities|mdast-util-to-string|micromark|micromark-core-commonmark|micromark-factory-destination|micromark-util-character|micromark-util-symbol|micromark-util-types|micromark-factory-label|micromark-factory-space|micromark-factory-title|micromark-factory-whitespace|micromark-util-chunked|micromark-util-classify-character|micromark-util-html-tag-name|micromark-util-normalize-identifier|micromark-util-resolve-all|micromark-util-subtokenize|micromark-util-combine-extensions|micromark-util-decode-numeric-character-reference|micromark-util-encode|micromark-util-sanitize-uri|micromark-util-decode-string|unist-util-stringify-position|unified|bail|trough|vfile|vfile-message|remark-rehype|mdast-util-to-hast|mdast-util-definitions|unist-util-visit|unist-util-is|unist-util-visit-parents|trim-lines|unist-util-generated|unist-util-position|space-separated-tokens)/)',
+  ],
 };

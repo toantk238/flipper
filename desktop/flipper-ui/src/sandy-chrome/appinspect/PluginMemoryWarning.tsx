@@ -48,7 +48,7 @@ export function PluginMemoryWarning() {
     <Layout.Container pad="small">
       <Button
         style={{padding: 4}}
-        type="ghost"
+        ghost
         onClick={() => {
           setIsModalOpen(true);
         }}
@@ -253,7 +253,7 @@ function matchPluginKeyToClient(
         const pluginDef = [
           ...getStore().getState().plugins.clientPlugins.values(),
         ].find((pluginDef) => pluginDef.id === plugin);
-        return ([pluginDef, client] as [PluginDefinition, Client]) ?? null;
+        return [pluginDef, client] as [PluginDefinition, Client];
       }
     }
   }

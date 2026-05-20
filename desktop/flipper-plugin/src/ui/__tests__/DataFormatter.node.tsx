@@ -214,132 +214,148 @@ test('render truncate helper', () => {
     <TruncateHelper value="!! COOL CONTENT !!" maxLength={4} />,
   );
   expect(res.baseElement).toMatchInlineSnapshot(`
-    <body>
-      <div>
-        !! C
-        <button
-          class="ant-btn ant-btn-text ant-btn-sm"
-          style="margin-left: 4px;"
-          type="button"
+<body>
+  <div>
+    !! C
+    <button
+      class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
+      style="margin-left: 4px;"
+      type="button"
+    >
+      <span
+        class="ant-btn-icon"
+      >
+        <span
+          aria-label="caret-right"
+          class="anticon anticon-caret-right"
+          role="img"
         >
-          <span
-            aria-label="caret-right"
-            class="anticon anticon-caret-right"
-            role="img"
+          <svg
+            aria-hidden="true"
+            data-icon="caret-right"
+            fill="currentColor"
+            focusable="false"
+            height="1em"
+            viewBox="0 0 1024 1024"
+            width="1em"
           >
-            <svg
-              aria-hidden="true"
-              data-icon="caret-right"
-              fill="currentColor"
-              focusable="false"
-              height="1em"
-              viewBox="0 0 1024 1024"
-              width="1em"
-            >
-              <path
-                d="M715.8 493.5L335 165.1c-14.2-12.2-35-1.2-35 18.5v656.8c0 19.7 20.8 30.7 35 18.5l380.8-328.4c10.9-9.4 10.9-27.6 0-37z"
-              />
-            </svg>
-          </span>
-          <span>
-            and 14 more
-          </span>
-        </button>
-        <button
-          class="ant-btn ant-btn-text ant-btn-sm"
-          style="margin-left: 4px;"
-          type="button"
+            <path
+              d="M715.8 493.5L335 165.1c-14.2-12.2-35-1.2-35 18.5v656.8c0 19.7 20.8 30.7 35 18.5l380.8-328.4c10.9-9.4 10.9-27.6 0-37z"
+            />
+          </svg>
+        </span>
+      </span>
+      <span>
+        and 14 more
+      </span>
+    </button>
+    <button
+      class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
+      style="margin-left: 4px;"
+      type="button"
+    >
+      <span
+        class="ant-btn-icon"
+      >
+        <span
+          aria-label="copy"
+          class="anticon anticon-copy"
+          role="img"
         >
-          <span
-            aria-label="copy"
-            class="anticon anticon-copy"
-            role="img"
+          <svg
+            aria-hidden="true"
+            data-icon="copy"
+            fill="currentColor"
+            focusable="false"
+            height="1em"
+            viewBox="64 64 896 896"
+            width="1em"
           >
-            <svg
-              aria-hidden="true"
-              data-icon="copy"
-              fill="currentColor"
-              focusable="false"
-              height="1em"
-              viewBox="64 64 896 896"
-              width="1em"
-            >
-              <path
-                d="M832 64H296c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h496v688c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V96c0-17.7-14.3-32-32-32zM704 192H192c-17.7 0-32 14.3-32 32v530.7c0 8.5 3.4 16.6 9.4 22.6l173.3 173.3c2.2 2.2 4.7 4 7.4 5.5v1.9h4.2c3.5 1.3 7.2 2 11 2H704c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32zM350 856.2L263.9 770H350v86.2zM664 888H414V746c0-22.1-17.9-40-40-40H232V264h432v624z"
-              />
-            </svg>
-          </span>
-          <span>
-            copy
-          </span>
-        </button>
-      </div>
-    </body>
-  `);
+            <path
+              d="M832 64H296c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h496v688c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V96c0-17.7-14.3-32-32-32zM704 192H192c-17.7 0-32 14.3-32 32v530.7c0 8.5 3.4 16.6 9.4 22.6l173.3 173.3c2.2 2.2 4.7 4 7.4 5.5v1.9h4.2c3.5 1.3 7.2 2 11 2H704c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32zM350 856.2L263.9 770H350v86.2zM664 888H414V746c0-22.1-17.9-40-40-40H232V264h432v624z"
+            />
+          </svg>
+        </span>
+      </span>
+      <span>
+        copy
+      </span>
+    </button>
+  </div>
+</body>
+`);
   act(() => {
     fireEvent.click(res.getAllByText(/and \d+ more/)[0]);
   });
   expect(res.baseElement).toMatchInlineSnapshot(`
-    <body>
-      <div>
-        !! COOL CONTENT !!
-        <button
-          class="ant-btn ant-btn-text ant-btn-sm"
-          style="margin-left: 4px;"
-          type="button"
+<body>
+  <div>
+    !! COOL CONTENT !!
+    <button
+      class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
+      style="margin-left: 4px;"
+      type="button"
+    >
+      <span
+        class="ant-btn-icon"
+      >
+        <span
+          aria-label="caret-up"
+          class="anticon anticon-caret-up"
+          role="img"
         >
-          <span
-            aria-label="caret-up"
-            class="anticon anticon-caret-up"
-            role="img"
+          <svg
+            aria-hidden="true"
+            data-icon="caret-up"
+            fill="currentColor"
+            focusable="false"
+            height="1em"
+            viewBox="0 0 1024 1024"
+            width="1em"
           >
-            <svg
-              aria-hidden="true"
-              data-icon="caret-up"
-              fill="currentColor"
-              focusable="false"
-              height="1em"
-              viewBox="0 0 1024 1024"
-              width="1em"
-            >
-              <path
-                d="M858.9 689L530.5 308.2c-9.4-10.9-27.5-10.9-37 0L165.1 689c-12.2 14.2-1.2 35 18.5 35h656.8c19.7 0 30.7-20.8 18.5-35z"
-              />
-            </svg>
-          </span>
-          <span>
-            collapse
-          </span>
-        </button>
-        <button
-          class="ant-btn ant-btn-text ant-btn-sm"
-          style="margin-left: 4px;"
-          type="button"
+            <path
+              d="M858.9 689L530.5 308.2c-9.4-10.9-27.5-10.9-37 0L165.1 689c-12.2 14.2-1.2 35 18.5 35h656.8c19.7 0 30.7-20.8 18.5-35z"
+            />
+          </svg>
+        </span>
+      </span>
+      <span>
+        collapse
+      </span>
+    </button>
+    <button
+      class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
+      style="margin-left: 4px;"
+      type="button"
+    >
+      <span
+        class="ant-btn-icon"
+      >
+        <span
+          aria-label="copy"
+          class="anticon anticon-copy"
+          role="img"
         >
-          <span
-            aria-label="copy"
-            class="anticon anticon-copy"
-            role="img"
+          <svg
+            aria-hidden="true"
+            data-icon="copy"
+            fill="currentColor"
+            focusable="false"
+            height="1em"
+            viewBox="64 64 896 896"
+            width="1em"
           >
-            <svg
-              aria-hidden="true"
-              data-icon="copy"
-              fill="currentColor"
-              focusable="false"
-              height="1em"
-              viewBox="64 64 896 896"
-              width="1em"
-            >
-              <path
-                d="M832 64H296c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h496v688c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V96c0-17.7-14.3-32-32-32zM704 192H192c-17.7 0-32 14.3-32 32v530.7c0 8.5 3.4 16.6 9.4 22.6l173.3 173.3c2.2 2.2 4.7 4 7.4 5.5v1.9h4.2c3.5 1.3 7.2 2 11 2H704c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32zM350 856.2L263.9 770H350v86.2zM664 888H414V746c0-22.1-17.9-40-40-40H232V264h432v624z"
-              />
-            </svg>
-          </span>
-          <span>
-            copy
-          </span>
-        </button>
-      </div>
-    </body>
-  `);
+            <path
+              d="M832 64H296c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h496v688c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V96c0-17.7-14.3-32-32-32zM704 192H192c-17.7 0-32 14.3-32 32v530.7c0 8.5 3.4 16.6 9.4 22.6l173.3 173.3c2.2 2.2 4.7 4 7.4 5.5v1.9h4.2c3.5 1.3 7.2 2 11 2H704c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32zM350 856.2L263.9 770H350v86.2zM664 888H414V746c0-22.1-17.9-40-40-40H232V264h432v624z"
+            />
+          </svg>
+        </span>
+      </span>
+      <span>
+        copy
+      </span>
+    </button>
+  </div>
+</body>
+`);
 });

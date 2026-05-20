@@ -78,7 +78,7 @@ export function FilterIcon({
           <Button
             onClick={onAddFilter}
             title="Add filter"
-            type="ghost"
+            ghost
             style={{padding: '4px 8px'}}>
             <PlusCircleOutlined />
           </Button>

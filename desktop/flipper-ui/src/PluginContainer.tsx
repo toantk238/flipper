@@ -47,7 +47,7 @@ import {produce} from 'immer';
 import {reportUsage, InstalledPluginDetails} from 'flipper-common';
 import {PluginInfo} from './chrome/fb-stubs/PluginInfo';
 import {getActiveClient, getActivePlugin} from './selectors/connections';
-import {AnyAction} from 'redux';
+import {UnknownAction} from 'redux';
 
 const {Text, Link} = Typography;
 
@@ -114,8 +114,9 @@ type State = {
 };
 
 class PluginContainer extends PureComponent<Props, State> {
-  static contextType: React.Context<ReactReduxContextValue<any, AnyAction>> =
-    ReactReduxContext;
+  static contextType = ReactReduxContext as unknown as React.Context<
+    ReactReduxContextValue<any, UnknownAction>
+  >;
 
   constructor(props: Props) {
     super(props);
@@ -137,7 +138,7 @@ class PluginContainer extends PureComponent<Props, State> {
   };
 
   get store(): MiddlewareAPI {
-    return this.context.store;
+    return (this.context as ReactReduxContextValue<any, UnknownAction>).store;
   }
 
   componentWillUnmount() {

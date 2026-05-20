@@ -100,7 +100,7 @@ export function SandyApp() {
                       }}>
                       Open Flipper Stable instead
                     </Button>
-                    <Button type="ghost" onClick={() => onHide()}>
+                    <Button ghost onClick={() => onHide()}>
                       I understand
                     </Button>
                   </>
