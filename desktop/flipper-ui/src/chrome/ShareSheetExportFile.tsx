@@ -29,7 +29,7 @@ const Container = styled(FlexColumn)({
   width: 500,
 });
 
-const ErrorMessage = styled(Text)({
+const ErrorMessage = styled(Text)<{code?: boolean}>({
   display: 'block',
   marginTop: 6,
   wordBreak: 'break-all',
@@ -37,7 +37,7 @@ const ErrorMessage = styled(Text)({
   lineHeight: 1.35,
 });
 
-const Title = styled(Text)({
+const Title = styled(Text)<{bold?: boolean}>({
   marginBottom: 6,
 });
 

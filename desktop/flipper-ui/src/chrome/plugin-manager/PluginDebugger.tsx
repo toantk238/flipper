@@ -23,7 +23,7 @@ const InfoText = styled(Text)({
   marginBottom: 8,
 });
 
-const Ellipsis = styled(Text)({
+const Ellipsis = styled(Text)<{code?: boolean}>({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',

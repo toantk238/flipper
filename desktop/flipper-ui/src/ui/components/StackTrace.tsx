@@ -51,17 +51,21 @@ const Title = styled(FlexRow)<{isCrash?: boolean}>(({isCrash}) => ({
 }));
 Title.displayName = 'StackTrace:Title';
 
-const Reason = styled(Text)<{isCrash?: boolean}>(({isCrash}) => ({
-  color: isCrash ? theme.errorColor : theme.textColorPrimary,
-  fontWeight: 'bold',
-  fontSize: 13,
-}));
+const Reason = styled(Text)<{isCrash?: boolean; code?: boolean}>(
+  ({isCrash}) => ({
+    color: isCrash ? theme.errorColor : theme.textColorPrimary,
+    fontWeight: 'bold',
+    fontSize: 13,
+  }),
+);
 Reason.displayName = 'StackTrace:Reason';
 
 const Line = styled(Text)<{
   isCrash?: boolean;
   isBold?: boolean;
   color?: string;
+  code?: boolean;
+  bold?: boolean;
 }>(({isBold, color}) => ({
   color: color ?? theme.textColorPrimary,
   fontWeight: isBold ? 'bold' : 'normal',

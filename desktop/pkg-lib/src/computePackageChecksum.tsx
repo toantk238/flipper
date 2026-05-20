@@ -69,8 +69,8 @@ export default async function computePackageChecksum(
       const stream = fs.createReadStream(filePath);
       try {
         stream.pipe(hash, {end: false});
-        await new Promise((resolve, reject) => {
-          stream.once('end', resolve);
+        await new Promise<void>((resolve, reject) => {
+          stream.once('end', () => resolve());
           stream.once('error', reject);
         });
       } finally {
