@@ -5,16 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
+ * @jest-environment node
  */
 
-import {TSESLint} from '@typescript-eslint/utils';
+import {RuleTester} from 'eslint';
+import * as tsParser from '@typescript-eslint/parser';
 import rule, {RULE_NAME} from '../noRelativeImportsAcrossPackages';
 
-const tester = new TSESLint.RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
-  parserOptions: {
-    sourceType: 'module',
-    ecmaVersion: 2020,
+const tester = new RuleTester({
+  languageOptions: {
+    parser: tsParser,
+    parserOptions: {
+      sourceType: 'module',
+      ecmaVersion: 2020,
+    },
   },
 });
 
