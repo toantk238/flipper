@@ -707,7 +707,7 @@ export async function exportEverythingEverywhereAllAtOnce(
         notification.warning({
           message: 'Failed to upload debug data',
           description: `Flipper failed to upload debug export (${exportedFilePath}) automatically. Please, attach it to the support request manually in the comments after it is created.`,
-          duration: null,
+          duration: false,
         });
       }
 
@@ -728,7 +728,7 @@ export async function exportEverythingEverywhereAllAtOnce(
       notification.warning({
         message: 'Export cancelled',
         description: `Exporting Flipper debug data was cancelled. Flipper team will not be able to help you without this data. Please, restart the export.`,
-        duration: null,
+        duration: false,
       });
       onStatusUpdate?.('cancelled');
     }
