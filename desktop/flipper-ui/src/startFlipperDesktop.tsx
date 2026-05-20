@@ -31,7 +31,7 @@ import {
   getFlipperLib,
 } from 'flipper-plugin';
 import isProduction from './utils/isProduction';
-import {Button, Input, Result, Typography} from 'antd';
+import {Button, ConfigProvider, Input, Result, Typography, theme as antdTheme} from 'antd';
 import constants from './fb-stubs/constants';
 import styled from '@emotion/styled';
 import {CopyOutlined} from '@ant-design/icons';
@@ -40,11 +40,35 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {setLoggerInstance, FlipperServer, initLogTailer} from 'flipper-common';
 import {startGlobalErrorHandling} from './utils/globalErrorHandling';
 import {loadTheme} from './utils/loadTheme';
+import {useIsDarkMode} from './utils/useIsDarkMode';
 import {connectFlipperServerToStore} from './dispatcher/flipperServer';
 import {enableConnectivityHook} from './chrome/ConnectivityLogs';
 import {createRoot} from 'react-dom/client';
 import {uiPerfTracker} from './utils/UIPerfTracker';
 import {getFlipperServerConfig} from './flipperServer';
+
+function AntdThemeProvider({children}: {children?: React.ReactNode}) {
+  const isDarkMode = useIsDarkMode();
+  return (
+    <ConfigProvider
+      theme={{
+        algorithm: isDarkMode
+          ? antdTheme.darkAlgorithm
+          : antdTheme.defaultAlgorithm,
+        token: {
+          colorPrimary: isDarkMode ? '#531dab' : '#722ed1',
+          colorSuccess: '#389e0d',
+          colorError: '#f5222d',
+          colorWarning: '#faad14',
+          colorBgBase: isDarkMode ? '#000000' : '#ffffff',
+          colorTextBase: isDarkMode ? '#ffffff' : '#000000',
+          borderRadius: 6,
+        },
+      }}>
+      {children}
+    </ConfigProvider>
+  );
+}
 
 class AppFrame extends React.Component<
   {logger: Logger; persistor: Persistor},
@@ -110,13 +134,15 @@ class AppFrame extends React.Component<
       <_LoggerContext.Provider value={logger}>
         <Provider store={getStore()}>
           <PersistGate persistor={persistor}>
-            <CacheProvider value={cache}>
-              <TooltipProvider>
-                <_NuxManagerContext.Provider value={_createNuxManager()}>
-                  <SandyApp />
-                </_NuxManagerContext.Provider>
-              </TooltipProvider>
-            </CacheProvider>
+            <AntdThemeProvider>
+              <CacheProvider value={cache}>
+                <TooltipProvider>
+                  <_NuxManagerContext.Provider value={_createNuxManager()}>
+                    <SandyApp />
+                  </_NuxManagerContext.Provider>
+                </TooltipProvider>
+              </CacheProvider>
+            </AntdThemeProvider>
           </PersistGate>
         </Provider>
       </_LoggerContext.Provider>
