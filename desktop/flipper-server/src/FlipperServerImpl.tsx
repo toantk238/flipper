@@ -55,7 +55,7 @@ import {
 import {commandNodeApiExec} from './commands/NodeApiExec';
 import {commandDownloadFileStartFactory} from './commands/DownloadFile';
 import {promises} from 'fs';
-import rm from 'rimraf';
+import {rimraf as rm} from 'rimraf';
 import assert from 'assert';
 import {initializeAdbClient} from './devices/android/adbClient';
 import {assertNotNull} from './app-connectivity/Utilities';
@@ -451,14 +451,9 @@ export class FlipperServerImpl implements FlipperServer {
     },
     'node-api-fs-unlink': unlink,
     'node-api-fs-mkdir': mkdir,
-    'node-api-fs-rm': async (path, options?: RmOptions) =>
-      new Promise<void>((resolve, reject) =>
-        rm(
-          path,
-          {disableGlob: true, maxBusyTries: options?.maxRetries ?? 0},
-          (err) => (err ? reject(err) : resolve()),
-        ),
-      ),
+    'node-api-fs-rm': async (path, options?: RmOptions) => {
+      await rm(path, {maxRetries: options?.maxRetries ?? 0});
+    },
     'node-api-fs-copyFile': copyFile,
     'node-api-fs-stat': async (path) => {
       const stats = await stat(path);
@@ -496,7 +491,7 @@ export class FlipperServerImpl implements FlipperServer {
     },
     'node-api-fs-readfile-binary': async (path) => {
       const contents = await readFile(path);
-      return Base64.fromUint8Array(contents);
+      return Base64.fromUint8Array(new Uint8Array(contents));
     },
     'node-api-fs-writefile': (path, contents, options) =>
       writeFile(path, contents, options ?? 'utf8'),
@@ -532,7 +527,9 @@ export class FlipperServerImpl implements FlipperServer {
       return Array.from(this.devices.values()).map((d) => d.info);
     },
     'device-take-screenshot': async (serial: string) =>
-      Base64.fromUint8Array(await this.getDevice(serial).screenshot()),
+      Base64.fromUint8Array(
+        new Uint8Array(await this.getDevice(serial).screenshot()),
+      ),
     'device-start-screencapture': async (serial, destination) =>
       this.getDevice(serial).startScreenCapture(destination),
     'device-stop-screencapture': async (serial: string) =>

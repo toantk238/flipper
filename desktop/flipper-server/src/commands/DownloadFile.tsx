@@ -16,10 +16,6 @@ import https from 'https';
 
 const {unlink} = promises;
 
-// Adapter which forces node.js implementation for axios instead of browser implementation
-// Node.js implementation is better, because it
-// supports streams which can be used for direct downloading to disk.
-const axiosHttpAdapter = require('axios/lib/adapters/http'); // eslint-disable-line import/no-commonjs
 
 export const commandDownloadFileStartFactory =
   (
@@ -66,13 +62,13 @@ export const commandDownloadFileStartFactory =
       method,
       url,
       responseType: 'stream',
-      adapter: axiosHttpAdapter,
+      adapter: 'http',
       timeout,
       maxRedirects,
       headers,
       proxy,
     });
-    let totalSize = parseInt(response.headers['content-length'], 10);
+    let totalSize = parseInt(response.headers['content-length'] as string, 10);
     if (Number.isNaN(totalSize)) {
       totalSize = 0;
     }
@@ -138,7 +134,7 @@ export const commandDownloadFileStartFactory =
 
     return {
       id: downloadId,
-      headers: response.headers,
+      headers: response.headers as Record<string, string>,
       status: response.status,
       statusText: response.statusText,
       totalSize,

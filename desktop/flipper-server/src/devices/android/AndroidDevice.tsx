@@ -115,7 +115,7 @@ export default class AndroidDevice
           stream
             .on('data', (chunk: Buffer) => chunks.push(chunk))
             .once('end', () => {
-              resolve(Buffer.concat(chunks));
+              resolve(Buffer.concat(chunks as unknown as Uint8Array[]));
             })
             .once('error', reject);
         })

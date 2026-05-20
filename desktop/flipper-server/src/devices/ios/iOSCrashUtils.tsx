@@ -117,12 +117,12 @@ export class iOSCrashWatcher extends DeviceListener {
     }
 
     const watcher = fs.watch(dir, async (_eventType, filename) => {
+      if (!filename) {
+        return;
+      }
       const checkFileExtensionLegacy = /.crash$/.exec(filename);
       const checkFileExtensionModern = /.ips$/.exec(filename);
-      if (
-        !filename ||
-        !(checkFileExtensionLegacy || checkFileExtensionModern)
-      ) {
+      if (!(checkFileExtensionLegacy || checkFileExtensionModern)) {
         return;
       }
       const filepath = path.join(dir, filename);

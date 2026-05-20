@@ -166,9 +166,9 @@ export class PluginManager {
           }
 
           if (
-            !parseHeaderValue(response.headers['content-type']).includes(
-              'application/octet-stream',
-            )
+            !parseHeaderValue(
+              response.headers['content-type'] as string,
+            ).includes('application/octet-stream')
           ) {
             throw new Error(
               `It looks like you are not on VPN/Lighthouse. Unexpected content type received: ${response.headers['content-type']}.`,
@@ -178,7 +178,7 @@ export class PluginManager {
           const writeStream = responseStream.pipe(
             fs.createWriteStream(tmpFile, {autoClose: true}),
           );
-          await new Promise((resolve, reject) =>
+          await new Promise<void>((resolve, reject) =>
             writeStream.once('finish', resolve).once('error', reject),
           );
           return await installPluginFromFileOrBuffer(tmpFile);
