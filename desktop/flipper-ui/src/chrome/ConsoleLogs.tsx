@@ -96,7 +96,7 @@ export function ConsoleLogs() {
           Clear Logs
         </Button>
         <Dropdown
-          overlay={
+          popupRender={() => (
             <Menu>
               {allLogLevels.map((l) => (
                 <Menu.Item
@@ -112,7 +112,7 @@ export function ConsoleLogs() {
                 </Menu.Item>
               ))}
             </Menu>
-          }>
+          )}>
           <Button>
             Log Levels
             <DownOutlined />

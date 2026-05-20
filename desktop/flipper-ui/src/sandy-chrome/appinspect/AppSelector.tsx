@@ -101,11 +101,11 @@ export function AppSelector({
           }}>
           <Dropdown
             trigger={['click']}
-            overlay={
+            popupRender={() => (
               <Menu selectedKeys={selectedAppId ? [selectedAppId] : []}>
                 {entries}
               </Menu>
-            }>
+            )}>
             <AppInspectButton title="Select the device / app to inspect">
               <Layout.Horizontal gap center>
                 {client?.query.rsocket ? (

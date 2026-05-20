@@ -61,7 +61,7 @@ export default forwardRef(function ContextMenu<C>(
   }, [items, buildItems]);
 
   return (
-    <Dropdown overlay={onContextMenu} trigger={contextMenuTrigger}>
+    <Dropdown popupRender={onContextMenu} trigger={contextMenuTrigger}>
       {createElement(
         component || FlexColumn,
         {

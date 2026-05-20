@@ -121,7 +121,7 @@ function NotificationEntry({notification}: {notification: PluginNotification}) {
     () => (
       <Layout.Horizontal className="notification-item-action">
         <Dropdown
-          overlay={
+          popupRender={() => (
             <Menu>
               {onHideSimilar && (
                 <Menu.Item key="hide_similar" onClick={onHideSimilar}>
@@ -132,7 +132,7 @@ function NotificationEntry({notification}: {notification: PluginNotification}) {
                 Hide {pluginName}
               </Menu.Item>
             </Menu>
-          }>
+          )}>
           <Button type="text" size="small" icon={<EllipsisOutlined />} />
         </Dropdown>
       </Layout.Horizontal>

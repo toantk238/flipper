@@ -51,7 +51,7 @@ export default function UpdateIndicator() {
           key: 'flipperupdatecheck',
           message: 'Update available',
           description: getUpdateAvailableMessage(versionCheckResult),
-          duration: null, // no auto close
+          duration: false, // no auto close
         });
         break;
       case 'error':
@@ -73,7 +73,7 @@ export default function UpdateIndicator() {
           key: 'launchermsg',
           message: 'Launch problem',
           description: <NotificationBody text={launcherMsg.message} />,
-          duration: null,
+          duration: false,
         });
       } else {
         notification.warning({
@@ -81,7 +81,7 @@ export default function UpdateIndicator() {
           key: 'launchermsg',
           message: 'Flipper version warning',
           description: <NotificationBody text={launcherMsg.message} />,
-          duration: null,
+          duration: false,
         });
       }
     } else if (

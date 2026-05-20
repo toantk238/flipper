@@ -239,7 +239,7 @@ export const LaunchEmulatorDialog = withTrackingScope(
                 isFavorite={isFavorite}
                 id={name}>
                 <Dropdown.Button
-                  overlay={menu}
+                  popupRender={() => menu}
                   icon={<MoreOutlined />}
                   loading={pendingEmulators.has(name)}
                   onClick={() => launch(false)}>

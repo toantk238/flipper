@@ -211,7 +211,7 @@ export default class FilterToken extends PureComponent<Props> {
     }
 
     return (
-      <Dropdown trigger={dropdownTrigger} overlay={this.showDetails}>
+      <Dropdown trigger={dropdownTrigger} popupRender={this.showDetails}>
         <Token
           key={`${filter.key}:${value}=${filter.type}`}
           tabIndex={-1}

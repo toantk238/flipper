@@ -124,7 +124,7 @@ export function SandyApp() {
                   to get access to more plugins.
                 </>
               ),
-              duration: null,
+              duration: false,
             });
           }
         }

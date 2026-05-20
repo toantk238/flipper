@@ -56,7 +56,7 @@ export function connectFlipperServerToStore(
         key: text,
         message: 'Connection error',
         description: <NotificationBody text={text} />,
-        duration: null,
+        duration: false,
       });
     }
   });
@@ -323,7 +323,7 @@ function handleServerStateChange({
         key: `server-${state}-error`,
         message: 'Failed to start flipper-server',
         description: `${error}`,
-        duration: null,
+        duration: false,
       });
     }
   } else {
@@ -349,7 +349,7 @@ function handeEADDRINUSE(errorMessage: string) {
         {errorMessage}
       </>
     ),
-    duration: null,
+    duration: false,
   });
 }
 
