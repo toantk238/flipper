@@ -67,6 +67,7 @@
   "category": "facebook-intern",
   "description": "Mobile development tool",
   "devDependencies": {
+    "@ant-design/icons": "^6.0.0",
     "@babel/eslint-parser": "^7.28.6",
     "@eslint/eslintrc": "^3.0.0",
     "globals": "^11.12.0",

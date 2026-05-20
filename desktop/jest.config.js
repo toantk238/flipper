@@ -23,8 +23,10 @@ module.exports = {
     '^flipper-(server|common|ui)$': '<rootDir>/flipper-$1/src',
     '^flipper-(pkg|pkg-lib|test-utils)$': '<rootDir>/$1/src',
     '^.+\\.(css|scss)$': '<rootDir>/scripts/jest-css-stub.js',
+    // antd v6 icons exports an ESM-only "node" condition; force CJS build for jest
+    '^@ant-design/icons$': '<rootDir>/node_modules/@ant-design/icons/lib/index.js',
   },
-  modulePathIgnorePatterns: ['<rootDir>/.*/lib/'],
+  modulePathIgnorePatterns: ['<rootDir>/(?!node_modules).*/lib/'],
   clearMocks: true,
   maxWorkers: os.cpus().length > 10 ? 8 : '50%',
   coverageReporters: [
