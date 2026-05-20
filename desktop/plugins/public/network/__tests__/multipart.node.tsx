@@ -26,7 +26,11 @@ test('parses text fields from multipart body', () => {
   ]);
   const parts = parseMultipartBody(body, boundary);
   expect(parts).toHaveLength(2);
-  expect(parts[0]).toEqual({name: 'username', textValue: 'alice', byteLength: 5});
+  expect(parts[0]).toEqual({
+    name: 'username',
+    textValue: 'alice',
+    byteLength: 5,
+  });
   expect(parts[1]).toEqual({
     name: 'email',
     textValue: 'alice@example.com',
@@ -40,9 +44,15 @@ test('parses file fields — records metadata, not binary content', () => {
   const header =
     'Content-Disposition: form-data; name="avatar"; filename="photo.jpg"\r\nContent-Type: image/jpeg\r\n\r\n';
   const trailer = '\r\n';
-  const prefix = new Uint8Array(Buffer.from(`--${boundary}\r\n${header}`, 'utf-8'));
-  const suffix = new Uint8Array(Buffer.from(`${trailer}--${boundary}--\r\n`, 'utf-8'));
-  const combined = new Uint8Array(prefix.length + fakeJpeg.length + suffix.length);
+  const prefix = new Uint8Array(
+    Buffer.from(`--${boundary}\r\n${header}`, 'utf-8'),
+  );
+  const suffix = new Uint8Array(
+    Buffer.from(`${trailer}--${boundary}--\r\n`, 'utf-8'),
+  );
+  const combined = new Uint8Array(
+    prefix.length + fakeJpeg.length + suffix.length,
+  );
   combined.set(prefix, 0);
   combined.set(fakeJpeg, prefix.length);
   combined.set(suffix, prefix.length + fakeJpeg.length);
@@ -57,7 +67,9 @@ test('parses file fields — records metadata, not binary content', () => {
 });
 
 test('returns empty array for malformed body with no matching boundary', () => {
-  const body = new Uint8Array(Buffer.from('this is not a multipart body', 'utf-8'));
+  const body = new Uint8Array(
+    Buffer.from('this is not a multipart body', 'utf-8'),
+  );
   const parts = parseMultipartBody(body, 'nonexistent');
   expect(parts).toHaveLength(0);
 });

@@ -35,7 +35,7 @@ function isFocusedNodeAncestryAllActive(
     const parent = nodes.get(node.parent);
 
     if (parent == null) {
-      //should also never happen
+      // should also never happen
       return false;
     }
 
@@ -45,6 +45,6 @@ function isFocusedNodeAncestryAllActive(
 
     node = parent;
   }
-  //wont happen
+  // wont happen
   return false;
 }

@@ -36,7 +36,7 @@ import {InspectableColor} from '../../../ClientTypes';
 import {transformAny} from '../../../utils/dataTransform';
 import {SearchOutlined} from '@ant-design/icons';
 import {plugin} from '../../../index';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, rulesdir/no-restricted-imports-clone
+// eslint-disable-next-line rulesdir/no-restricted-imports-clone
 import {Glyph} from 'flipper';
 import {
   NumberGroup,
@@ -194,7 +194,7 @@ function AttributeSection(
       const attributeMetadata = metadataMap.get(metadataId);
       const attributeName =
         upperFirst(attributeMetadata?.name) ?? String(metadataId);
-      //subsections are complex types that are only 1 level deep
+      // subsections are complex types that are only 1 level deep
       const isSubSection =
         attributeValue.type === 'object' &&
         !any(
@@ -216,7 +216,7 @@ function AttributeSection(
         attributeName.toLowerCase().includes(attributeFilter),
     );
 
-  //push sub sections to the end
+  // push sub sections to the end
   const sortedAttributesOrSubsections = sortBy(
     attributesOrSubSubsections,
     [(item) => item.isSubSection],
@@ -351,8 +351,8 @@ function NamedAttribute({
     <Layout.Horizontal key={name} gap="small">
       <Typography.Text
         style={{
-          marginTop: 4, //to center with top input when multiline
-          flex: '0 0 30%', //take 40% of the width
+          marginTop: 4, // to center with top input when multiline
+          flex: '0 0 30%', // take 40% of the width
           color: theme.textColorSecondary,
           opacity: 0.7,
           fontSize: 'small',

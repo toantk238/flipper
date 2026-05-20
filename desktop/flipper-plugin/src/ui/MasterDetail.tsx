@@ -106,7 +106,7 @@ export function MasterDetail<T extends object>({
   const selectedRecord = useValue(selectionAtom);
 
   // if a tableManagerRef is provided, we piggy back on that same ref
-  // eslint-disable-next-line
+
   const tableManagerRef =
     tableProps.tableManagerRef ?? createRef<undefined | DataTableManager<T>>();
 

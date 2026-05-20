@@ -31,7 +31,6 @@ import {processExit} from './utils/processExit';
 import {setupPrefetcher} from './fb-stubs/Prefetcher';
 import {openUI, UIPreference} from './utils/openUI';
 
-// eslint-disable-next-line node/no-sync
 const argv = yargs
   .usage('yarn flipper-server [args]')
   .options({

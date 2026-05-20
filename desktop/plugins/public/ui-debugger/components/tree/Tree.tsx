@@ -159,9 +159,9 @@ export function Tree2({
   }, [instance.uiActions, nodes, rowVirtualizer, searchTerm, treeNodes]);
 
   useEffect(() => {
-    //focus tree when an element is selected  via visualuser, keyboard controls are active,
-    //when inputs in the sidebar are focused it will defocus the tree and yield kb controls
-    //to the sidebar
+    // focus tree when an element is selected  via visualuser, keyboard controls are active,
+    // when inputs in the sidebar are focused it will defocus the tree and yield kb controls
+    // to the sidebar
     grandParentRef.current?.focus();
   }, [nodeSelection]);
 
@@ -179,13 +179,13 @@ export function Tree2({
 
   const initialHeightOffset = useRef<number | null>(null);
   useLayoutEffect(() => {
-    //the grand parent gets its size correclty via flex box, we use its initial
-    //position to size the scroll parent ref for react virtual, It uses vh which accounts for window size changes
-    //However  if we dynamically add content above or below we may need to revisit this approach
+    // the grand parent gets its size correclty via flex box, we use its initial
+    // position to size the scroll parent ref for react virtual, It uses vh which accounts for window size changes
+    // However  if we dynamically add content above or below we may need to revisit this approach
     const boundingClientRect = grandParentRef?.current?.getBoundingClientRect();
 
     if (initialHeightOffset.current == null) {
-      //it is important to capture the initial height offset as we dont want to consider them again if elements are added dynamically later
+      // it is important to capture the initial height offset as we dont want to consider them again if elements are added dynamically later
       initialHeightOffset.current =
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -200,20 +200,20 @@ export function Tree2({
   }, [additionalHeightOffset]);
 
   useLayoutEffect(() => {
-    //scroll width is the width of the element including overflow, we grab the scroll width
-    //of the parent scroll container and set each divs actual width to this to make sure the
-    //size is correct for the selection and hover states
+    // scroll width is the width of the element including overflow, we grab the scroll width
+    // of the parent scroll container and set each divs actual width to this to make sure the
+    // size is correct for the selection and hover states
 
     const range = rowVirtualizer.range;
     const end = Math.min(
       refs.length,
-      range.endIndex + 1, //need to add 1 extra otherwise last one doesnt get the treatment
+      range.endIndex + 1, // need to add 1 extra otherwise last one doesnt get the treatment
     );
 
     const width = parentRef.current?.scrollWidth ?? 0;
 
     for (let i = range.startIndex; i < end; i++) {
-      //set the width explicitly of all tree items to parent scroll width
+      // set the width explicitly of all tree items to parent scroll width
       const ref = refs[i];
       if (ref.current) {
         ref.current.style.width = `${width}px`;
@@ -239,7 +239,7 @@ export function Tree2({
         let scrollToIndex = selectedTreeNode.idx;
 
         if (selectedTreeNode.idx > rowVirtualizer.range.endIndex) {
-          //when scrolling down the scrollbar gets in the way if you scroll to the precise node
+          // when scrolling down the scrollbar gets in the way if you scroll to the precise node
           scrollToIndex = Math.min(scrollToIndex + 1, treeNodes.length);
         }
         rowVirtualizer.scrollToIndex(scrollToIndex, {align: 'auto'});
@@ -269,10 +269,9 @@ export function Tree2({
         onCollapseRecursively={instance.uiActions.onCollapseAllRecursively}
         onExpandRecursively={instance.uiActions.onExpandAllRecursively}>
         <div
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-          tabIndex={0} //this is for focusability (to allow keyboard navigation)
+          tabIndex={0} // this is for focusability (to allow keyboard navigation)
           onKeyDown={onKeyDown}
-          //We use this normal divs flexbox sizing to measure how much vertical space we need for the child div
+          // We use this normal divs flexbox sizing to measure how much vertical space we need for the child div
           ref={grandParentRef}
           style={{
             paddingLeft: theme.space.medium,
@@ -280,14 +279,14 @@ export function Tree2({
             width: '100%',
           }}>
           <div
-            //this is scrollable div is expected by react virtual, see their docs
+            // this is scrollable div is expected by react virtual, see their docs
             ref={parentRef}
             style={{
-              height: 0, //this get replaced by an effect
+              height: 0, // this get replaced by an effect
               overflow: 'auto',
             }}>
             <div
-              //this is is the actual scrollable content, its height is faked by react virtual
+              // this is is the actual scrollable content, its height is faked by react virtual
               style={{
                 height: `${rowVirtualizer.getTotalSize()}px`,
                 width: '100%',
@@ -390,7 +389,8 @@ const IndentGuides = React.memo(
                   : secondaryColor
               }`,
               marginLeft: lastGuidePadding,
-            }}></div>
+            }}
+          />
         )}
       </div>
     );
@@ -448,7 +448,7 @@ export function TreeNodeRow({
         left: 0,
         height: TreeItemHeight,
         transform,
-        //Due to absolute positioning width is set outside of react via a useLayoutEffect in parent
+        // Due to absolute positioning width is set outside of react via a useLayoutEffect in parent
       }}>
       <IndentGuides
         isSelected={isSelected}
@@ -470,10 +470,10 @@ export function TreeNodeRow({
         }}
         onClick={(event) => {
           if (event.detail === 1) {
-            //single click
+            // single click
             onSelectNode(treeNode, 'tree');
           } else if (event.detail === 2) {
-            //double click
+            // double click
             expandOrCollapse();
           }
         }}
@@ -633,7 +633,8 @@ function ExpandedIconOrSpace(props: {
         style={{
           width: 20,
           height: TreeItemHeight,
-        }}></div>
+        }}
+      />
     );
   }
 }

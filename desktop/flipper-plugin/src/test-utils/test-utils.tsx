@@ -568,7 +568,7 @@ function createBasePluginResult(
     deactivate: () => pluginInstance.deactivate(),
     exportStateAsync: () =>
       pluginInstance.exportState(createStubIdler(), () => {}),
-    // eslint-disable-next-line node/no-sync
+
     exportState: () => pluginInstance.exportStateSync(),
     triggerDeepLink: async (deepLink: unknown) => {
       pluginInstance.triggerDeepLink(deepLink);

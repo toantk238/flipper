@@ -28,7 +28,8 @@ function TestComponent({
         data-testid="inc"
         onClick={() => {
           setCurrent((c) => c + 1);
-        }}></button>
+        }}
+      />
     </div>
   );
 }

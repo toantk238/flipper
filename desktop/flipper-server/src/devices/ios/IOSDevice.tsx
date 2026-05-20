@@ -168,7 +168,7 @@ export default class IOSDevice
             userApp.bundleID,
             '/Library/Application Support/sonar',
           );
-        } catch (e) {
+        } catch (_e) {
           console.debug(
             'IOSDevice.readFlipperFolderForAllApps -> ignoring app as it does not have sonar dir',
             this.info.serial,

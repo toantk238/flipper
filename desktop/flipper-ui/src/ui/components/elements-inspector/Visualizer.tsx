@@ -110,7 +110,8 @@ function Visualizer(props: {
             backgroundColor: '#637dff',
             opacity: 0.7,
             userSelect: 'none',
-          }}></div>
+          }}
+        />
       )}
     </VisualizerContainer>
   );

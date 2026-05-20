@@ -127,57 +127,60 @@ export const TooltipContext = createContext<TooltipManager>(undefined as any);
 
 const TooltipProvider: React.FC<{children?: React.ReactNode}> = memo(
   function TooltipProvider({children}) {
-  const timeoutID = useRef<any>();
-  const [tooltip, setTooltip] = useState<TooltipObject | undefined>(undefined);
-  const tooltipManager = useMemo(
-    () => ({
-      open(
-        container: HTMLDivElement,
-        title: React.ReactNode,
-        options: TooltipOptions,
-      ) {
-        if (timeoutID.current) {
-          clearTimeout(timeoutID.current);
-        }
-        const node = container.childNodes[0];
-        if (node == null || !(node instanceof HTMLElement)) {
-          return;
-        }
-        if (options.delay) {
-          timeoutID.current = setTimeout(() => {
-            setTooltip({
-              rect: node.getBoundingClientRect(),
-              title,
-              options,
-            });
-          }, options.delay);
-          return;
-        }
-        setTooltip({
-          rect: node.getBoundingClientRect(),
-          title,
-          options,
-        });
-      },
-      close() {
-        if (timeoutID.current) {
-          clearTimeout(timeoutID.current);
-        }
-        setTooltip(undefined);
-      },
-    }),
-    [],
-  );
+    const timeoutID = useRef<any>();
+    const [tooltip, setTooltip] = useState<TooltipObject | undefined>(
+      undefined,
+    );
+    const tooltipManager = useMemo(
+      () => ({
+        open(
+          container: HTMLDivElement,
+          title: React.ReactNode,
+          options: TooltipOptions,
+        ) {
+          if (timeoutID.current) {
+            clearTimeout(timeoutID.current);
+          }
+          const node = container.childNodes[0];
+          if (node == null || !(node instanceof HTMLElement)) {
+            return;
+          }
+          if (options.delay) {
+            timeoutID.current = setTimeout(() => {
+              setTooltip({
+                rect: node.getBoundingClientRect(),
+                title,
+                options,
+              });
+            }, options.delay);
+            return;
+          }
+          setTooltip({
+            rect: node.getBoundingClientRect(),
+            title,
+            options,
+          });
+        },
+        close() {
+          if (timeoutID.current) {
+            clearTimeout(timeoutID.current);
+          }
+          setTooltip(undefined);
+        },
+      }),
+      [],
+    );
 
-  return (
-    <>
-      {tooltip && tooltip.title ? <Tooltip tooltip={tooltip} /> : null}
-      <TooltipContext.Provider value={tooltipManager}>
-        {children}
-      </TooltipContext.Provider>
-    </>
-  );
-});
+    return (
+      <>
+        {tooltip && tooltip.title ? <Tooltip tooltip={tooltip} /> : null}
+        <TooltipContext.Provider value={tooltipManager}>
+          {children}
+        </TooltipContext.Provider>
+      </>
+    );
+  },
+);
 
 function Tooltip({tooltip}: {tooltip: TooltipObject}) {
   return (

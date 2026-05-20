@@ -46,7 +46,7 @@ export function Toolbar({
       {children}
       {right ? (
         <>
-          <div style={{flexGrow: 1}}></div>
+          <div style={{flexGrow: 1}} />
           {right}
         </>
       ) : null}

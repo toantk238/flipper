@@ -102,7 +102,7 @@ type DataTableInput<T = any> =
     };
 
 export type DataTableColumn<T = any> = {
-  //this can be a dotted path into a nest objects. e.g foo.bar
+  // this can be a dotted path into a nest objects. e.g foo.bar
   key: keyof T & string;
   // possible future extension: getValue(row) (and free-form key) to support computed columns
   onRender?: (row: T, selected: boolean, index: number) => React.ReactNode;
@@ -201,7 +201,9 @@ export function DataTable<T extends object>(
 
   const latestSelectionRef = useLatestRef(selection);
   const latestOnSelectRef = useLatestRef(onSelect);
-  const selectedEntryRef = useRef<ReturnType<typeof dataView.getEntry> | null>(null);
+  const selectedEntryRef = useRef<ReturnType<typeof dataView.getEntry> | null>(
+    null,
+  );
   useEffect(() => {
     if (dataView) {
       const unsubscribe = dataView.addListener((change) => {
@@ -753,7 +755,7 @@ export function DataTable<T extends object>(
     </Layout.Container>
   );
   return props.enableMultiPanels && tableState.sideBySide ? (
-    //TODO: Make the panels resizable by having a dynamic maxWidth for Layout.Right/Left possibly?
+    // TODO: Make the panels resizable by having a dynamic maxWidth for Layout.Right/Left possibly?
     <Layout.Horizontal style={{height: '100%'}}>
       {mainPanel}
       {<DataTable<T> viewId={'1'} {...props} enableMultiPanels={false} />}

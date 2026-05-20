@@ -60,7 +60,7 @@ export function parseMessageToJson<T extends object = object>(
 ): T | undefined {
   try {
     return JSON.parse(message.toString());
-  } catch (err) {
+  } catch (_err) {
     console.warn(`Invalid JSON: ${message}`, 'clientMessage');
     return;
   }

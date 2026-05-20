@@ -74,15 +74,16 @@ export function NavbarScreenRecordButton() {
           if (f) {
             const lib = getFlipperLib();
             try {
-              const buffer =
-                await lib.remoteServerContext.fs.readFileBinary(f);
+              const buffer = await lib.remoteServerContext.fs.readFileBinary(f);
               exportFileBinary(buffer, {defaultPath: getFileName('mp4')});
             } finally {
+              /* eslint-disable promise/no-nesting */
               lib.remoteServerContext.fs
                 .unlink(f)
                 .catch((e: unknown) =>
                   console.warn('Failed to delete recording temp file', e),
                 );
+              /* eslint-enable promise/no-nesting */
             }
           }
         })

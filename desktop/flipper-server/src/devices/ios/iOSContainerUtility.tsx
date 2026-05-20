@@ -60,7 +60,7 @@ export async function isIdbAvailable(idbPath: string): Promise<boolean> {
   }
   try {
     await promises.access(idbPath, constants.X_OK);
-  } catch (e) {
+  } catch (_e) {
     return false;
   }
   return true;
@@ -533,7 +533,7 @@ async function isXcodeDetected(): Promise<boolean> {
   try {
     const {stdout} = await exec('xcode-select -p');
     return fs.pathExists(stdout.trim());
-  } catch (e) {
+  } catch (_e) {
     return false;
   }
 }

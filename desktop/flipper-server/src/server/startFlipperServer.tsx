@@ -47,7 +47,6 @@ export async function startFlipperServer(
   const env = process.env;
   let desktopPath = path.resolve(os.homedir(), 'Desktop');
 
-  // eslint-disable-next-line node/no-sync
   if (!fs.existsSync(desktopPath)) {
     console.warn('Failed to find desktop path, falling back to homedir');
     desktopPath = os.homedir();

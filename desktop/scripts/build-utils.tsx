@@ -107,7 +107,6 @@ export async function moveServerSourceMaps(
 export function buildFolder(
   prefix: string = 'flipper-build-',
 ): Promise<string> {
-  // eslint-disable-next-line no-console
   console.log('Creating build directory');
   return new Promise<string>((resolve, reject) => {
     tmp.dir({prefix}, (err, buildFolder) => {

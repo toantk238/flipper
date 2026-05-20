@@ -129,7 +129,8 @@ export default function reducer(
       const {oldClientId, newClient} = action.payload;
       const result: State = {};
       for (const pluginKey of Object.keys(state)) {
-        const {client: keyClientId, pluginName} = deconstructPluginKey(pluginKey);
+        const {client: keyClientId, pluginName} =
+          deconstructPluginKey(pluginKey);
         if (keyClientId === oldClientId) {
           result[`${newClient.id}#${pluginName}`] = state[pluginKey];
         } else {

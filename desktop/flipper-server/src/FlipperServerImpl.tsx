@@ -694,7 +694,7 @@ export class FlipperServerImpl implements FlipperServer {
       try {
         const token = await this.keytarManager.retrieveToken(SERVICE_FLIPPER);
         return !!token;
-      } catch (e) {
+      } catch (_e) {
         return false;
       }
     },

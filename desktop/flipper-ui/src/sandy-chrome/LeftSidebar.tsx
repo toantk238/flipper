@@ -54,6 +54,7 @@ export const InfoIcon: React.FC<{children?: React.ReactNode}> = ({
     <Button
       size="small"
       type="link"
-      icon={<InfoCircleOutlined color={theme.textColorSecondary} />}></Button>
+      icon={<InfoCircleOutlined color={theme.textColorSecondary} />}
+    />
   </Tooltip>
 );

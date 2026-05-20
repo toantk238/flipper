@@ -65,7 +65,6 @@ cd /d "%THIS_DIR%"
 flipper-runtime.exe ./server %*
 `;
 
-// eslint-disable-next-line node/no-sync
 const argv = yargs
   .usage('yarn build-flipper-server [args]')
   .version(false)
@@ -264,7 +263,6 @@ async function copyStaticResources(outDir: string, versionNumber: string) {
 }
 
 async function linkLocalDeps(buildFolder: string) {
-  // eslint-disable-next-line no-console
   console.log('Creating package.json manifest to link local deps');
   const manifest = await fs.readJSON(path.resolve(serverDir, 'package.json'));
 
@@ -302,7 +300,6 @@ async function modifyPackageManifestForPublishing(
   hgRevision: string | null,
   channel: string,
 ) {
-  // eslint-disable-next-line no-console
   console.log('Creating package.json manifest');
   const manifest = await fs.readJSON(path.resolve(serverDir, 'package.json'));
 
@@ -485,7 +482,7 @@ async function download(url: string, dest: string): Promise<void> {
   try {
     await fs.access(dest, fs.constants.F_OK);
     await fs.unlink(dest);
-  } catch (err) {}
+  } catch (_err) {}
 
   return new Promise<void>((resolve, reject) => {
     // Then, download the file and save it to the destination path.
@@ -521,7 +518,7 @@ async function unpack(source: string, destination: string) {
   try {
     await fs.access(destination, fs.constants.F_OK);
     await fs.rm(destination, {recursive: true, force: true});
-  } catch (err) {}
+  } catch (_err) {}
 
   await fs.mkdir(destination);
 
@@ -616,7 +613,7 @@ async function installNodeBinary(outputPath: string, platform: BuildPlatform) {
       console.log(`⚙️  Cached artifact found, skip download.`);
       nodePath = path.resolve(cachePath, 'bin', 'node');
       cached = true;
-    } catch (err) {}
+    } catch (_err) {}
     if (!cached) {
       // Download node tarball from the distribution site.
       // If this is not present (due to a node update) follow these steps:
@@ -805,7 +802,6 @@ async function setUpMacBundle(
       'Info.plist',
     );
 
-    /* eslint-disable node/no-sync*/
     const pListContents: Record<any, any> = plist.readFileSync(plistPath);
     replacePropertyValue(
       pListContents,
@@ -813,7 +809,6 @@ async function setUpMacBundle(
       versionNumber,
     );
     plist.writeBinaryFileSync(plistPath, pListContents);
-    /* eslint-enable node/no-sync*/
 
     serverOutputDir = path.join(
       outputDir,

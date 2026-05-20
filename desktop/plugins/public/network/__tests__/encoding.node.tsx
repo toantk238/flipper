@@ -142,7 +142,9 @@ describe('network data encoding', () => {
 
 test('isTextual returns false for multipart/form-data', () => {
   expect(
-    isTextual([{key: 'Content-Type', value: 'multipart/form-data; boundary=abc'}]),
+    isTextual([
+      {key: 'Content-Type', value: 'multipart/form-data; boundary=abc'},
+    ]),
   ).toBe(false);
 });
 
@@ -287,7 +289,9 @@ test('binary data gets serialized correctly', async () => {
 
 test('isTextual returns false for multipart/form-data', () => {
   expect(
-    isTextual([{key: 'Content-Type', value: 'multipart/form-data; boundary=abc'}]),
+    isTextual([
+      {key: 'Content-Type', value: 'multipart/form-data; boundary=abc'},
+    ]),
   ).toBe(false);
 });
 

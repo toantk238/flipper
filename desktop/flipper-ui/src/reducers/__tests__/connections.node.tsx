@@ -201,7 +201,7 @@ describe('selection changes', () => {
   let device1: BaseDevice;
   let device2: BaseDevice;
   let d1app1: Client;
-  let d1app2: Client;
+  let _d1app2: Client;
   let d2app2: Client;
   let store: Store;
   let mockFlipper: MockFlipperResult;
@@ -215,7 +215,7 @@ describe('selection changes', () => {
     device1 = mockFlipper.device;
     device2 = mockFlipper.createDevice({});
     d1app1 = mockFlipper.client;
-    d1app2 = await mockFlipper.createClient(device1, 'd1app2');
+    _d1app2 = await mockFlipper.createClient(device1, 'd1app2');
     d2app2 = await mockFlipper.createClient(device2, 'd2app2');
     store = mockFlipper.store;
   });
@@ -377,8 +377,12 @@ test('CLIENT_RECONNECTED replaces stale client and updates selectedAppId', async
       },
     },
   );
-  const {store, device, client: oldClient, createClient} =
-    await createMockFlipperWithPlugin(TestPlugin);
+  const {
+    store,
+    device,
+    client: oldClient,
+    createClient,
+  } = await createMockFlipperWithPlugin(TestPlugin);
 
   store.dispatch(
     selectPlugin({

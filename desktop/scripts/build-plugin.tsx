@@ -18,7 +18,6 @@ import {execSync} from 'child_process';
 import {promisify} from 'util';
 import isFB from './isFB';
 
-// eslint-disable-next-line node/no-sync
 const argv = yargs
   .usage('yarn build-plugin [args]')
   .version(false)

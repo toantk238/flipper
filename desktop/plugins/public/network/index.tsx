@@ -89,7 +89,7 @@ export function truncateMiddle(str: string, maxLength: number = 50): string {
   }
   const endLen = Math.floor((maxLength - 1) / 2);
   const startLen = maxLength - 1 - endLen;
-  return str.slice(0, startLen) + '…' + str.slice(-endLen);
+  return `${str.slice(0, startLen)}…${str.slice(-endLen)}`;
 }
 
 export const BodyOptions = ['formatted', 'parsed'].map((value) => ({
@@ -501,9 +501,7 @@ export function plugin(client: PluginClient<Events, Methods>) {
             }}>
             Copy cURL command
           </Menu.Item>
-          <Menu.Item
-            key="path-only"
-            onClick={togglePathOnly}>
+          <Menu.Item key="path-only" onClick={togglePathOnly}>
             {pathOnly.get() ? '\u2713 ' : ''}Show path only
           </Menu.Item>
           <Menu.Item
@@ -653,12 +651,13 @@ const DomainCell = React.memo(function DomainCell({
     path = row.domain;
   }
 
-  const trimmed = path.endsWith('/') && path.length > 1 ? path.slice(0, -1) : path;
+  const trimmed =
+    path.endsWith('/') && path.length > 1 ? path.slice(0, -1) : path;
   const segments = trimmed.split('/').filter(Boolean);
   const rightSegments = segments.slice(-3);
   const leftSegments = segments.slice(0, -3);
-  const right = '/' + rightSegments.join('/');
-  const left = leftSegments.length > 0 ? '/' + leftSegments.join('/') : '';
+  const right = `/${rightSegments.join('/')}`;
+  const left = leftSegments.length > 0 ? `/${leftSegments.join('/')}` : '';
 
   return (
     <span
@@ -705,9 +704,7 @@ export function Component() {
 
   return (
     <NetworkRouteContext.Provider value={networkRouteManager}>
-      <Layout.Container
-        grow
-        key={`${columns.length}-${pathOnly}`}>
+      <Layout.Container grow key={`${columns.length}-${pathOnly}`}>
         <DataTable
           columns={displayColumns}
           dataSource={instance.requests}
@@ -719,10 +716,7 @@ export function Component() {
           enableAutoScroll
           extraActions={
             <Layout.Horizontal gap>
-              <Button
-                ghost
-                title="Clear logs"
-                onClick={instance.clearLogs}>
+              <Button ghost title="Clear logs" onClick={instance.clearLogs}>
                 <DeleteOutlined />
               </Button>
               {isMockResponseSupported && (

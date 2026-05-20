@@ -503,7 +503,9 @@ export async function handleClientConnected(
         `Failed to initialize client ${query.app} on ${query.device_id} in a timely manner`,
       );
       if (process.env.NODE_ENV !== 'test') {
-        console.log(`${query.app} on ${query.device_id} reconnected and ready.`);
+        console.log(
+          `${query.app} on ${query.device_id} reconnected and ready.`,
+        );
       }
     } catch (e) {
       if (e instanceof NoLongerConnectedToClientError) {

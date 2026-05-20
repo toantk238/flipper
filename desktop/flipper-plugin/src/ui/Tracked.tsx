@@ -228,7 +228,7 @@ export function withTrackingScope(Component: any) {
 
 // @ts-ignore
 global.FlipperTrackingScopeContext = TrackingScopeContext;
-//@ts-ignore
+// @ts-ignore
 global.FlipperTracked = Tracked;
 
 // @ts-ignore

@@ -64,14 +64,14 @@ export type ReferenceImageState = {
   opacity: number;
 };
 
-//enumerates the keys of input type and casts each to ReadOnlyAtom, this is so we only expose read only atoms to the UI
-//and all writes come through UIActions
+// enumerates the keys of input type and casts each to ReadOnlyAtom, this is so we only expose read only atoms to the UI
+// and all writes come through UIActions
 type TransformToReadOnly<T> = {
   [P in keyof T]: T[P] extends Atom<infer U> ? _ReadOnlyAtom<U> : T[P];
 };
 
 export type WireFrameMode = 'All' | 'SelectedAndChildren' | 'SelectedOnly';
-export type ReferenceImageAction = 'Import' | 'Clear' | number; //number is a change opacity
+export type ReferenceImageAction = 'Import' | 'Clear' | number; // number is a change opacity
 
 export type ReadOnlyUIState = TransformToReadOnly<UIState>;
 

@@ -20,7 +20,7 @@ export async function loadSettings(
   if (settingsString !== '') {
     try {
       return await replaceDefaultSettings(JSON.parse(settingsString));
-    } catch (e) {
+    } catch (_e) {
       throw new Error("couldn't read the user settingsString");
     }
   }

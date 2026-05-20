@@ -8,5 +8,6 @@
  */
 
 // https://github.com/eslint/eslint/issues/14061#issuecomment-772490154
-const eslint = require('eslint');
-module.exports = new eslint.Linter().getRules().get('no-restricted-imports');
+// In ESLint 9, getRules() was removed. Use builtinRules from the internal API.
+const {builtinRules} = require('eslint/use-at-your-own-risk');
+module.exports = builtinRules.get('no-restricted-imports');

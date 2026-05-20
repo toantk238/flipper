@@ -145,7 +145,7 @@ export function createFlipperServerWithSocket(
             );
           }
         }
-      } catch (e) {
+      } catch (_e) {
         console.warn(
           'flipper-server: failed to process message',
           data.toString(),

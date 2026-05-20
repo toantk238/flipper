@@ -240,7 +240,7 @@ class ServerRSocket extends ServerWebSocketBase {
         let rawData: any;
         try {
           rawData = JSON.parse(payload.data);
-        } catch (err) {
+        } catch (_err) {
           console.error(
             `[conn] Invalid JSON: ${payload.data}`,
             'clientMessage',
@@ -274,7 +274,7 @@ class ServerRSocket extends ServerWebSocketBase {
         let rawData: any;
         try {
           rawData = JSON.parse(payload.data);
-        } catch (err) {
+        } catch (_err) {
           console.error(`Invalid JSON: ${payload.data}`, 'server');
           return;
         }

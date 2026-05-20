@@ -26,7 +26,6 @@ export async function loadAvailablePlugins(
   }
 }
 
-
 export async function httpGet(
   url: URL,
   config: AxiosRequestConfig,

@@ -101,14 +101,14 @@ type FrameworkEventAttribution = Stacktrace | Reason | UpstreamEvent;
 
 export type FrameworkEvent = {
   id: number;
-  treeId?: Id; //todo should be mandatory once ios implements this
+  treeId?: Id; // todo should be mandatory once ios implements this
   nodeId: Id;
   type: FrameworkEventType;
   timestamp: number;
   payload?: JsonObject;
   duration?: number;
   attribution?: FrameworkEventAttribution;
-  thread?: 'main' | string; //todo should be mandatory once ios implements this
+  thread?: 'main' | string; // todo should be mandatory once ios implements this
 };
 
 export type InitEvent = {
@@ -181,7 +181,7 @@ export type UpdateAvailableTraversalModeEvent = {
 export type ClientNode = {
   id: Id;
   parent?: Id;
-  qualifiedName: string; //this is the name of the component plus qualification so myles has a chance of finding it. E.g com.facebook.MyView
+  qualifiedName: string; // this is the name of the component plus qualification so myles has a chance of finding it. E.g com.facebook.MyView
   lineNumber?: number;
   boxData?: BoxData;
   name: string;

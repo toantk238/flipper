@@ -62,7 +62,7 @@ test('additional context menu items are rendered', async () => {
   expect(await res.queryByText('path=data')).toBeFalsy;
   fireEvent.mouseLeave(dataContainer, {});
 
-  //try on a nested element
+  // try on a nested element
   const awesomely = await res.findByText(/awesomely/);
   fireEvent.mouseEnter(awesomely, {});
   fireEvent.contextMenu(awesomely, {});

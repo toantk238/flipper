@@ -11,7 +11,6 @@ import {Store} from '../../reducers/index';
 import {getErrorFromErrorLike, getStringFromErrorLike} from 'flipper-common';
 import {LoggerArgs, Logger} from 'flipper-common';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const jestFn = (globalThis as any).jest?.fn ?? (() => () => {});
 const instance = {
   track: jestFn(),

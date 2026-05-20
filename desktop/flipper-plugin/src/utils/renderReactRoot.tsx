@@ -42,7 +42,9 @@ const portals = createState(new Map<number, ReactPortal>());
 /**
  * This is a dummy component, that just makes sure react roots are managed within a certain node in the main React tree, so that context etc is available.
  */
+
 export function _PortalsManager() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks -- _PortalsManager is a React component; the leading _ is intentional (internal export)
   const portalElements = useValue(portals);
   return <>{Array.from(portalElements).map(([_id, portal]) => portal)}</>;
 }

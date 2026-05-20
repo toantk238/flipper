@@ -9,7 +9,7 @@
 
 import {resolve, dirname, join} from 'path';
 import fs from 'fs-extra';
-import {TSESTree} from '@typescript-eslint/experimental-utils';
+import {TSESTree} from '@typescript-eslint/utils';
 import {createESLintRule} from '../utils/createEslintRule';
 
 const rootDirs = new Map<string, string>();
@@ -46,7 +46,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description: `Ensure that package boundaries are respected within monorepo`,
-      recommended: 'error',
     },
     schema: [],
     messages: {

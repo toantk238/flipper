@@ -710,7 +710,7 @@ function loadStateFromStorage(storageKey: string): PersistedState | undefined {
   }
   try {
     return JSON.parse(state) as PersistedState;
-  } catch (e) {
+  } catch (_e) {
     // forget about this state
     return undefined;
   }
@@ -806,7 +806,7 @@ export function computeDataTableFilter(
         return false;
       }
     }
-    //free search all top level keys as well as any (nested) columns in the table
+    // free search all top level keys as well as any (nested) columns in the table
     const nestedColumns = columns
       .map((col) => col.key)
       .filter((path) => path.includes('.'));

@@ -272,8 +272,8 @@ export default function Tabs(props: {
           }>
           {comp.props.label}
           {closable && (
-            <CloseButton // eslint-disable-next-line react/jsx-no-bind
-              ref={(ref) => (closeButton = ref)} // eslint-disable-next-line react/jsx-no-bind
+            <CloseButton
+              ref={(ref) => (closeButton = ref)}
               onMouseDown={() => {
                 if (isActive && onActive) {
                   const index = keys.indexOf(key);

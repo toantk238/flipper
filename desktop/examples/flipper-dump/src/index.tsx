@@ -28,10 +28,8 @@ import {
 import path from 'path';
 import {stdout} from 'process';
 
-// eslint-disable-next-line
 const packageJson = JSON.parse(fs.readFileSync('../package.json', 'utf-8'));
 
-// eslint-disable-next-line node/no-sync
 const argv = yargs
   .usage('$0 [args]')
   .options({

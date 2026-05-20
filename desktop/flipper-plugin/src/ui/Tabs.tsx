@@ -21,18 +21,23 @@ export function Tabs({
   grow,
   children,
   className,
-  localStorageKeyOverride, //set this if you need to have a dynamic number of tabs, you do *not* need to namespace with the plugin name
+  localStorageKeyOverride, // set this if you need to have a dynamic number of tabs, you do *not* need to namespace with the plugin name
   ...baseProps
 }: {grow?: boolean; localStorageKeyOverride?: string} & TabsProps) {
-  const keys: string[] = baseProps.items?.map((item) => item.key as string) ?? [];
+  const keys: string[] =
+    baseProps.items?.map((item) => item.key as string) ?? [];
 
   // Convert child Tab components into antd v5 items format
   const childItems = React.Children.toArray(children)
     .filter((child): child is React.ReactElement => React.isValidElement(child))
     .map((child, idx) => {
       const tabKey =
-        (child.props.tabKey && typeof child.props.tabKey === 'string' && child.props.tabKey) ||
-        (child.props.tab && typeof child.props.tab === 'string' && child.props.tab) ||
+        (child.props.tabKey &&
+          typeof child.props.tabKey === 'string' &&
+          child.props.tabKey) ||
+        (child.props.tab &&
+          typeof child.props.tab === 'string' &&
+          child.props.tab) ||
         (typeof child.key === 'string' && child.key) ||
         `tab_${idx}`;
       keys.push(tabKey);

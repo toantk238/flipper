@@ -197,7 +197,7 @@ export function BottomPanel({
         !bottomPanelRef.current.contains(event.target)
       ) {
         setTimeout(() => {
-          //push to back of event queue so that you can still select item in the tree
+          // push to back of event queue so that you can still select item in the tree
           dismiss();
         }, 0);
       }

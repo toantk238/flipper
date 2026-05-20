@@ -60,7 +60,7 @@ export function rowMatchesRegex(values: Array<string>, regex: string): boolean {
   try {
     const re = new RegExp(regex);
     return values.some((x) => re.test(x));
-  } catch (e) {
+  } catch (_e) {
     return false;
   }
 }
@@ -120,7 +120,6 @@ class SearchableManagedTable extends PureComponent<Props, State> {
     this.props.defaultFilters.map(this.props.addFilter);
   }
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
       nextProps.searchTerm !== this.props.searchTerm ||

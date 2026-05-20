@@ -121,14 +121,15 @@ const demos: PreviewProps[] = [
     ],
     demos: {
       'Basic container with fixed dimensions': (
-        <Layout.Container style={demoStyle.square}></Layout.Container>
+        <Layout.Container style={demoStyle.square} />
       ),
       'Basic container with fixed height': (
         <Layout.Container
           style={{
             height: 50,
             background: theme.successColor,
-          }}></Layout.Container>
+          }}
+        />
       ),
       'bordered pad rounded': (
         <Layout.Container

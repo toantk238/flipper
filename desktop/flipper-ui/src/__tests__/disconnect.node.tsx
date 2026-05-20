@@ -170,7 +170,7 @@ test('Persist data enabled reconnect same device does not wipe data', async () =
   expect(instance.instanceApi.destroy).toBeCalledTimes(0);
   expect(store.getState().connections.devices[0]).toEqual(device);
   expect(store.getState().settingsState.persistDeviceData).toBe(false);
-  //Update the persist data setting
+  // Update the persist data setting
   store.dispatch({
     type: 'UPDATE_SETTINGS',
     payload: {...store.getState().settingsState, persistDeviceData: true},
@@ -241,7 +241,7 @@ test('Persist data enabled multiple devices maintain same data', async () => {
   // the currently selected device is still connected.
   expect(store.getState().connections.selectedDevice).toBe(device);
 
-  //Reconnect the original device; selection stays on it.
+  // Reconnect the original device; selection stays on it.
   handleDeviceConnected(server, store, logger, device.description);
   expect(instance.instanceApi.destroy).toBeCalledTimes(0);
   expect(store.getState().connections.devices.length).toBe(2);
@@ -425,8 +425,12 @@ test('reconnecting app reuses existing client to preserve plugin state and selec
     },
   );
 
-  const {store, device, client: client1, logger} =
-    await createMockFlipperWithPlugin(plugin, {asBackgroundPlugin: true});
+  const {
+    store,
+    device,
+    client: client1,
+    logger,
+  } = await createMockFlipperWithPlugin(plugin, {asBackgroundPlugin: true});
 
   const server = TestUtils.createFlipperServerMock({
     'client-request-response': async () => ({success: [], length: 0}),

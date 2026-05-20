@@ -128,7 +128,8 @@ export function CustomActionGroupDropDown({
       <Button
         type="default"
         shape="circle"
-        icon={getIcon(customActionGroup.actionIcon)}></Button>
+        icon={getIcon(customActionGroup.actionIcon)}
+      />
     </Dropdown>
   );
 }

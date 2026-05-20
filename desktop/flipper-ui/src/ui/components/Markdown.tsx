@@ -87,19 +87,20 @@ export function Markdown(props: {source: string; style?: CSSProperties}) {
   return (
     <Container style={props.style}>
       <ReactMarkdown
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        components={{
-          h1: Heading as any,
-          h2: SubHeading as any,
-          h3: 'h2',
-          li: ListItem as any,
-          p: Row as any,
-          strong: Strong as any,
-          em: Emphasis as any,
-          code: CodeBlock as any,
-          blockquote: Quote as any,
-          a: LinkReference as any,
-        } as any}>
+        components={
+          {
+            h1: Heading as any,
+            h2: SubHeading as any,
+            h3: 'h2',
+            li: ListItem as any,
+            p: Row as any,
+            strong: Strong as any,
+            em: Emphasis as any,
+            code: CodeBlock as any,
+            blockquote: Quote as any,
+            a: LinkReference as any,
+          } as any
+        }>
         {props.source}
       </ReactMarkdown>
     </Container>

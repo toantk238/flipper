@@ -130,7 +130,7 @@ export const DataFormatter = {
       ) {
         try {
           value = JSON.parse(value);
-        } catch (e) {
+        } catch (_e) {
           // intentional fall through, can't parse this 'json'
         }
       }
@@ -144,7 +144,7 @@ export const DataFormatter = {
         // Note: we don't need to be inserted <br/>'s in the output, but assume the text container uses
         // white-space: pre-wrap (or pre)
         return JSON.stringify(value, null, 2);
-      } catch (e) {
+      } catch (_e) {
         // intentional fall through, can't pretty print this 'json'
       }
     }
@@ -176,7 +176,7 @@ export function TruncateHelper({
 }: {
   value: string;
   maxLength: number;
-  textWrapper?: HighlightManager; //Could be a generic type
+  textWrapper?: HighlightManager; // Could be a generic type
 }) {
   const [collapsed, setCollapsed] = useState(true);
   const redrawRow = useTableRedraw();

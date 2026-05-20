@@ -10,7 +10,6 @@
 import {StoreEnhancerStoreCreator} from 'redux';
 
 declare global {
-  // eslint-disable-next-line no-var
   var FlipperRenderHostInstance: any /* RenderHost */;
 
   interface StoreEnhancerStateSanitizer {

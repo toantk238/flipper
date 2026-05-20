@@ -126,7 +126,7 @@ export class InspectorSidebar extends Component<Props, State> {
           if (typeof data === 'string') {
             try {
               data = JSON.parse(data);
-            } catch (e) {
+            } catch (_e) {
               // data was not a valid JSON, type is required to be an object
               console.error(
                 `ElementsInspector unable to parse extra section: ${extraSection}`,

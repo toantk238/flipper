@@ -391,7 +391,9 @@ export function parseMultipartBody(
   boundary: string,
 ): ParsedPart[] {
   const delimiter = new Uint8Array(Buffer.from(`--${boundary}\r\n`, 'utf-8'));
-  const finalDelimiter = new Uint8Array(Buffer.from(`--${boundary}--`, 'utf-8'));
+  const finalDelimiter = new Uint8Array(
+    Buffer.from(`--${boundary}--`, 'utf-8'),
+  );
   const headerSep = new Uint8Array([0x0d, 0x0a, 0x0d, 0x0a]); // \r\n\r\n
   const parts: ParsedPart[] = [];
 

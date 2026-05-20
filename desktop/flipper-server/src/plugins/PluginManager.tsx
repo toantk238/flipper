@@ -85,7 +85,7 @@ export class PluginManager {
 
       const buffer = await fs.promises.readFile(cssPath, {encoding: 'utf-8'});
       css = buffer.toString();
-    } catch (e) {}
+    } catch (_e) {}
 
     return {
       js,

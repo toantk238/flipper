@@ -24,7 +24,6 @@ export async function exportFileBinary(
   data: Uint8Array,
   {defaultPath}: {defaultPath?: string},
 ) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const file = new File([data as any], defaultPath ?? 'unknown', {
     type: 'application/octet-stream',
   });

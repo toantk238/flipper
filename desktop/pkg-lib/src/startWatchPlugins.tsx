@@ -41,7 +41,6 @@ export default async function startWatchPlugins(
     changedPlugins: InstalledPluginDetails[],
   ) => void | Promise<void>,
 ) {
-  // eslint-disable-next-line no-console
   console.log('🕵️‍  Watching for plugin changes');
 
   let delayedCompilation: NodeJS.Timeout | undefined;
@@ -50,7 +49,7 @@ export default async function startWatchPlugins(
     if (!delayedCompilation) {
       delayedCompilation = setTimeout(async () => {
         delayedCompilation = undefined;
-        // eslint-disable-next-line no-console
+
         console.log(`🕵️‍  Detected plugin change`);
         try {
           const changedDirs = await Promise.all(

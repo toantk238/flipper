@@ -7,7 +7,7 @@
  * @format
  */
 
-import {TSESLint} from '@typescript-eslint/experimental-utils';
+import {TSESLint} from '@typescript-eslint/utils';
 import rule, {RULE_NAME} from '../noIPrefixInterfaces';
 
 const tester = new TSESLint.RuleTester({

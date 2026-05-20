@@ -224,7 +224,7 @@ async function executeCommandWithSu(
 ): Promise<string> {
   try {
     return _executeCommandWithRunner(adbClient, deviceId, app, command, 'su');
-  } catch (e) {
+  } catch (_e) {
     throw originalErrorToThrow;
   }
 }

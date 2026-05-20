@@ -21,7 +21,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description: 'Prefer "tsx" file extensions',
-      recommended: 'error',
     },
     schema: [],
     messages: {

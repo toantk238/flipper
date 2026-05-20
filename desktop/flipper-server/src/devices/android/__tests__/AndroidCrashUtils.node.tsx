@@ -22,7 +22,7 @@ function getAndroidLog(
 test('test shouldParseAndroidLog function for type error and tag is AndroidRuntime', () => {
   const referenceDate = new Date();
   const log = getAndroidLog(
-    new Date(referenceDate.getTime() + 10000), //This log arrives 10 secs after the refernce time
+    new Date(referenceDate.getTime() + 10000), // This log arrives 10 secs after the refernce time
     'error',
     'AndroidRuntime',
     'Possible runtime crash',
@@ -33,7 +33,7 @@ test('test shouldParseAndroidLog function for type error and tag is AndroidRunti
 test('test shouldParseAndroidLog function for type non-error', () => {
   const referenceDate = new Date();
   const log = getAndroidLog(
-    new Date(referenceDate.getTime() + 10000), //This log arrives 10 secs after the refernce time
+    new Date(referenceDate.getTime() + 10000), // This log arrives 10 secs after the refernce time
     'debug',
     'fb4a.activitymanager',
     'Possible debug info in activitymanager',
@@ -44,7 +44,7 @@ test('test shouldParseAndroidLog function for type non-error', () => {
 test('test shouldParseAndroidLog function for the older android log', () => {
   const referenceDate = new Date();
   const log = getAndroidLog(
-    new Date(referenceDate.getTime() - 10000), //This log arrives 10 secs before the refernce time
+    new Date(referenceDate.getTime() - 10000), // This log arrives 10 secs before the refernce time
     'error',
     'fb4a.activitymanager',
     'Possible error info in activitymanager',
@@ -55,7 +55,7 @@ test('test shouldParseAndroidLog function for the older android log', () => {
 test('test shouldParseAndroidLog function for the fatal log', () => {
   const referenceDate = new Date();
   const log = getAndroidLog(
-    new Date(referenceDate.getTime() + 10000), //This log arrives 10 secs after the refernce time
+    new Date(referenceDate.getTime() + 10000), // This log arrives 10 secs after the refernce time
     'fatal',
     'arbitrary tag',
     'Possible error info in activitymanager',
@@ -66,7 +66,7 @@ test('test shouldParseAndroidLog function for the fatal log', () => {
 test('test shouldParseAndroidLog function for the error log which does not staisfy our tags check', () => {
   const referenceDate = new Date();
   const log = getAndroidLog(
-    new Date(referenceDate.getTime() + 10000), //This log arrives 10 secs after the refernce time
+    new Date(referenceDate.getTime() + 10000), // This log arrives 10 secs after the refernce time
     'error',
     'arbitrary tag',
     'Possible error info in fb4a',

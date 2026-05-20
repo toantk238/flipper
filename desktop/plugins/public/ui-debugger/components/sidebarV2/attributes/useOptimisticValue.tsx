@@ -43,7 +43,7 @@ export function useOptimisticValue<T>(
       }
 
       timeoutHandle.current = setTimeout(() => {
-        //only keep optimistic value for TTL
+        // only keep optimistic value for TTL
         setOptimisticValue(NoValue);
         timeoutHandle.current = undefined;
       }, TTL);

@@ -8,7 +8,6 @@
  */
 
 // We're using `deviceSync` here on purpose which is triggering a lot of warnings.
-/* eslint-disable node/no-sync */
 
 import {
   Logger,
@@ -115,7 +114,7 @@ export default class Client extends EventEmitter {
   device: BaseDevice;
   logger: Logger;
 
-  sandyPluginStates = new Map<string /*pluginID*/, _SandyPluginInstance>();
+  sandyPluginStates = new Map<string /* pluginID*/, _SandyPluginInstance>();
   private readonly serverAddOnControls: ServerAddOnControls;
   private readonly flipperServer: FlipperServer;
 
@@ -126,7 +125,7 @@ export default class Client extends EventEmitter {
   store: Store;
   broadcastCallbacks: Map<string, Map<string, Set<Function>>>;
   messageBuffer: Record<
-    string /*pluginKey*/,
+    string /* pluginKey*/,
     {
       plugin: _SandyPluginInstance;
       messages: (Params & {rawSize: number})[];
@@ -239,7 +238,7 @@ export default class Client extends EventEmitter {
     try {
       const response = await retry(
         () =>
-          //shortish timeout for each individual request
+          // shortish timeout for each individual request
           timeout(
             5 * 1000,
             this.rawCall<{plugins: Plugins}>('getPlugins', false),
@@ -357,7 +356,7 @@ export default class Client extends EventEmitter {
       let rawData;
       try {
         rawData = freeze(JSON.parse(msg), true);
-      } catch (err) {
+      } catch (_err) {
         console.error(`Invalid JSON: ${msg}`, 'clientMessage');
         return;
       }

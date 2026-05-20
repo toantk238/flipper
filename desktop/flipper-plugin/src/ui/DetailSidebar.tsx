@@ -18,7 +18,6 @@ export type DetailSidebarProps = {
   onResize?: (width: number, height: number) => void;
 };
 
-/* eslint-disable react-hooks/rules-of-hooks */
 export function DetailSidebar(props: DetailSidebarProps) {
   const lib = tryGetFlipperLibImplementation();
   if (lib?.DetailsSidebarImplementation) {

@@ -120,7 +120,6 @@ export default class Orderable extends React.Component<
     return !this.state.movingOrder;
   }
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   UNSAFE_componentWillReceiveProps(nextProps: OrderableProps) {
     this.setState({
       order: nextProps.order,

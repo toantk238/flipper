@@ -499,7 +499,7 @@ export function plugin(client: PluginClient<Events, Methods>) {
     if (loadedFavoritesJson) {
       try {
         favoritesState.set(JSON.parse(loadedFavoritesJson));
-      } catch (err) {
+      } catch (_err) {
         console.error('Failed to load favorite queries from local storage');
       }
     }

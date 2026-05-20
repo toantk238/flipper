@@ -75,7 +75,6 @@ export function getHealthchecks(
                 run: async (
                   _: FlipperDoctor.EnvironmentInfo,
                 ): Promise<FlipperDoctor.HealthcheckRunResult> => {
-                  // eslint-disable-next-line node/no-sync
                   const hasProblem = !fs.existsSync(
                     '/Applications/Android Studio.app',
                   );
@@ -107,7 +106,6 @@ export function getHealthchecks(
                 hasProblem: true,
                 message: ['android.sdk--no_ANDROID_HOME'],
               };
-              // eslint-disable-next-line node/no-sync
             } else if (!fs.existsSync(androidHome)) {
               const androidStudioAndroidHome = `${os.homedir()}/Library/Android/sdk`;
               const globalAndroidHome = '/opt/android_sdk';
@@ -127,7 +125,7 @@ export function getHealthchecks(
               };
             } else {
               const platformToolsDir = path.join(androidHome, 'platform-tools');
-              // eslint-disable-next-line node/no-sync
+
               if (!fs.existsSync(platformToolsDir)) {
                 return {
                   hasProblem: true,
@@ -401,7 +399,7 @@ export function getHealthchecks(
                     .map((x) => {
                       try {
                         return JSON.parse(x);
-                      } catch (e) {
+                      } catch (_e) {
                         return null;
                       }
                     })

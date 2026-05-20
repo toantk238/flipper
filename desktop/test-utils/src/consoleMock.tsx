@@ -22,7 +22,7 @@ function format(entry: any) {
   if (typeof entry === 'object') {
     try {
       return JSON.stringify(entry);
-    } catch (e) {}
+    } catch (_e) {}
   }
 
   return entry;

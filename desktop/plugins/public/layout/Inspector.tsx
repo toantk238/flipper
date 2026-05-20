@@ -372,7 +372,7 @@ export default class Inspector extends Component<Props, State> {
     return [...leavesSet];
   }
 
-  /// Return path from given tree structure and id if id is not null; otherwise return any path
+  // / Return path from given tree structure and id if id is not null; otherwise return any path
   getPathForNode(
     tree: ElementSelectorNode,
     nodeID: ElementID | null,

@@ -364,7 +364,7 @@ test('compute filters', () => {
     expect(data.filter(filter)).toEqual([]);
   }
   {
-    //no columns but should still find rows
+    // no columns but should still find rows
     const filter = computeDataTableFilter('EE', false, [])!;
     expect(data.filter(filter)).toEqual([coffee, meet]);
   }
@@ -521,7 +521,7 @@ test('compute filters', () => {
   }
 
   {
-    //nested filter on comment
+    // nested filter on comment
     const filter = computeDataTableFilter('', false, [
       ...baseColumns,
       {
@@ -539,7 +539,7 @@ test('compute filters', () => {
   }
 
   {
-    //filter 'level' on values info and error which will match all records
+    // filter 'level' on values info and error which will match all records
     const filter = computeDataTableFilter('', false, [
       doneCol,
       titleCol,
@@ -1074,10 +1074,9 @@ test('selection reanchors when item inserted before it in descending-sorted view
   act(() => {
     ref.current!.selectItem(1);
   });
-  expect(onSelect).toHaveBeenLastCalledWith(
+  expect(onSelect).toHaveBeenLastCalledWith({id: 1, label: 'one'}, [
     {id: 1, label: 'one'},
-    [{id: 1, label: 'one'}],
-  );
+  ]);
 
   // Append id=3 → descending: [id=3 (view 0), id=2 (view 1), id=1 (view 2)]
   // Bug: selection stays at index 1 → now shows id=2 (wrong)
@@ -1086,10 +1085,9 @@ test('selection reanchors when item inserted before it in descending-sorted view
     ds.append({id: 3, label: 'three'});
   });
 
-  expect(onSelect).toHaveBeenLastCalledWith(
+  expect(onSelect).toHaveBeenLastCalledWith({id: 1, label: 'one'}, [
     {id: 1, label: 'one'},
-    [{id: 1, label: 'one'}],
-  );
+  ]);
   expect(ref.current!.getSelectedItem()).toEqual({id: 1, label: 'one'});
 });
 
@@ -1125,10 +1123,9 @@ test('selection reanchors after sort order change (reset event)', async () => {
   act(() => {
     ref.current!.selectItem(2);
   });
-  expect(onSelect).toHaveBeenLastCalledWith(
+  expect(onSelect).toHaveBeenLastCalledWith({id: 3, label: 'three'}, [
     {id: 3, label: 'three'},
-    [{id: 3, label: 'three'}],
-  );
+  ]);
 
   // Sort descending → [id=3 (view 0), id=2 (view 1), id=1 (view 2)]
   // Bug: selection stays at index 2 → now shows id=1 (wrong)

@@ -126,7 +126,8 @@ export function FrameworkEventsTable({
                   instance.uiActions.onFocusNode(undefined);
                   instance.uiActions.onSetViewMode({mode: 'default'});
                 }}
-                icon={<CloseOutlined />}></Button>
+                icon={<CloseOutlined />}
+              />
             </Tooltip>
             <Tooltip title="Delete all events">
               <Button
@@ -135,7 +136,8 @@ export function FrameworkEventsTable({
                   instance.frameworkEvents.clear();
                   managerRef.current?.clearSelection();
                 }}
-                icon={<DeleteOutlined />}></Button>
+                icon={<DeleteOutlined />}
+              />
             </Tooltip>
           </>
         }

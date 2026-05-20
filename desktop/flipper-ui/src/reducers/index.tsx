@@ -102,7 +102,6 @@ const setTransformer = (config: TransformConfig) =>
   );
 
 export function createRootReducer() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (combineReducers as any)({
     application,
     connections: persistReducer<DevicesState, Actions>(

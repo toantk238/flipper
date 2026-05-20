@@ -22,7 +22,7 @@ import {
   Divider,
 } from 'antd';
 // TODO: Fix this the next time the file is edited.
-// eslint-disable-next-line rulesdir/no-restricted-imports-clone, prettier/prettier
+// eslint-disable-next-line rulesdir/no-restricted-imports-clone
 import {Glyph} from 'flipper';
 import {
   EyeOutlined,
@@ -108,7 +108,8 @@ export const TreeControls: React.FC = () => {
             title={isPaused ? 'Resume live updates' : 'Pause incoming updates'}>
             {isPaused ? <PlayCircleOutlined /> : <PauseCircleOutlined />}
           </Tooltip>
-        }></Button>
+        }
+      />
       {supportedTraversalModes.length > 1 &&
         supportedTraversalModes.includes('accessibility-hierarchy') && (
           <Tooltip title="Accessibility mode">
@@ -169,10 +170,7 @@ export const TreeControls: React.FC = () => {
                   (val) => val === true,
                 ).length
               }>
-              <Button
-                type="default"
-                shape="circle"
-                icon={<BellOutlined />}></Button>
+              <Button type="default" shape="circle" icon={<BellOutlined />} />
             </Badge>
           </Dropdown>
 

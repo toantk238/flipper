@@ -641,8 +641,8 @@ export async function exportEverythingEverywhereAllAtOnce(
 
       deviceDebugItem.data.forEach((appDebugItem) => {
         const appDebugItemIsFile = (
-          item: DeviceDebugFile | DeviceDebugCommand,
-        ): item is DeviceDebugFile => !!(appDebugItem as DeviceDebugFile).path;
+          _item: DeviceDebugFile | DeviceDebugCommand,
+        ): _item is DeviceDebugFile => !!(appDebugItem as DeviceDebugFile).path;
 
         if (appDebugItemIsFile(appDebugItem)) {
           deviceAppFolder.file(
@@ -699,7 +699,7 @@ export async function exportEverythingEverywhereAllAtOnce(
             'intern-cloud-upload',
             exportedFilePath,
           );
-      } catch (e) {
+      } catch (_e) {
         console.error(
           'exportEverythingEverywhereAllAtOnce -> failed to upload export to intern',
           exportedFilePath,

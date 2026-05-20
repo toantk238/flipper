@@ -71,7 +71,7 @@ async function runBuildOnce(
     console.log('✅  Build succeeded');
     return true;
   } catch (e) {
-    console.error(e);
+    console.error('Build error:', e);
     console.error('🥵  Build failed');
     return false;
   }

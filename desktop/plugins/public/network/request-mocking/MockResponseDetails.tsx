@@ -127,7 +127,7 @@ export function MockResponseDetails({id, route, isDuplicated}: Props) {
   let formattedResponse = '';
   try {
     formattedResponse = JSON.stringify(JSON.parse(responseData), null, 2);
-  } catch (e) {
+  } catch (_e) {
     formattedResponse = responseData;
   }
 

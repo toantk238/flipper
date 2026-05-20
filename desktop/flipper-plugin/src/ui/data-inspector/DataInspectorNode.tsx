@@ -405,7 +405,7 @@ export const DataInspectorNode: React.FC<DataInspectorProps> = memo(
           cancelIdleCallback(expandHandle.current);
         }
         if (event.buttons !== 0) {
-          //only process left click
+          // only process left click
           return;
         }
         const isExpanded = shouldBeExpanded(expandedPaths, path, collapsed);
@@ -660,8 +660,8 @@ function dataInspectorPropsAreEqual(
       : props.parentPath.concat([props.name])
   ).join('.');
 
-  //if the node is a prefix then we of the hovered path(s) then we *should* render this branch of the tree
-  //Otherwise we don't need to rerender since this node is not changing hover state
+  // if the node is a prefix then we of the hovered path(s) then we *should* render this branch of the tree
+  // Otherwise we don't need to rerender since this node is not changing hover state
   const nodePathIsPrefixOfCurrentOrNextHoverPath =
     nextProps.hoveredNodePath?.startsWith(nodePath) ||
     props.hoveredNodePath?.startsWith(nodePath);

@@ -81,7 +81,7 @@ export function StyledInputNumber({
 }) {
   let formatted: any = value;
   if (typeof value === 'number') {
-    //cap the number of decimal places to 5 but dont add trailing zeros
+    // cap the number of decimal places to 5 but dont add trailing zeros
     formatted = Number.parseFloat(value.toFixed(5));
   }
 

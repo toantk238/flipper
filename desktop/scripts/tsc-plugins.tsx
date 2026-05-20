@@ -17,7 +17,6 @@ import pmap from 'p-map';
 import {rootDir} from './paths';
 import yargs from 'yargs';
 
-// eslint-disable-next-line node/no-sync
 const argv = yargs
   .usage('yarn tsc-plugins [args]')
   .version(false)

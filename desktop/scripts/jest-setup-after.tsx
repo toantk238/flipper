@@ -9,12 +9,10 @@
 
 // jest-setup-after will run after Jest has been initialized, so that it can be adapted.
 
-// eslint-disable-next-line node/no-extraneous-import
 import {cleanup} from '@testing-library/react';
 
 import {TestUtils} from 'flipper-plugin';
 
-// eslint-disable-next-line node/no-extraneous-import
 import {
   setFlipperServer,
   setFlipperServerConfig,
@@ -90,7 +88,6 @@ Object.defineProperty(global, 'performance', {
           entryType: 'mark' as const,
           startTime: 0,
           toJSON() {},
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any;
       };
     }
@@ -111,7 +108,6 @@ Object.defineProperty(global, 'performance', {
           entryType: 'measure' as const,
           startTime: 0,
           toJSON() {},
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any;
       };
     }

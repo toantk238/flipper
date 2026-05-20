@@ -141,7 +141,7 @@ type State = {
 function compileRegex(s: string): RegExp | null {
   try {
     return new RegExp(s);
-  } catch (e) {
+  } catch (_e) {
     return null;
   }
 }
@@ -192,7 +192,7 @@ export default function Searchable(
           savedState = JSON.parse(
             window.localStorage.getItem(this.getPersistKey()) || 'null',
           );
-        } catch (e) {
+        } catch (_e) {
           window.localStorage.removeItem(this.getPersistKey());
         }
       }

@@ -16,7 +16,6 @@ import https from 'https';
 
 const {unlink} = promises;
 
-
 export const commandDownloadFileStartFactory =
   (
     emit: (

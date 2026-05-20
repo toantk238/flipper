@@ -75,7 +75,8 @@ export function PerfStats(props: {
             nodesCount: props.nodes.size,
             rootNode: props.nodes.get(props.rootId ?? 'noroot'),
             frameworkEventsSize: props.frameworkEvents.size,
-          }}></DataInspector>
+          }}
+        />
       </DetailSidebar>
     </Layout.Container>
   );

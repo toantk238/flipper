@@ -89,7 +89,7 @@ export function hasNewChangesToShow(
   return false;
 }
 
-export /*for test*/ function markChangelogRead(
+export /* for test*/ function markChangelogRead(
   localStorage: Storage | undefined,
   changelog: string,
 ) {

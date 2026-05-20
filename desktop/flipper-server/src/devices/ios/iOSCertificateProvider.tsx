@@ -68,7 +68,7 @@ export default class iOSCertificateProvider extends CertificateProvider {
           isPhysicalDevice = target.type === 'physical';
         }
         return {id: target.udid, isMatch};
-      } catch (e) {
+      } catch (_e) {
         recorder.logError(
           clientQuery,
           'Unable to find a matching device for the incoming request',
@@ -107,7 +107,7 @@ export default class iOSCertificateProvider extends CertificateProvider {
     const bundleId = await extractBundleIdFromCSR(csr);
     try {
       await fs.writeFile(destination + filename, contents);
-    } catch (err) {
+    } catch (_err) {
       const relativePathInsideApp =
         this.getRelativePathInAppContainer(destination);
 

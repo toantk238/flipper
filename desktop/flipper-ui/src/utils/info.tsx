@@ -8,7 +8,6 @@
  */
 
 // Use of sync methods is cached.
-/* eslint-disable node/no-sync */
 
 import type {State, Store} from '../reducers/index';
 import {sideEffect} from './sideEffect';

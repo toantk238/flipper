@@ -36,17 +36,17 @@ setLogger({
         : messageOrError?.message;
 
     if (message?.includes('Myles')) {
-      //dont log myles errors as they are already logged (with sampling and can be noisy)
+      // dont log myles errors as they are already logged (with sampling and can be noisy)
       return;
     }
 
-    //downgrade react query network errors to warning so they dont get sent to log view
+    // downgrade react query network errors to warning so they dont get sent to log view
     console.warn('[ui-debugger] ReactQuery ', ...args);
   },
 });
 
 function isEmptyObject(obj: unknown): boolean {
-  //We get this empty object being logged in production, not sure why
+  // We get this empty object being logged in production, not sure why
   return (
     obj != null && typeof obj === 'object' && Object.keys(obj).length === 0
   );

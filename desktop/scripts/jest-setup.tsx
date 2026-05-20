@@ -22,7 +22,7 @@ if (process.env.TZ !== timezone) {
 
 // Make sure we have identical formatting of Dates everywhere
 const toLocaleString = Date.prototype.toLocaleString;
-// eslint-disable-next-line no-extend-native
+
 (Date as any).prototype.toLocaleString = function (
   _locale: any,
   ...args: any[]

@@ -457,7 +457,7 @@ class JSONTextFormatter {
       try {
         const data = parseJsonWithBigInt(body);
         return <JSONText>{data}</JSONText>;
-      } catch (SyntaxError) {
+      } catch (_SyntaxError) {
         // Multiple top level JSON roots, map them one by one
         return body
           .split('\n')
@@ -519,7 +519,7 @@ class JSONFormatter {
       try {
         const data = JSON.parse(body);
         return <DataInspector collapsed expandRoot data={data} />;
-      } catch (SyntaxError) {
+      } catch (_SyntaxError) {
         // Multiple top level JSON roots, map them one by one
         const roots = body.split('\n');
         return (
@@ -632,7 +632,7 @@ export class GraphQLFormatter {
             <DataInspector collapsed expandRoot data={data} />
           </div>
         );
-      } catch (SyntaxError) {
+      } catch (_SyntaxError) {
         // Multiple top level JSON roots, map them one by one
         const parsedResponses = body
           .replace(/}{/g, '}\r\n{')
@@ -793,7 +793,7 @@ class MultipartFormatter {
       value:
         part.filename != null
           ? `${part.filename} · ${part.partContentType ?? 'application/octet-stream'} · ${formatBytes(part.byteLength)}`
-          : (part.textValue ?? '(binary field)'),
+          : part.textValue ?? '(binary field)',
     }));
 
     return <KeyValueTable items={items} />;

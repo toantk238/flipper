@@ -20,7 +20,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description: 'Use type aliases for component props instead of interfaces',
-      recommended: 'error',
     },
     schema: [],
     messages: {

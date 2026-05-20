@@ -35,7 +35,7 @@ export function FrameworkEventsTreeSelect({
       showSearch={false}
       showCheckedStrategy={TreeSelect.SHOW_PARENT}
       placeholder={placeholder}
-      virtual={false} //for scrollbar
+      virtual={false} // for scrollbar
       style={{
         width: width ?? '100%',
       }}

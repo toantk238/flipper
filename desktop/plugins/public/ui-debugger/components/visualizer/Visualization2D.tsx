@@ -60,7 +60,7 @@ export const Visualization2D: React.FC<
     state: 'disabled',
   });
   const focusState = useMemo(() => {
-    //use the snapshot node as root since we cant realistically visualise any node above this
+    // use the snapshot node as root since we cant realistically visualise any node above this
     const rootNode = snapshot && toNestedNode(snapshot.nodeId, nodes);
     return rootNode && caclulateFocusState(rootNode, focusedNodeId);
   }, [snapshot, nodes, focusedNodeId]);
@@ -102,7 +102,7 @@ export const Visualization2D: React.FC<
   );
 };
 
-const horizontalPadding = 8; //allows space for vertical scroll bar
+const horizontalPadding = 8; // allows space for vertical scroll bar
 
 function Visualization2DContent({
   disableInteractivity,
@@ -142,8 +142,8 @@ function Visualization2DContent({
   const availableWidthConsideringPadding =
     measuredWidth - horizontalPadding * 2;
 
-  //this ref is to ensure the mouse has entered the visualiser, otherwise when you have overlapping modals
-  //the hover state / tooltips all fire
+  // this ref is to ensure the mouse has entered the visualiser, otherwise when you have overlapping modals
+  // the hover state / tooltips all fire
   const visualizerActive = useRef(false);
   useEffect(() => {
     const mouseListener = throttle((ev: MouseEvent) => {
@@ -165,7 +165,7 @@ function Visualization2DContent({
         return;
       }
 
-      //make the mouse coord relative to the dom rect of the visualizer
+      // make the mouse coord relative to the dom rect of the visualizer
       const pxScaleFactor = calcPxScaleFactor(
         snapshotNode.bounds,
         availableWidthConsideringPadding,
@@ -229,7 +229,7 @@ function Visualization2DContent({
       <div
         onMouseLeave={(e) => {
           e.stopPropagation();
-          //the context menu triggers this callback but we dont want to remove hover effect
+          // the context menu triggers this callback but we dont want to remove hover effect
           if (!instance.uiState.isContextMenuOpen.get()) {
             instance.uiActions.onHoverNode();
           }
@@ -239,14 +239,14 @@ function Visualization2DContent({
         onMouseEnter={() => {
           visualizerActive.current = true;
         }}
-        //this div is to ensure that the size of the visualiser doesnt change when focusings on a subtree
+        // this div is to ensure that the size of the visualiser doesnt change when focusings on a subtree
         style={
           {
             backgroundColor: theme.backgroundWash,
             borderRadius: theme.borderRadius,
             overflowY: 'auto',
             overflowX: 'hidden',
-            position: 'relative', //this is for the absolutely positioned overlays
+            position: 'relative', // this is for the absolutely positioned overlays
             [pxScaleFactorCssVar]: pxScaleFactor,
             width: toPx(focusState.actualRoot.bounds.width),
             height: toPx(focusState.actualRoot.bounds.height),
@@ -325,11 +325,11 @@ const MemoedVisualizationWireframeNode = React.memo(
       return false;
     }
     if (next.wireframeMode == 'All') {
-      //if all wire frames are drawn and the root node is the same
-      //then we are safe
+      // if all wire frames are drawn and the root node is the same
+      // then we are safe
       return true;
     } else {
-      //with other modes the selected node affects the drawing
+      // with other modes the selected node affects the drawing
       return prev.selectedNodeId === next.selectedNodeId;
     }
   },
@@ -357,8 +357,8 @@ function VisualizationWireframeNode({
   const ref = useRef<HTMLDivElement>(null);
   let nestedChildren: NestedNode[];
 
-  //if there is an active child don't draw the other children
-  //this means we don't draw overlapping activities / tabs etc
+  // if there is an active child don't draw the other children
+  // this means we don't draw overlapping activities / tabs etc
   if (
     node.activeChildIdx != null &&
     node.activeChildIdx >= 0 &&
@@ -529,7 +529,7 @@ function findNodeAndGlobalOffsetRec(
     y: globalOffset.y + node.bounds.y,
   };
   if (node.id === target) {
-    //since we have already applied the this nodes offset to the root node in the visualiser we zero it out here so it isn't counted twice
+    // since we have already applied the this nodes offset to the root node in the visualiser we zero it out here so it isn't counted twice
     const focusedRoot = produce(node, (draft) => {
       draft.bounds.x = 0;
       draft.bounds.y = 0;

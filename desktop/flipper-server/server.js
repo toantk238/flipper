@@ -10,5 +10,4 @@
 
 process.title = 'flipper-runtime';
 
-// eslint-disable-next-line import/no-unresolved
 require('./lib/startServer.js');

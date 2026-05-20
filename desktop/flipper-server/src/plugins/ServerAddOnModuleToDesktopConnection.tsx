@@ -32,8 +32,7 @@ export class ServerAddOnModuleToDesktopConnection
   }
 
   send(method: string, params: unknown) {
-    const event = 'message';
-    const message: ServerAddOnModuleToDesktopConnectionEvents[typeof event] = {
+    const message: ServerAddOnModuleToDesktopConnectionEvents['message'] = {
       method: 'execute',
       params: {
         method,

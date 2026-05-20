@@ -91,7 +91,9 @@ async function start() {
     }
 
     const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const socket = new WebSocket(`${wsProtocol}//${location.host}?token=${token}`);
+    const socket = new WebSocket(
+      `${wsProtocol}//${location.host}?token=${token}`,
+    );
     socket.addEventListener('message', ({data: dataRaw}) => {
       const message = JSON.parse(dataRaw.toString());
 

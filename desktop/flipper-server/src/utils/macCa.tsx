@@ -68,7 +68,7 @@ const transform = function (format: any) {
         default:
           return forge.pki.certificateFromPem(pem);
       }
-    } catch (er) {
+    } catch (_er) {
       return;
     }
   };
@@ -85,13 +85,11 @@ if (process.platform !== 'darwin') {
     '/System/Library/Keychains/SystemRootCertificates.keychain';
   const args = ['find-certificate', '-a', '-p'];
 
-  // eslint-disable-next-line node/no-sync
   const allTrusted = child_process
     .spawnSync('/usr/bin/security', args)
     .stdout.toString()
     .split(splitPattern);
 
-  // eslint-disable-next-line node/no-sync
   const allRoot = child_process
     .spawnSync('/usr/bin/security', args.concat(systemRootCertsPath))
     .stdout.toString()

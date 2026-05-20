@@ -114,7 +114,7 @@ export function plugin(client: PluginClient<Events, Methods>) {
             defaultPath: name,
           },
         );
-      } catch (e) {
+      } catch (_e) {
         notification.error({
           message: 'Save failed',
           description: `Could not save shared preferences to file`,

@@ -227,7 +227,6 @@ export class ManagedTable extends React.Component<
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   UNSAFE_componentWillReceiveProps(nextProps: ManagedTableProps) {
     // if columnSizes has changed
     if (nextProps.columnSizes !== this.props.columnSizes) {
@@ -504,7 +503,7 @@ export class ManagedTable extends React.Component<
     ) {
       try {
         selected.push(this.props.rows[i].key);
-      } catch (e) {}
+      } catch (_e) {}
     }
 
     return selected;

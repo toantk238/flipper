@@ -34,7 +34,7 @@ export function formatError(e: Error): string {
   if (estr === '[object Object]') {
     try {
       return JSON.stringify(e);
-    } catch (e) {
+    } catch (_e) {
       return '<unrepresentable error>';
     }
   }

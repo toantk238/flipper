@@ -35,7 +35,7 @@ import {baseRowStyle, logTypes} from './logTypes';
 
 export type ExtendedLogEntry = DeviceLogEntry & {
   count: number;
-  pidStr: string; //for the purposes of inferring (only supports string type)
+  pidStr: string; // for the purposes of inferring (only supports string type)
 };
 
 const logLevelEnumLabels = Object.entries(logTypes).reduce(
@@ -149,7 +149,7 @@ export function devicePlugin(client: DevicePluginClient) {
   const rows = createDataSource<ExtendedLogEntry>([], {
     limit: 200000,
     persist: 'logs',
-    indices: [['pidStr'], ['tag']], //there are for inferring enum types
+    indices: [['pidStr'], ['tag']], // there are for inferring enum types
   });
   const isPaused = createState(true);
   const tableManagerRef = createRef<

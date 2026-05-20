@@ -45,7 +45,7 @@ export function SidebarV2({
       })
     : [];
 
-  //when select node not in frame, dont show data as its stale
+  // when select node not in frame, dont show data as its stale
   const actualNode = getNode(nodeSelection.node.id, nodes);
   return (
     <Layout.Container gap pad>

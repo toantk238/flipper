@@ -52,7 +52,7 @@ export function VisualiserOverlays({
   const hoveredNodeId = head(hoveredNodes);
 
   const hoveredNode = getNode(hoveredNodeId, nodes);
-  //make sure to resolve the stale node
+  // make sure to resolve the stale node
   const selectedNode = getNode(nodeSelection?.node.id, nodes);
 
   const selectedNodeGlobalOffset = getGlobalOffset(selectedNode?.id, nodes);

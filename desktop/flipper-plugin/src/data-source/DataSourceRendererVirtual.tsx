@@ -23,7 +23,7 @@ import observeRect from '@reach/observe-rect';
 import {DataSourceView} from './DataSource';
 
 // how fast we update if updates are low-prio (e.g. out of window and not super significant)
-const LOW_PRIO_UPDATE = 1000; //ms
+const LOW_PRIO_UPDATE = 1000; // ms
 const HIGH_PRIO_UPDATE = 40; // 25fps
 const SMALL_DATASET = 1000; // what we consider a small dataset, for which we keep all updates snappy
 
@@ -105,7 +105,7 @@ export const DataSourceRendererVirtual: <T extends object, C>(
     size: dataView.size,
     parentRef,
     useObserver: isUnitTest ? () => ({height: 500, width: 1000}) : undefined,
-    // eslint-disable-next-line
+
     estimateSize: useCallback(
       () => defaultRowHeight,
       [forceHeightRecalculation.current, defaultRowHeight],

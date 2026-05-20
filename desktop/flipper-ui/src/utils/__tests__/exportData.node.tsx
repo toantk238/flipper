@@ -7,8 +7,6 @@
  * @format
  */
 
-/* eslint-disable node/no-sync */
-
 import {State} from '../../reducers/index';
 import configureStore from 'redux-mock-store';
 import {

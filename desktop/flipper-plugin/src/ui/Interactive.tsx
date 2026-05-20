@@ -168,10 +168,9 @@ export class Interactive extends React.Component<
       onMoveStart();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((this.context as any)?.os) {
       // pause OS timers to avoid lag when dragging
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       (this.context as any).os.timers.pause();
     }
 
@@ -282,10 +281,9 @@ export class Interactive extends React.Component<
       onMoveEnd();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((this.context as any)?.os) {
       // resume os timers
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       (this.context as any).os.timers.resume();
     }
 
@@ -736,7 +734,7 @@ export class Interactive extends React.Component<
         ref={this.setRef}
         onMouseDown={this.startAction}
         onMouseMove={this.onLocalMouseMove}
-        onMouseLeave={this.onMouseLeave} // eslint-disable-next-line
+        onMouseLeave={this.onMouseLeave}
         onClick={this.onClick}
         style={style}>
         {this.props.children}

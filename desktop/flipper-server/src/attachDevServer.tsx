@@ -54,7 +54,7 @@ export async function attachDevServer(
   rootDir: string,
 ) {
   const Metro = require('metro');
-  // eslint-disable-next-line node/no-extraneous-require
+  // eslint-disable-next-line n/no-extraneous-require
   const MetroResolver = require('metro-resolver');
   const {getWatchFolders, startWatchPlugins} = require('flipper-pkg-lib');
 

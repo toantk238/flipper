@@ -7,8 +7,6 @@
  * @format
  */
 
-/* eslint-disable node/no-sync */
-
 import path from 'path';
 import {
   getInstalledPlugins,

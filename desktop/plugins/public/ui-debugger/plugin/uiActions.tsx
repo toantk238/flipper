@@ -60,7 +60,7 @@ export function uiActions(
     } else {
       uiState.nodeSelection.set({
         source,
-        node, //last known state of the node, may be offscreen
+        node, // last known state of the node, may be offscreen
       });
     }
 

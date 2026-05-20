@@ -18,7 +18,7 @@ export function addInterceptors(
   eventEmitter: StreamInterceptorEventEmitter,
   _uiState: UIState,
 ) {
-  //no-op impmentation for open source
+  // no-op impmentation for open source
   eventEmitter.on('frameReceived', async (frame) => {
     eventEmitter.emit('frameUpdated', frame);
   });

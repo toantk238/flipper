@@ -21,7 +21,6 @@ import ensurePluginFoldersWatchable from './ensurePluginFoldersWatchable';
 import {Watchman} from 'flipper-pkg-lib';
 import fs from 'fs-extra';
 
-// eslint-disable-next-line node/no-sync
 const argv = yargs
   .usage('yarn flipper-server [args]')
   .options({

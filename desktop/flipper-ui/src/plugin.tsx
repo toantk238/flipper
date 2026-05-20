@@ -60,13 +60,13 @@ export function supportsMethod(
 
 export interface PluginClient {
   isConnected: boolean;
-  // eslint-disable-next-line
+
   send(method: string, params?: Parameters): void;
-  // eslint-disable-next-line
+
   call(method: string, params?: Parameters): Promise<any>;
-  // eslint-disable-next-line
+
   subscribe(method: string, callback: (params: any) => void): void;
-  // eslint-disable-next-line
+
   supportsMethod(method: string): Promise<boolean>;
 }
 

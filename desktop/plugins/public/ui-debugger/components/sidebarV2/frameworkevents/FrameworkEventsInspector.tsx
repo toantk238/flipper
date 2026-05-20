@@ -286,7 +286,7 @@ export const options: Intl.DateTimeFormatOptions = {
 };
 
 export function eventTypeToName(eventType: string) {
-  //drop the first prefix
+  // drop the first prefix
   return eventType.slice(eventType.indexOf(frameworkEventSeparator) + 1);
 }
 

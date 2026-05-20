@@ -70,7 +70,8 @@ type State = {
 };
 
 export default class ShareSheetExportFile extends Component<Props, State> {
-  static contextType = ReactReduxContext as unknown as React.Context<ReactReduxContextValue>;
+  static contextType =
+    ReactReduxContext as unknown as React.Context<ReactReduxContextValue>;
 
   state: State = {
     fetchMetaDataErrors: null,

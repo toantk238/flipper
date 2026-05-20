@@ -10,7 +10,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import fetch from '@adobe/node-fetch-retry';
-// eslint-disable-next-line node/no-extraneous-import
+
 import type {Icon} from 'flipper-ui/src/utils/icons';
 
 const AVAILABLE_SIZES: Icon['size'][] = [8, 10, 12, 16, 18, 20, 24, 28, 32, 48];

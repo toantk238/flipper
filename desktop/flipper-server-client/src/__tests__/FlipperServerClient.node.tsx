@@ -13,7 +13,6 @@ jest.mock('reconnecting-websocket', () =>
   jest.fn().mockImplementation(() => ({addEventListener: jest.fn()})),
 );
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const MockRWS = require('reconnecting-websocket') as jest.Mock;
 
 function captureUrl(
@@ -23,7 +22,13 @@ function captureUrl(
   secure?: boolean,
 ): string {
   MockRWS.mockClear();
-  createFlipperServer(host, port, () => token, () => {}, secure);
+  createFlipperServer(
+    host,
+    port,
+    () => token,
+    () => {},
+    secure,
+  );
   expect(MockRWS).toHaveBeenCalledTimes(1);
   const urlProvider = MockRWS.mock.calls[0][0] as () => string;
   return urlProvider();

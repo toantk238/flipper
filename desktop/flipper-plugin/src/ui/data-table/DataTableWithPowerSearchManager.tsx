@@ -505,7 +505,7 @@ function loadStateFromStorage(storageKey: string): PersistedState | undefined {
   }
   try {
     return JSON.parse(state) as PersistedState;
-  } catch (e) {
+  } catch (_e) {
     // forget about this state
     return undefined;
   }

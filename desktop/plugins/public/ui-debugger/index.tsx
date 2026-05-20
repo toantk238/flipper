@@ -65,7 +65,7 @@ export function plugin(client: PluginClient<Events, Methods>) {
   const frameworkEvents = createDataSource<AugmentedFrameworkEvent>([], {
     indices: [
       ['nodeId'],
-      ['type'], //for inferred values
+      ['type'], // for inferred values
     ],
     limit: 10000,
   });
@@ -80,8 +80,8 @@ export function plugin(client: PluginClient<Events, Methods>) {
   const uiState: UIState = createUIState();
 
   addInterceptors(client.device.os, streamInterceptor, uiState);
-  //this is the client data is what drives all of desktop UI
-  //it is always up-to-date with the client regardless of whether we are paused or not
+  // this is the client data is what drives all of desktop UI
+  // it is always up-to-date with the client regardless of whether we are paused or not
   const mutableLiveClientData: LiveClientState = {
     snapshotInfo: null,
     nodes: new Map(),
@@ -267,7 +267,7 @@ export function plugin(client: PluginClient<Events, Methods>) {
       checkFocusedNodeStillActive(uiState, nodesAtom.get());
     }
     setTimeout(() => {
-      //let react render, this can happen async
+      // let react render, this can happen async
       for (const node of nodes.values()) {
         prefetchSourceFileLocation(node);
       }
@@ -348,7 +348,7 @@ function createUIState(): UIState {
     boxVisualiserEnabled: createState(false),
     viewMode: createState({mode: 'default'}),
 
-    //used to disabled hover effects which cause rerenders and mess up the existing context menu
+    // used to disabled hover effects which cause rerenders and mess up the existing context menu
     isContextMenuOpen: createState<boolean>(false),
 
     streamState: createState<StreamState>({state: 'Ok'}),
@@ -357,8 +357,8 @@ function createUIState(): UIState {
     highlightedNodes: createState(new Map<Id, Color>()),
 
     nodeSelection: createState<NodeSelection | undefined>(undefined),
-    //used to indicate whether we will higher the visualizer / tree when a matching event comes in
-    //also whether or not will show running total  in the tree
+    // used to indicate whether we will higher the visualizer / tree when a matching event comes in
+    // also whether or not will show running total  in the tree
     frameworkEventMonitoring: createState(
       new Map<FrameworkEventType, boolean>(),
     ),
@@ -366,8 +366,8 @@ function createUIState(): UIState {
 
     isPaused: createState(false),
 
-    //The reason for the array as that user could be hovering multiple overlapping nodes at once in the visualiser.
-    //The nodes are sorted by area since you most likely want to select the smallest node under your cursor
+    // The reason for the array as that user could be hovering multiple overlapping nodes at once in the visualiser.
+    // The nodes are sorted by area since you most likely want to select the smallest node under your cursor
     hoveredNodes: createState<Id[]>([]),
 
     nodeLevelFrameworkEventFilters: createState({

@@ -94,7 +94,7 @@ export const DataList: (<T extends object>(
     ...tableProps
   }: DataListProps<T>) {
     // if a tableManagerRef is provided, we piggy back on that same ref
-    // eslint-disable-next-line
+
     const tableManagerRef =
       tableProps.tableManagerRef ??
       createRef<undefined | DataTableManager<T>>();

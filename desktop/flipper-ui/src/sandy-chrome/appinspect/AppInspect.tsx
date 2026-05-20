@@ -117,7 +117,7 @@ function renderStatusMessage(
       </Layout.Horizontal>
     )
   ) : client ? (
-    isAppConnected ? null /*connected*/ : (
+    isAppConnected ? null /* connected*/ : (
       <Layout.Horizontal gap center>
         <ExclamationCircleOutlined style={{color: theme.errorColor}} />
         <Text

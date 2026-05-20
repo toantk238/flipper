@@ -42,7 +42,7 @@ afterEach(() => {
 test('Tracked button', () => {
   const rendering = render(
     <Tracked>
-      <button data-testid="test" onClick={() => {}}></button>
+      <button data-testid="test" onClick={() => {}} />
     </Tracked>,
   );
 
@@ -63,7 +63,7 @@ test('Tracked button', () => {
 test('Tracked button - custom handler', () => {
   const rendering = render(
     <Tracked events={['onDoubleClick']}>
-      <button data-testid="test" onDoubleClick={() => {}}></button>
+      <button data-testid="test" onDoubleClick={() => {}} />
     </Tracked>,
   );
 
@@ -226,7 +226,7 @@ test('Scoped Tracked button', () => {
     <TrackingScope scope="outer">
       <TrackingScope scope="inner">
         <Tracked>
-          <button data-testid="test" onClick={() => {}}></button>
+          <button data-testid="test" onClick={() => {}} />
         </Tracked>
       </TrackingScope>
     </TrackingScope>,
@@ -246,7 +246,7 @@ test('Scoped Tracked button in plugin', () => {
         <TrackingScope scope="outer">
           <TrackingScope scope="inner">
             <Tracked>
-              <button data-testid="test" onClick={() => {}}></button>
+              <button data-testid="test" onClick={() => {}} />
             </Tracked>
           </TrackingScope>
         </TrackingScope>
@@ -262,7 +262,7 @@ test('withScope - fn', () => {
   const MyCoolComponent = withTrackingScope(function MyCoolComponent() {
     return (
       <Tracked>
-        <button data-testid="test" onClick={() => {}}></button>
+        <button data-testid="test" onClick={() => {}} />
       </Tracked>
     );
   });
@@ -286,7 +286,7 @@ test('withScope - class', () => {
       render() {
         return (
           <Tracked>
-            <button data-testid="test" onClick={() => {}}></button>
+            <button data-testid="test" onClick={() => {}} />
           </Tracked>
         );
       }

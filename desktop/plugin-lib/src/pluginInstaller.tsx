@@ -277,7 +277,7 @@ export async function getAllInstalledPluginsInDir(
     if (await isPluginDir(fullPath)) {
       try {
         plugins.push(await getInstalledPluginDetails(fullPath));
-      } catch (err) {
+      } catch (_err) {
         console.error(`Failed to load plugin from ${fullPath}`);
       }
     } else if (recursive) {

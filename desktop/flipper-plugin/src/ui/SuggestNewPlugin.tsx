@@ -39,7 +39,7 @@ export const suggestNewPlugin = ({
     lastShownTimestampFromStorage = window.localStorage.getItem(
       lastShownTimestampKey,
     );
-  } catch (e) {}
+  } catch (_e) {}
 
   if (lastShownTimestampFromStorage) {
     const WithinOneDay = (timestamp: number) => {
@@ -61,7 +61,7 @@ export const suggestNewPlugin = ({
       lastShownTimestampKey,
       String(lastShownTimestamp),
     );
-  } catch (e) {}
+  } catch (_e) {}
 
   const key = `open-${newPluginId}-${lastShownTimestamp}`;
   const btn = (

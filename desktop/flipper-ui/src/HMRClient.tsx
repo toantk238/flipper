@@ -43,7 +43,7 @@ const HMRClient = {
     }
 
     invariant(hmrClient, 'Expected HMRClient.setup() call at startup.');
-    //// const LoadingView = require('./LoadingView');
+    // // const LoadingView = require('./LoadingView');
 
     // We use this for internal logging only.
     // It doesn't affect the logic.
@@ -54,14 +54,14 @@ const HMRClient = {
     const hasUpdates = hmrClient.hasPendingUpdates();
 
     if (hasUpdates) {
-      //// LoadingView.showMessage('Refreshing...', 'refresh');
+      // // LoadingView.showMessage('Refreshing...', 'refresh');
       console.log('Loading start: Refreshing...');
     }
     try {
       hmrClient.enable();
     } finally {
       if (hasUpdates) {
-        //// LoadingView.hide();
+        // // LoadingView.hide();
         console.log('Loading end');
       }
     }
@@ -110,7 +110,7 @@ const HMRClient = {
           ),
         }),
       );
-    } catch (error) {
+    } catch (_error) {
       // If sending logs causes any failures we want to silently ignore them
       // to ensure we do not cause infinite-logging loops.
     }
@@ -130,7 +130,7 @@ const HMRClient = {
     invariant(host, 'Missing required parameter `host`');
     invariant(!hmrClient, 'Cannot initialize hmrClient twice');
 
-    //// const LoadingView = require('./LoadingView');
+    // // const LoadingView = require('./LoadingView');
 
     const wsHost = port !== null && port !== '' ? `${host}:${port}` : host;
     const client = new MetroHMRClient(`ws://${wsHost}/hot`);
@@ -162,7 +162,7 @@ Error: ${e.message}`;
       didConnect = true;
 
       if (client.isEnabled() && !isInitialUpdate) {
-        //// LoadingView.showMessage('Refreshing...', 'refresh');
+        // // LoadingView.showMessage('Refreshing...', 'refresh');
         console.log('Loading start: Refreshing...');
       }
     });
@@ -170,12 +170,12 @@ Error: ${e.message}`;
     client.on('update', () => {});
 
     client.on('update-done', () => {
-      //// LoadingView.hide();
+      // // LoadingView.hide();
       console.log('Loading end');
     });
 
     client.on('error', (data: any) => {
-      //// LoadingView.hide();
+      // // LoadingView.hide();
       console.log('Loading end');
 
       if (data.type === 'GraphNotFoundError') {
@@ -197,7 +197,7 @@ Error: ${e.message}`;
     });
 
     client.on('close', (_data: any) => {
-      //// LoadingView.hide();
+      // // LoadingView.hide();
       console.log('Loading end');
       setHMRUnavailableReason('Disconnected from the Metro server.');
     });

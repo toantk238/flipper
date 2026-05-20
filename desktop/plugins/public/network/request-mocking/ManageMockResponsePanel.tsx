@@ -204,7 +204,8 @@ const RouteEntry = ({
       <Tooltip title={tip} mouseEnterDelay={1.1}>
         <Checkbox
           onClick={() => onToggle(item.id)}
-          checked={item.route.enabled}></Checkbox>
+          checked={item.route.enabled}
+        />
       </Tooltip>
       {item.route.requestUrl.length === 0 ? (
         <Text ellipsis>untitled</Text>

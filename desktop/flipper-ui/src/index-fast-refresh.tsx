@@ -51,5 +51,5 @@ const Refresh = {
 (require as any).Refresh = Refresh;
 
 // @ts-ignore
-// eslint-disable-next-line import/no-commonjs
+
 require('./index.tsx');

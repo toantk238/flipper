@@ -26,7 +26,7 @@ test('Idler should interrupt', async () => {
       await idler.idle();
     }
     expect('error').toBe('thrown');
-  } catch (e) {
+  } catch (_e) {
     expect(i).toEqual(100);
   }
 });

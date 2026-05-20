@@ -115,7 +115,7 @@ const Sidebar: React.FC<Props> = (props: Props) => {
             if (typeof section === 'string') {
               try {
                 data = JSON.parse(section);
-              } catch (e) {
+              } catch (_e) {
                 // data was not a valid JSON, type is required to be an object
                 console.error(
                   `ElementsInspector unable to parse extra section: ${extraSection}`,

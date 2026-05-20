@@ -59,7 +59,7 @@ export function toTreeList(
     const {node, depth} = stackItem;
 
     const prevItemLine = last(treeNodes);
-    //trim all the guides that have now ended
+    // trim all the guides that have now ended
     if (prevItemLine != null) {
       for (let i = depth; i < prevItemLine.depth; i++) {
         prevItemLine.indentGuides[i].trimBottom = true;
@@ -125,7 +125,7 @@ export function toTreeList(
     }
 
     if (isExpanded) {
-      //since we do dfs and use a stack we have to reverse children to get the order correct
+      // since we do dfs and use a stack we have to reverse children to get the order correct
       for (const childId of reverse(node.children)) {
         const child = nodes.get(childId);
         if (child != null) {
@@ -144,7 +144,7 @@ export function toTreeList(
     }
   }
 
-  //always trim last indent guides since they have 'ended'
+  // always trim last indent guides since they have 'ended'
   const prevItemLine = last(treeNodes);
   if (prevItemLine != null) {
     prevItemLine.indentGuides.forEach((guide) => {

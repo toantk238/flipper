@@ -24,7 +24,6 @@ export const processExit = async (code: number) => {
     process.exit(code);
   }, 5000);
 
-  // eslint-disable-next-line promise/catch-or-return
   await Promise.all(
     onBeforeExitFns.map(async (fn) => {
       try {

@@ -149,7 +149,7 @@ async function processPluginCommandsQueue(
           console.error('Unexpected plugin command', command);
           break;
       }
-    } catch (e) {
+    } catch (_e) {
       // make sure that upon failure the command is still marked processed to avoid
       // unending loops!
       console.error('Failed to process command', command);

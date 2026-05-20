@@ -7,7 +7,7 @@
  * @format
  */
 
-import {ESLintUtils} from '@typescript-eslint/experimental-utils';
+import {ESLintUtils} from '@typescript-eslint/utils';
 
 export type RuleCreator = ReturnType<typeof ESLintUtils.RuleCreator>;
 

@@ -157,9 +157,7 @@ export default class ImagesCacheOverview extends PureComponent<
     return (
       <Layout.ScrollContainer>
         <Toolbar>
-          <Button
-            icon={<DeleteFilled></DeleteFilled>}
-            onClick={this.props.onTrimMemory}>
+          <Button icon={<DeleteFilled />} onClick={this.props.onTrimMemory}>
             Trim Memory
           </Button>
           <Button onClick={this.props.onRefresh}>Refresh</Button>
@@ -396,7 +394,7 @@ class ImageItem extends PureComponent<{
     return (
       <Layout.Container onClick={this.onClick} gap>
         {numberOfRequests > 0 && image != null && (
-          <ImageItem.EventBadge count={numberOfRequests}></ImageItem.EventBadge>
+          <ImageItem.EventBadge count={numberOfRequests} />
         )}
         {image != null ? (
           <Image src={image.data} preview={false} />

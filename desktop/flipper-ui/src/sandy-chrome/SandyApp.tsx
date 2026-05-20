@@ -68,7 +68,6 @@ export function SandyApp() {
     }
 
     // don't warn about logger, even with a new logger we don't want to re-register
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {

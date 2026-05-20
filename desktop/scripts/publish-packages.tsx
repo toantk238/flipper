@@ -12,7 +12,6 @@
 import {publishPackages} from './workspaces';
 import yargs from 'yargs';
 
-// eslint-disable-next-line node/no-sync
 const argv = yargs
   .usage('$0 [args]')
   .options({

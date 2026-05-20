@@ -20,7 +20,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description: 'Avoid prefixing TS interfaces with "I"',
-      recommended: 'error',
     },
     schema: [],
     messages: {

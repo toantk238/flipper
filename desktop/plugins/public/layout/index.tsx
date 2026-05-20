@@ -345,7 +345,7 @@ export default class LayoutPlugin extends FlipperPlugin<
       lastShownTimestampFromStorage = window.localStorage.getItem(
         lastShownTimestampKey,
       );
-    } catch (e) {}
+    } catch (_e) {}
 
     if (lastShownTimestampFromStorage) {
       const WithinOneDay = (timestamp: number) => {
@@ -367,7 +367,7 @@ export default class LayoutPlugin extends FlipperPlugin<
         lastShownTimestampKey,
         String(lastShownTimestamp),
       );
-    } catch (e) {}
+    } catch (_e) {}
 
     const key = `open-ui-debugger-${lastShownTimestamp}`;
     const btn = (

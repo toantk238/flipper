@@ -7,7 +7,7 @@
  * @format
  */
 
-import {TSESTree} from '@typescript-eslint/experimental-utils';
+import {TSESTree} from '@typescript-eslint/utils';
 import {createESLintRule} from '../utils/createEslintRule';
 
 type Options = [];
@@ -21,7 +21,6 @@ export default createESLintRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description: 'TBD',
-      recommended: 'warn',
     },
     schema: [],
     messages: {

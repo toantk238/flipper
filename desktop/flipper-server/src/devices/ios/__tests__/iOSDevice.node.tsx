@@ -8,7 +8,7 @@
  */
 
 import {checkXcodeVersionMismatch, IOSDeviceManager} from '../iOSDeviceManager';
-// eslint-disable-next-line node/no-extraneous-import
+
 import {getFlipperServerConfig} from '../../../FlipperServerConfig';
 import {DeviceTarget} from 'flipper-common';
 

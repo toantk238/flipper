@@ -114,7 +114,7 @@ export function MasterDetailWithPowerSearch<T extends object>({
   const selectedRecord = useValue(selectionAtom);
 
   // if a tableManagerRef is provided, we piggy back on that same ref
-  // eslint-disable-next-line
+
   const tableManagerRef =
     tableProps.tableManagerRef ?? createRef<undefined | DataTableManager<T>>();
 
@@ -222,10 +222,7 @@ export function MasterDetailWithPowerSearch<T extends object>({
           {connected && isPaused && (
             <Tooltip
               title={`Click to ${pausedState ? 'resume' : 'pause'} the stream`}>
-              <Button
-                ghost
-                danger={pausedState}
-                onClick={handleTogglePause}>
+              <Button ghost danger={pausedState} onClick={handleTogglePause}>
                 {pausedState ? <PlayCircleOutlined /> : <PauseCircleOutlined />}
               </Button>
             </Tooltip>
