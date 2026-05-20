@@ -66,7 +66,7 @@ test('It can have selection and render details', async () => {
   // Let's assert the structure of the Turtle card as well
   expect(await renderer.findByTestId('Turtle')).toMatchInlineSnapshot(`
 <div
-  class="ant-card ant-card-bordered ant-card-hoverable css-dev-only-do-not-override-mncuj7"
+  class="ant-card ant-card-bordered ant-card-hoverable css-dev-only-do-not-override-ypkju9 css-var-root"
   data-testid="Turtle"
   style="width: 150px;"
 >

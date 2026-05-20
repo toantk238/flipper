@@ -130,7 +130,7 @@ test('Can render and launch android apps', async () => {
   expect(await renderer.findAllByText(/emulator/)).toMatchInlineSnapshot(`
 [
   <h3
-    class="ant-typography css-dev-only-do-not-override-mncuj7"
+    class="ant-typography css-dev-only-do-not-override-ypkju9 css-var-root"
     style="padding: 4px;"
   >
     Android emulators
@@ -193,7 +193,7 @@ test('Favouriting a virtual device brings it to the top', async () => {
   expect(await renderer.findAllByText(/emulator/)).toMatchInlineSnapshot(`
 [
   <h3
-    class="ant-typography css-dev-only-do-not-override-mncuj7"
+    class="ant-typography css-dev-only-do-not-override-ypkju9 css-var-root"
     style="padding: 4px;"
   >
     Android emulators
@@ -213,7 +213,7 @@ test('Favouriting a virtual device brings it to the top', async () => {
   expect(await renderer.findAllByText(/emulator/)).toMatchInlineSnapshot(`
 [
   <h3
-    class="ant-typography css-dev-only-do-not-override-mncuj7"
+    class="ant-typography css-dev-only-do-not-override-ypkju9 css-var-root"
     style="padding: 4px;"
   >
     Android emulators

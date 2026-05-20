@@ -31,3 +31,12 @@ const toLocaleString = Date.prototype.toLocaleString;
 };
 
 require('immer').enableMapSet();
+
+// antd v6 uses @rc-component/resize-observer which requires ResizeObserver in jsdom
+if (typeof (global as any).ResizeObserver === 'undefined') {
+  (global as any).ResizeObserver = class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+}

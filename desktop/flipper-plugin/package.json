@@ -9,7 +9,7 @@
   "license": "MIT",
   "bugs": "https://github.com/facebook/flipper/issues",
   "dependencies": {
-    "@ant-design/colors": "^6.0.0",
+    "@ant-design/colors": "^8.0.0",
     "@emotion/css": "^11.13.5",
     "@emotion/react": "^11.14.0",
     "@reach/observe-rect": "^1.2.0",
@@ -36,9 +36,9 @@
     "jest-mock-console": "^1.2.3"
   },
   "peerDependencies": {
-    "@ant-design/icons": "^5.0.0",
+    "@ant-design/icons": "^6.0.0",
     "@testing-library/dom": "^7.26.3",
-    "antd": "^5.0.0"
+    "antd": "^6.0.0"
   },
   "scripts": {
     "reset": "rimraf lib *.tsbuildinfo",

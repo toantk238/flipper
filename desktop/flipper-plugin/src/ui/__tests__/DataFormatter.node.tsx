@@ -218,7 +218,7 @@ test('render truncate helper', () => {
   <div>
     !! C
     <button
-      class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
+      class="ant-btn css-dev-only-do-not-override-ypkju9 css-var-root ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
       style="margin-left: 4px;"
       type="button"
     >
@@ -250,7 +250,7 @@ test('render truncate helper', () => {
       </span>
     </button>
     <button
-      class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
+      class="ant-btn css-dev-only-do-not-override-ypkju9 css-var-root ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
       style="margin-left: 4px;"
       type="button"
     >
@@ -292,7 +292,7 @@ test('render truncate helper', () => {
   <div>
     !! COOL CONTENT !!
     <button
-      class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
+      class="ant-btn css-dev-only-do-not-override-ypkju9 css-var-root ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
       style="margin-left: 4px;"
       type="button"
     >
@@ -324,7 +324,7 @@ test('render truncate helper', () => {
       </span>
     </button>
     <button
-      class="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
+      class="ant-btn css-dev-only-do-not-override-ypkju9 css-var-root ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm"
       style="margin-left: 4px;"
       type="button"
     >

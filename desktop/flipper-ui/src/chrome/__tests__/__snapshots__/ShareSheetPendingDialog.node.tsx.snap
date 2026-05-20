@@ -13,7 +13,7 @@ exports[`ShareSheetPendingDialog is rendered with status update 1`] = `
   <div
     aria-busy={true}
     aria-live="polite"
-    className="ant-spin ant-spin-spinning css-dev-only-do-not-override-mncuj7"
+    className="ant-spin ant-spin-spinning ant-spin-section css-dev-only-do-not-override-ypkju9 css-var-root"
     style={{}}
   >
     <span
@@ -42,7 +42,9 @@ exports[`ShareSheetPendingDialog is rendered with status update 1`] = `
     </span>
   </div>
   <span
-    className="ant-typography css-dev-only-do-not-override-mncuj7"
+    className="ant-typography css-dev-only-do-not-override-ypkju9 css-var-root"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
     style={
       {
         "WebkitLineClamp": undefined,
@@ -58,7 +60,7 @@ exports[`ShareSheetPendingDialog is rendered with status update 1`] = `
   >
     <div />
     <button
-      className="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+      className="ant-btn css-dev-only-do-not-override-ypkju9 css-var-root ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
       disabled={false}
       onClick={[Function]}
       style={{}}
@@ -85,7 +87,7 @@ exports[`ShareSheetPendingDialog is rendered without status update 1`] = `
   <div
     aria-busy={true}
     aria-live="polite"
-    className="ant-spin ant-spin-spinning css-dev-only-do-not-override-mncuj7"
+    className="ant-spin ant-spin-spinning ant-spin-section css-dev-only-do-not-override-ypkju9 css-var-root"
     style={{}}
   >
     <span
@@ -114,7 +116,9 @@ exports[`ShareSheetPendingDialog is rendered without status update 1`] = `
     </span>
   </div>
   <span
-    className="ant-typography css-dev-only-do-not-override-mncuj7"
+    className="ant-typography css-dev-only-do-not-override-ypkju9 css-var-root"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
     style={
       {
         "WebkitLineClamp": undefined,
@@ -130,7 +134,7 @@ exports[`ShareSheetPendingDialog is rendered without status update 1`] = `
   >
     <div />
     <button
-      className="ant-btn css-dev-only-do-not-override-mncuj7 ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+      className="ant-btn css-dev-only-do-not-override-ypkju9 css-var-root ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
       disabled={false}
       onClick={[Function]}
       style={{}}
