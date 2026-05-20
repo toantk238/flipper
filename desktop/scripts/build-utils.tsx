@@ -7,10 +7,9 @@
  * @format
  */
 
-// @ts-ignore
 import Metro from 'metro';
 // provided by Metro
-// @ts-ignore
+// @ts-ignore — metro-resolver ships no .d.ts in 0.81
 // eslint-disable-next-line
 import MetroResolver from 'metro-resolver';
 import tmp from 'tmp';
@@ -189,15 +188,18 @@ export async function buildBrowserBundle(outDir: string, dev: boolean) {
     resolver: {
       ...baseConfig.resolver,
       resolverMainFields: ['flipperBundlerEntry', 'browser', 'module', 'main'],
-      blacklistRE: [/\.native\.js$/],
+      blockList: [/\.native\.js$/],
       sourceExts: ['js', 'jsx', 'ts', 'tsx', 'json', 'mjs', 'cjs'],
-      resolveRequest(context: any, moduleName: string, ...rest: any[]) {
+      resolveRequest(context: any, moduleName: string) {
         assertSaneImport(context, moduleName);
         // flipper is special cased, for plugins that we bundle,
         // we want to resolve `import from 'flipper'` to 'deprecated-exports', which
         // defines all the deprecated exports
         if (moduleName === 'flipper') {
-          return MetroResolver.resolve(context, 'deprecated-exports', ...rest);
+          return MetroResolver.resolve(
+            {...context, resolveRequest: null},
+            'deprecated-exports',
+          );
         }
         // stubbed modules are modules that don't make sense outside a Node context,
         // like fs, child_process etc etc.
@@ -212,7 +214,7 @@ export async function buildBrowserBundle(outDir: string, dev: boolean) {
             type: 'empty',
           };
         }
-        return defaultResolve(context, moduleName, ...rest);
+        return defaultResolve(context, moduleName);
       },
     },
   });
@@ -224,7 +226,6 @@ export async function buildBrowserBundle(outDir: string, dev: boolean) {
     minify: !dev,
     sourceMap: true,
     sourceMapUrl: dev ? 'index.map' : undefined,
-    inlineSourceMap: false,
   });
   console.log('✅  Compiled browser bundle.');
 }
@@ -283,14 +284,12 @@ function assertSaneImport(context: any, moduleName: string) {
   }
 }
 
-function defaultResolve(...rest: any[]) {
-  const [context, moduleName] = rest;
+function defaultResolve(context: any, moduleName: string) {
   return MetroResolver.resolve(
     {
       ...context,
       resolveRequest: null,
     },
     moduleName,
-    ...rest,
   );
 }
