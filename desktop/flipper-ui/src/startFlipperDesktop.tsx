@@ -31,7 +31,7 @@ import {
   getFlipperLib,
 } from 'flipper-plugin';
 import isProduction from './utils/isProduction';
-import {Button, ConfigProvider, Input, Result, Typography, theme as antdTheme} from 'antd';
+import {App, Button, ConfigProvider, Input, Result, Typography, theme as antdTheme} from 'antd';
 import constants from './fb-stubs/constants';
 import styled from '@emotion/styled';
 import {CopyOutlined} from '@ant-design/icons';
@@ -65,7 +65,7 @@ function AntdThemeProvider({children}: {children?: React.ReactNode}) {
           borderRadius: 6,
         },
       }}>
-      {children}
+      <App>{children}</App>
     </ConfigProvider>
   );
 }
