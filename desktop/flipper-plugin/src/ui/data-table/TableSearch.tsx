@@ -229,7 +229,7 @@ export const TableSearch = memo(function TableSearch({
       </AutoComplete>
       {extraActions}
       {contextMenu && (
-        <Dropdown overlay={contextMenu} placement="bottomRight">
+        <Dropdown popupRender={contextMenu} placement="bottomRight">
           <Button type="text" size="small" style={{height: '100%'}}>
             <MenuOutlined />
           </Button>

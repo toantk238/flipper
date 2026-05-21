@@ -975,7 +975,7 @@ export function DataTable<T extends object>(
           />
           <ActionsPanel>
             {contexMenu && (
-              <Dropdown overlay={contexMenu} placement="bottomRight">
+              <Dropdown popupRender={contexMenu} placement="bottomRight">
                 <Button ghost>
                   <MenuOutlined />
                 </Button>

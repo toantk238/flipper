@@ -198,7 +198,7 @@ export function FilterIcon({
   );
 
   return (
-    <Dropdown overlay={menu} trigger={['click']}>
+    <Dropdown popupRender={() => menu} trigger={['click']}>
       <FilterButton isActive={isActive}>
         {isActive ? <FilterFilled /> : <FilterOutlined />}
       </FilterButton>

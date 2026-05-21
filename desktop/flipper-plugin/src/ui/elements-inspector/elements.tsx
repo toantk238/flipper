@@ -368,7 +368,7 @@ class ElementsRow extends PureComponent<ElementsRowProps, ElementsRowState> {
     return (
       <Dropdown
         key={id}
-        overlay={this.getContextMenu}
+        popupRender={this.getContextMenu}
         trigger={contextMenuTrigger}>
         <ElementsRowContainer
           level={level}

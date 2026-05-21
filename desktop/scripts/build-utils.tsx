@@ -189,7 +189,7 @@ export async function buildBrowserBundle(outDir: string, dev: boolean) {
       resolverMainFields: ['flipperBundlerEntry', 'browser', 'module', 'main'],
       blockList: [/\.native\.js$/],
       sourceExts: ['js', 'jsx', 'ts', 'tsx', 'json', 'mjs', 'cjs'],
-      resolveRequest(context: any, moduleName: string) {
+      resolveRequest(context: any, moduleName: string, platform: string | null) {
         assertSaneImport(context, moduleName);
         // flipper is special cased, for plugins that we bundle,
         // we want to resolve `import from 'flipper'` to 'deprecated-exports', which
@@ -198,6 +198,7 @@ export async function buildBrowserBundle(outDir: string, dev: boolean) {
           return MetroResolver.resolve(
             {...context, resolveRequest: null},
             'deprecated-exports',
+            platform,
           );
         }
         // stubbed modules are modules that don't make sense outside a Node context,
@@ -213,7 +214,7 @@ export async function buildBrowserBundle(outDir: string, dev: boolean) {
             type: 'empty',
           };
         }
-        return defaultResolve(context, moduleName);
+        return defaultResolve(context, moduleName, platform);
       },
     },
   });
@@ -283,12 +284,13 @@ function assertSaneImport(context: any, moduleName: string) {
   }
 }
 
-function defaultResolve(context: any, moduleName: string) {
+function defaultResolve(context: any, moduleName: string, platform: string | null) {
   return MetroResolver.resolve(
     {
       ...context,
       resolveRequest: null,
     },
     moduleName,
+    platform,
   );
 }

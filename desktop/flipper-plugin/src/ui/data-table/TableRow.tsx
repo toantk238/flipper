@@ -146,7 +146,7 @@ export const TableRow = memo(function TableRow<T extends object>({
   );
   if (config.onContextMenu) {
     return (
-      <Dropdown overlay={config.onContextMenu} trigger={['contextMenu']}>
+      <Dropdown popupRender={config.onContextMenu} trigger={['contextMenu']}>
         {row}
       </Dropdown>
     );
