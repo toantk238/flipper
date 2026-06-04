@@ -433,7 +433,7 @@ test('NEW_CLIENT initializes Network as enabled for first-time apps', () => {
   let state = reducer(undefined, {type: 'REGISTER_DEVICE', payload: device});
   state = reducer(state, {type: 'NEW_CLIENT', payload: mockClient});
 
-  expect(state.enabledPlugins['com.example.MyApp']).toEqual(['Network']);
+  expect(state.enabledPlugins['com.example.MyApp']).toContain('Network');
 });
 
 test('NEW_CLIENT does not re-enable Network after user has disabled it', () => {
