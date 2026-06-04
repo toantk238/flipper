@@ -375,6 +375,10 @@ export default (state: State = INITAL_STATE, action: Actions): State => {
         );
         if (unitialisedIndex !== -1)
           draft.uninitializedClients.splice(unitialisedIndex, 1);
+
+        if (!draft.enabledPlugins[payload.query.app]) {
+          draft.enabledPlugins[payload.query.app] = ['Network'];
+        }
       });
     }
 
