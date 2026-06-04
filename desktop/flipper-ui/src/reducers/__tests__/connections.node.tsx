@@ -415,3 +415,54 @@ test('CLIENT_RECONNECTED replaces stale client and updates selectedAppId', async
   expect(store.getState().connections.selectedAppId).toBe(newClient.id);
   expect(store.getState().connections.selectedPlugin).toBe(TestPlugin.id);
 });
+
+test('NEW_CLIENT initializes Network as enabled for first-time apps', () => {
+  const device = new TestDevice('serial-1', 'emulator', 'Test', 'Android');
+  const mockClient = {
+    id: 'com.example.MyApp#Android#serial-1',
+    query: {
+      app: 'com.example.MyApp',
+      os: 'Android' as const,
+      device: 'Test',
+      device_id: 'serial-1',
+      medium: 1,
+    },
+    device,
+  } as any;
+
+  let state = reducer(undefined, {type: 'REGISTER_DEVICE', payload: device});
+  state = reducer(state, {type: 'NEW_CLIENT', payload: mockClient});
+
+  expect(state.enabledPlugins['com.example.MyApp']).toEqual(['Network']);
+});
+
+test('NEW_CLIENT does not re-enable Network after user has disabled it', () => {
+  const device = new TestDevice('serial-1', 'emulator', 'Test', 'Android');
+  const mockClient = {
+    id: 'com.example.MyApp#Android#serial-1',
+    query: {
+      app: 'com.example.MyApp',
+      os: 'Android' as const,
+      device: 'Test',
+      device_id: 'serial-1',
+      medium: 1,
+    },
+    device,
+  } as any;
+
+  // First connection — Network auto-enabled
+  let state = reducer(undefined, {type: 'REGISTER_DEVICE', payload: device});
+  state = reducer(state, {type: 'NEW_CLIENT', payload: mockClient});
+  expect(state.enabledPlugins['com.example.MyApp']).toContain('Network');
+
+  // User disables Network
+  state = reducer(state, {
+    type: 'SET_PLUGIN_DISABLED',
+    payload: {pluginId: 'Network', selectedApp: 'com.example.MyApp'},
+  });
+  expect(state.enabledPlugins['com.example.MyApp']).not.toContain('Network');
+
+  // Reconnect — must NOT re-enable Network
+  state = reducer(state, {type: 'NEW_CLIENT', payload: mockClient});
+  expect(state.enabledPlugins['com.example.MyApp']).not.toContain('Network');
+});
