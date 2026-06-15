@@ -18,7 +18,8 @@ import {getServerPortsConfig} from '../../FlipperServerConfig';
 import AndroidCertificateProvider from './AndroidCertificateProvider';
 
 export function buildDeviceName(name: string, label: string): string {
-  return label ? `${name} [${label}]` : name;
+  const trimmed = label.trim();
+  return trimmed ? `${name} [${trimmed}]` : name;
 }
 
 export class AndroidDeviceManager {
