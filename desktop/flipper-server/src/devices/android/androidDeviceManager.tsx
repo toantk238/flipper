@@ -17,11 +17,16 @@ import {notNull} from '../../utils/typeUtils';
 import {getServerPortsConfig} from '../../FlipperServerConfig';
 import AndroidCertificateProvider from './AndroidCertificateProvider';
 
+export function buildDeviceName(name: string, label: string): string {
+  return label ? `${name} [${label}]` : name;
+}
+
 export class AndroidDeviceManager {
   readonly certificateProvider: AndroidCertificateProvider;
   constructor(
     private readonly flipperServer: FlipperServerImpl,
     private readonly adbClient: ADBClient,
+    private readonly serverLabel: string = '',
   ) {
     this.certificateProvider = new AndroidCertificateProvider(this.adbClient);
   }
@@ -46,6 +51,7 @@ export class AndroidDeviceManager {
           if (type === 'emulator') {
             name = (await this.getRunningEmulatorName(device.id)) || name;
           }
+          name = buildDeviceName(name, this.serverLabel);
           const isKaiOSDevice = Object.keys(props).some(
             (name) => name.startsWith('kaios') || name.startsWith('ro.kaios'),
           );
