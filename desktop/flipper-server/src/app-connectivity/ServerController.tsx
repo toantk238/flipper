@@ -320,7 +320,7 @@ export class ServerController
     this.emit('start-client-setup', client);
   }
 
-  onProcessCSR(
+  async onProcessCSR(
     unsanitizedCSR: string,
     clientQuery: ClientQuery,
     appDirectory: string,
@@ -328,15 +328,11 @@ export class ServerController
     let certificateProvider: CertificateProvider;
     switch (clientQuery.os) {
       case 'Android': {
-        // TODO: Route cert exchange to the manager that owns this device.
-        // Currently uses the first (primary) manager; cert exchange will fail
-        // for devices connected exclusively to non-primary ADB servers.
-        const androidManager = this.flipperServer.androidManagers[0];
-        assertNotNull(
-          androidManager,
-          'Android settings have not been provided / enabled',
+        certificateProvider = await this.findAndroidCertificateProviderForDevice(
+          clientQuery,
+          unsanitizedCSR,
+          appDirectory,
         );
-        certificateProvider = androidManager.certificateProvider;
         break;
       }
       case 'iOS': {
@@ -519,14 +515,27 @@ export class ServerController
     // For Android, device id might change
     if (csr_path && csr && clientQuery.os === 'Android') {
       const bundleId = await extractBundleIdFromCSR(csr);
-      assertNotNull(this.flipperServer.androidManagers[0]);
-      (clientQuery as any).device_id =
-        await this.flipperServer.androidManagers[0].certificateProvider.getTargetDeviceId(
-          clientQuery,
-          bundleId,
-          csr_path,
-          csr,
-        );
+      const managers = this.flipperServer.androidManagers;
+      assertNotNull(managers[0]);
+      let lastError: unknown;
+      for (const manager of managers) {
+        try {
+          (clientQuery as any).device_id =
+            await manager.certificateProvider.getTargetDeviceId(
+              clientQuery,
+              bundleId,
+              csr_path,
+              csr,
+            );
+          lastError = undefined;
+          break;
+        } catch (e) {
+          lastError = e;
+        }
+      }
+      if (lastError) {
+        throw lastError;
+      }
       recorder.log(
         clientQuery,
         `Detected ${bundleId} on ${clientQuery.device_id} in certificate`,
@@ -641,6 +650,35 @@ export class ServerController
         this.flipperServer.unregisterDevice(device.serial);
       }
     }
+  }
+
+  private async findAndroidCertificateProviderForDevice(
+    clientQuery: ClientQuery,
+    csr: string,
+    appDirectory: string,
+  ): Promise<CertificateProvider> {
+    const managers = this.flipperServer.androidManagers;
+    assertNotNull(
+      managers[0],
+      'Android settings have not been provided / enabled',
+    );
+    if (managers.length > 1) {
+      const bundleId = await extractBundleIdFromCSR(csr);
+      for (const manager of managers) {
+        try {
+          await manager.certificateProvider.getTargetDeviceId(
+            clientQuery,
+            bundleId,
+            appDirectory,
+            csr,
+          );
+          return manager.certificateProvider;
+        } catch (_e) {
+          // Device not on this ADB server, try next
+        }
+      }
+    }
+    return managers[0].certificateProvider;
   }
 
   onDeprecationNotice(message: string) {
