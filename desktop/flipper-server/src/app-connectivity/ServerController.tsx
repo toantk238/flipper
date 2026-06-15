@@ -328,11 +328,12 @@ export class ServerController
     let certificateProvider: CertificateProvider;
     switch (clientQuery.os) {
       case 'Android': {
+        const androidManager = this.flipperServer.androidManagers[0];
         assertNotNull(
-          this.flipperServer.android,
+          androidManager,
           'Android settings have not been provided / enabled',
         );
-        certificateProvider = this.flipperServer.android.certificateProvider;
+        certificateProvider = androidManager.certificateProvider;
         break;
       }
       case 'iOS': {
@@ -515,9 +516,9 @@ export class ServerController
     // For Android, device id might change
     if (csr_path && csr && clientQuery.os === 'Android') {
       const bundleId = await extractBundleIdFromCSR(csr);
-      assertNotNull(this.flipperServer.android);
+      assertNotNull(this.flipperServer.androidManagers[0]);
       (clientQuery as any).device_id =
-        await this.flipperServer.android.certificateProvider.getTargetDeviceId(
+        await this.flipperServer.androidManagers[0].certificateProvider.getTargetDeviceId(
           clientQuery,
           bundleId,
           csr_path,

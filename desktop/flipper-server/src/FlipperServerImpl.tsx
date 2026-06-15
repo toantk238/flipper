@@ -39,7 +39,7 @@ import {Base64} from 'js-base64';
 import MetroDevice from './devices/metro/MetroDevice';
 import {launchEmulator} from './devices/android/AndroidDevice';
 import {setFlipperServerConfig} from './FlipperServerConfig';
-import {saveSettings} from './utils/settings';
+import {saveSettings, resolveAdbServers} from './utils/settings';
 import {saveLauncherSettings} from './utils/launcherSettings';
 import {KeytarManager, KeytarModule, SERVICE_FLIPPER} from './utils/keytar';
 import {PluginManager} from './plugins/PluginManager';
@@ -117,7 +117,7 @@ export class FlipperServerImpl implements FlipperServer {
   private readonly devices = new Map<string, ServerDevice>();
   state: FlipperServerState = 'pending';
   stateError: string | undefined = undefined;
-  android?: AndroidDeviceManager;
+  androidManagers: AndroidDeviceManager[] = [];
   ios?: IOSDeviceManager;
   keytarManager: KeytarManager;
   pluginManager: PluginManager;
@@ -287,21 +287,32 @@ export class FlipperServerImpl implements FlipperServer {
   async startDeviceListeners() {
     const asyncDeviceListenersPromises: Array<Promise<void>> = [];
     if (this.config.settings.enableAndroid) {
+      const servers = resolveAdbServers(this.config.settings);
       asyncDeviceListenersPromises.push(
-        initializeAdbClient(this.config.settings)
-          .then((adbClient) => {
-            if (!adbClient) {
-              return;
-            }
-            this.android = new AndroidDeviceManager(this, adbClient);
-            return this.android.watchAndroidDevices(true);
+        ...servers.map((server) =>
+          initializeAdbClient({
+            androidHome: this.config.settings.androidHome,
+            adbKitSettings: {host: server.host, port: server.port},
           })
-          .catch((e) => {
-            console.error(
-              'FlipperServerImpl.startDeviceListeners.watchAndroidDevices -> unexpected error',
-              e,
-            );
-          }),
+            .then((adbClient) => {
+              if (!adbClient) {
+                return;
+              }
+              const manager = new AndroidDeviceManager(
+                this,
+                adbClient,
+                server.label,
+              );
+              this.androidManagers.push(manager);
+              return manager.watchAndroidDevices(true);
+            })
+            .catch((e) => {
+              console.error(
+                `FlipperServerImpl.startDeviceListeners.watchAndroidDevices -> unexpected error for ${server.label || server.port}`,
+                e,
+              );
+            }),
+        ),
       );
     }
     if (this.config.settings.enableIOS) {
@@ -575,14 +586,21 @@ export class FlipperServerImpl implements FlipperServer {
       };
     },
     'android-get-emulators': async () => {
-      assertNotNull(this.android);
-      return this.android.getAndroidEmulators();
+      if (this.androidManagers.length === 0) {
+        throw new Error('No Android managers initialized');
+      }
+      const results = await Promise.all(
+        this.androidManagers.map((m) => m.getAndroidEmulators()),
+      );
+      return results.flat();
     },
     'android-launch-emulator': async (name, coldBoot) =>
       launchEmulator(this.config.settings.androidHome, name, coldBoot),
     'android-adb-kill': async () => {
-      assertNotNull(this.android);
-      return this.android.adbKill();
+      if (this.androidManagers.length === 0) {
+        throw new Error('No Android managers initialized');
+      }
+      await Promise.all(this.androidManagers.map((m) => m.adbKill()));
     },
     'ios-get-simulators': async (bootedOnly) => {
       assertNotNull(this.ios);
