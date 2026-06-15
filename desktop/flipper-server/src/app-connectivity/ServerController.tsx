@@ -328,6 +328,9 @@ export class ServerController
     let certificateProvider: CertificateProvider;
     switch (clientQuery.os) {
       case 'Android': {
+        // TODO: Route cert exchange to the manager that owns this device.
+        // Currently uses the first (primary) manager; cert exchange will fail
+        // for devices connected exclusively to non-primary ADB servers.
         const androidManager = this.flipperServer.androidManagers[0];
         assertNotNull(
           androidManager,

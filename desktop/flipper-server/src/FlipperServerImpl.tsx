@@ -286,10 +286,14 @@ export class FlipperServerImpl implements FlipperServer {
 
   async startDeviceListeners() {
     const asyncDeviceListenersPromises: Array<Promise<void>> = [];
+    // Pre-allocate slots so androidManagers order matches servers config order
+    // regardless of which initializeAdbClient promise resolves first.
+    let managerSlots: (AndroidDeviceManager | undefined)[] = [];
     if (this.config.settings.enableAndroid) {
       const servers = resolveAdbServers(this.config.settings);
+      managerSlots = new Array(servers.length).fill(undefined);
       asyncDeviceListenersPromises.push(
-        ...servers.map((server) =>
+        ...servers.map((server, i) =>
           initializeAdbClient({
             androidHome: this.config.settings.androidHome,
             adbKitSettings: {host: server.host, port: server.port},
@@ -303,7 +307,7 @@ export class FlipperServerImpl implements FlipperServer {
                 adbClient,
                 server.label,
               );
-              this.androidManagers.push(manager);
+              managerSlots[i] = manager;
               return manager.watchAndroidDevices(true);
             })
             .catch((e) => {
@@ -328,6 +332,9 @@ export class FlipperServerImpl implements FlipperServer {
     }
     const asyncDeviceListeners = await Promise.all(
       asyncDeviceListenersPromises,
+    );
+    this.androidManagers = managerSlots.filter(
+      (m): m is AndroidDeviceManager => m != null,
     );
     this.disposers.push(
       ...asyncDeviceListeners,
@@ -600,7 +607,14 @@ export class FlipperServerImpl implements FlipperServer {
       if (this.androidManagers.length === 0) {
         throw new Error('No Android managers initialized');
       }
-      await Promise.all(this.androidManagers.map((m) => m.adbKill()));
+      const results = await Promise.allSettled(
+        this.androidManagers.map((m) => m.adbKill()),
+      );
+      for (const result of results) {
+        if (result.status === 'rejected') {
+          console.error('android-adb-kill failed for a server:', result.reason);
+        }
+      }
     },
     'ios-get-simulators': async (bootedOnly) => {
       assertNotNull(this.ios);
