@@ -13,6 +13,7 @@ import {resolve} from 'path';
 import {Settings, Tristate} from 'flipper-common';
 import {readFile, writeFile, pathExists, mkdirp} from 'fs-extra';
 import {flipperSettingsFolder} from './paths';
+import adbConfig from '../devices/android/adbConfig';
 
 export async function loadSettings(
   settingsString: string = '',
@@ -90,4 +91,23 @@ async function replaceDefaultSettings(
   userSettings: Partial<Settings>,
 ): Promise<Settings> {
   return {...(await getDefaultSettings()), ...userSettings};
+}
+
+export function resolveAdbServers(
+  settings: Settings,
+): Array<{label: string; host: string; port: number}> {
+  if (settings.adbServers && settings.adbServers.length > 0) {
+    return settings.adbServers;
+  }
+  if (settings.adbKitSettings) {
+    return [
+      {
+        label: '',
+        host: settings.adbKitSettings.host ?? '127.0.0.1',
+        port: settings.adbKitSettings.port ?? 5037,
+      },
+    ];
+  }
+  const {host, port} = adbConfig();
+  return [{label: '', host, port}];
 }
