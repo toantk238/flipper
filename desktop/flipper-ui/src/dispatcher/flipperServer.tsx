@@ -381,10 +381,15 @@ export function handleDeviceConnected(
     ) {
       // Recycle device
       existing?.connected.set(true);
-      store.dispatch({
-        type: 'SELECT_DEVICE',
-        payload: existing,
-      });
+      // Only dispatch SELECT_DEVICE if this device isn't already selected.
+      // SELECT_DEVICE clears selectedAppId, so avoid it for reconnects where
+      // the app may still be connected to the same device object.
+      if (store.getState().connections.selectedDevice !== existing) {
+        store.dispatch({
+          type: 'SELECT_DEVICE',
+          payload: existing,
+        });
+      }
       return;
     }
     existing.destroy();

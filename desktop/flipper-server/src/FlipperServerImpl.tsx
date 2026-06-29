@@ -774,6 +774,15 @@ export class FlipperServerImpl implements FlipperServer {
     this.emit('device-removed', device.info);
   }
 
+  disconnectDevice(serial: string) {
+    const device = this.devices.get(serial);
+    if (!device) {
+      return;
+    }
+    device.disconnect();
+    this.emit('device-disconnected', device.info);
+  }
+
   getDevice(serial: string): ServerDevice {
     const device = this.devices.get(serial);
     if (!device) {

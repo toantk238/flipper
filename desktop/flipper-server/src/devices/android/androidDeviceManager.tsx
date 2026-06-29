@@ -24,6 +24,8 @@ export function buildDeviceName(name: string, label: string): string {
 
 export class AndroidDeviceManager {
   readonly certificateProvider: AndroidCertificateProvider;
+  private readonly ownedSerials = new Set<string>();
+
   constructor(
     private readonly flipperServer: FlipperServerImpl,
     private readonly adbClient: ADBClient,
@@ -223,8 +225,13 @@ export class AndroidDeviceManager {
               console.warn('adb server was shutdown');
               this.flipperServer
                 .getDevices()
-                .filter((d) => d instanceof AndroidDevice)
+                .filter(
+                  (d) =>
+                    d instanceof AndroidDevice &&
+                    this.ownedSerials.has(d.serial),
+                )
                 .forEach((d) => {
+                  this.ownedSerials.delete(d.serial);
                   this.flipperServer.unregisterDevice(d.serial);
                 });
               setTimeout(() => {
@@ -236,12 +243,19 @@ export class AndroidDeviceManager {
           });
 
           tracker.on('add', async (device) => {
-            // Check if we have already registered this device during the `initialRun`
             if (this.flipperServer.hasDevice(device.id)) {
-              console.debug(
-                `[conn] Trying to add an existing Android device ${device.id}. Skipping.`,
+              const existing = this.flipperServer.getDeviceWithSerial(
+                device.id,
               );
-              return;
+              if (existing?.connected) {
+                // Already registered and connected during initialRun
+                console.debug(
+                  `[conn] Trying to add an existing Android device ${device.id}. Skipping.`,
+                );
+                return;
+              }
+              // Device is in registry but disconnected (e.g. transient offline
+              // that resolved before change event arrived) — fall through to re-register
             }
             if (device.type !== 'offline') {
               this.registerDevice(this.adbClient, device);
@@ -252,13 +266,16 @@ export class AndroidDeviceManager {
 
           tracker.on('change', async (device) => {
             if (device.type === 'offline') {
-              this.flipperServer.unregisterDevice(device.id);
+              // Transient offline (reboot, re-auth): keep the device in the
+              // registry so the UI preserves selection and plugin focus.
+              this.flipperServer.disconnectDevice(device.id);
             } else {
               this.registerDevice(this.adbClient, device);
             }
           });
 
           tracker.on('remove', (device) => {
+            this.ownedSerials.delete(device.id);
             this.flipperServer.unregisterDevice(device.id);
           });
         })
@@ -290,6 +307,7 @@ export class AndroidDeviceManager {
       return;
     }
 
+    this.ownedSerials.add(androidDevice.serial);
     this.flipperServer.registerDevice(androidDevice);
   }
 }
