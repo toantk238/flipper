@@ -1,0 +1,25 @@
+{
+  "name": "flipper-desktop",
+  "productName": "Flipper",
+  "version": "1.0.0",
+  "description": "Flipper desktop application for Android debugging",
+  "author": "Flipper contributors",
+  "license": "MIT",
+  "private": true,
+  "packageManager": "npm@11.17.0",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/*.test.cjs",
+    "test:smoke": "electron test/smoke.cjs",
+    "test:server": "node --test test/server-integration.cjs",
+    "pack:win": "electron-builder --config electron-builder.cjs --win dir --x64",
+    "dist:win": "electron-builder --config electron-builder.cjs --win nsis zip --x64 --publish never",
+    "dist:mac": "electron-builder --config electron-builder.cjs --mac --publish never",
+    "dist:linux": "electron-builder --config electron-builder.cjs --linux --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "44.5.0",
+    "electron-builder": "26.15.3"
+  }
+}

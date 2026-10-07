@@ -26,6 +26,9 @@ export async function loadAvailablePlugins(
   }
 }
 
+// Adapter which forces node.js implementation for axios instead of browser implementation
+const axiosHttpAdapter = 'http' as const;
+
 export async function httpGet(
   url: URL,
   config: AxiosRequestConfig,

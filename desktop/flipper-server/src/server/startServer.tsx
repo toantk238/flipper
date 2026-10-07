@@ -32,6 +32,7 @@ import util from 'node:util';
 
 type Config = {
   port: number;
+  host?: string;
   staticPath: string;
   entry: string;
 };
@@ -48,10 +49,6 @@ const verifyAuthToken = (req: http.IncomingMessage): boolean => {
 
   if (!token && req.headers['x-access-token']) {
     token = req.headers['x-access-token'] as string;
-  }
-
-  if (!isProduction()) {
-    console.info('[conn] verifyAuthToken -> token', token);
   }
 
   if (!token) {
@@ -240,7 +237,7 @@ async function startHTTPServer(
     }
   });
 
-  server.listen(config.port);
+  server.listen(config.port, config.host);
 
   /**
    * Create the promise which can be waited on. In this case,

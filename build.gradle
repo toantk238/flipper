@@ -11,8 +11,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.1'
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.25.3'
+        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.35.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$KOTLIN_VERSION"
     }
@@ -23,13 +23,42 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.47.0'
 }
 
+// local.properties is ignored by Git. Load only publishing credentials, leaving
+// explicit Gradle properties (including CI environment variables) with priority.
+def localPublishingFile = rootProject.file('local.properties')
+if (localPublishingFile.isFile()) {
+    def localPublishingProperties = new Properties()
+    localPublishingFile.withInputStream { localPublishingProperties.load(it) }
+    [
+        'mavenCentralUsername',
+        'mavenCentralPassword',
+        'signing.keyId',
+        'signing.password',
+        'signing.secretKeyRingFile'
+    ].each { key ->
+        if (!rootProject.hasProperty(key) && localPublishingProperties.containsKey(key)) {
+            rootProject.ext.set(key, localPublishingProperties.getProperty(key))
+        }
+    }
+}
+
 ext.isSnapshot = { VERSION_NAME.endsWith('-SNAPSHOT') }
 ext.isRelease = { ['publish', 'publishToMavenLocal'].any { gradle.startParameter.taskNames.contains(it) } }
 
 subprojects {
+    group = rootProject.GROUP
+    version = rootProject.VERSION_NAME
+    configurations.configureEach {
+        resolutionStrategy.dependencySubstitution {
+            substitute module('com.facebook.yoga:yoga') using project(':native-yoga')
+            substitute module('com.facebook.litho:litho-flexlayout') using project(':native-flexlayout')
+            substitute module('com.facebook.fresco:imagepipeline-native') using project(':native-imagepipeline-native')
+            substitute module('com.facebook.fresco:nativeimagefilters') using project(':native-nativeimagefilters')
+            substitute module('com.facebook.fresco:nativeimagetranscoder') using project(':native-nativeimagetranscoder')
+        }
+    }
     repositories {
         google()
-        mavenLocal()
         mavenCentral()
 
         if (isSnapshot()) {
@@ -48,10 +77,9 @@ subprojects {
 }
 
 ext {
-    minSdkVersion = 15
+    minSdkVersion = 21
     targetSdkVersion = 34
     compileSdkVersion = 34
-    buildToolsVersion = "33.0.2"
     ndkVersion = "25.1.8937393"
     javaTargetVersion = JavaVersion.VERSION_17
 }
@@ -80,8 +108,8 @@ ext.deps = [
         boltsTasks         : 'com.parse.bolts:bolts-tasks:1.4.0',
         curtains           : 'com.squareup.curtains:curtains:1.2.5',
         // Third-party
-        websocket          : 'org.java-websocket:Java-WebSocket:1.5.4',
-        openssl            : 'com.android.ndk.thirdparty:openssl:1.1.1l-beta-1',
+        websocket          : 'org.java-websocket:Java-WebSocket:1.6.0',
+        openssl            : dependencies.project(path: ':native-openssl'),
         // Annotations
         kotlinxSerializationJson :  "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3",
         jsr305             : 'com.google.code.findbugs:jsr305:3.0.2',
@@ -107,7 +135,7 @@ ext.deps = [
         junit              : 'junit:junit:4.13.2',
         hamcrest           : 'org.hamcrest:hamcrest-library:2.2',
         mockito            : 'org.mockito:mockito-core:5.8.0',
-        okhttp3            : 'com.squareup.okhttp3:okhttp:4.11.0',
+        okhttp3            : 'com.squareup.okhttp3:okhttp:4.12.0',
         leakcanary         : 'com.squareup.leakcanary:leakcanary-android:1.6.3',
         leakcanary2        : 'com.squareup.leakcanary:leakcanary-android:2.8.1',
         protobuf           : 'com.google.protobuf:protobuf-java:3.25.3',
@@ -123,3 +151,6 @@ ext.deps = [
         frescoVitoCore     : "com.facebook.fresco:vito-core:$FRESCO_VERSION",
         frescoVitoLitho    : "com.facebook.fresco:vito-litho:$FRESCO_VERSION",
 ]
+
+apply from: 'android/maven.gradle'
+apply from: 'android/publication-privacy.gradle'

@@ -95,10 +95,15 @@ function setProcessState(settings: Settings) {
 
   // emulator/emulator is more reliable than tools/emulator, so prefer it if
   // it exists
-  process.env.PATH =
-    `${['emulator', 'tools', 'platform-tools']
-      .map((directory) => path.resolve(androidHome, directory))
-      .join(':')}:${idbPath}` + `:${process.env.PATH}`;
+  process.env.PATH = [
+    ...['emulator', 'tools', 'platform-tools'].map((directory) =>
+      path.resolve(androidHome, directory),
+    ),
+    idbPath,
+    process.env.PATH,
+  ]
+    .filter(Boolean)
+    .join(path.delimiter);
 }
 
 /**
@@ -285,6 +290,9 @@ export class FlipperServerImpl implements FlipperServer {
   }
 
   async startDeviceListeners() {
+    // Host plugins do not depend on ADB or Xcode finishing device discovery.
+    // In particular, the first simctl query can take a long time on macOS.
+    desktopDevice(this);
     const asyncDeviceListenersPromises: Array<Promise<void>> = [];
     // Pre-allocate slots so androidManagers order matches servers config order
     // regardless of which initializeAdbClient promise resolves first.
@@ -336,11 +344,7 @@ export class FlipperServerImpl implements FlipperServer {
     this.androidManagers = managerSlots.filter(
       (m): m is AndroidDeviceManager => m != null,
     );
-    this.disposers.push(
-      ...asyncDeviceListeners,
-      metroDevice(this),
-      desktopDevice(this),
-    );
+    this.disposers.push(...asyncDeviceListeners, metroDevice(this));
   }
 
   on<Event extends keyof FlipperServerEvents>(

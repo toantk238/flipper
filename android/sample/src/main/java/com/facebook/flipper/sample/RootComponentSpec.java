@@ -11,7 +11,8 @@ import android.content.Intent;
 import android.net.Uri;
 import com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity;
 import com.facebook.flipper.sample.network.NetworkClient;
-import com.facebook.fresco.vito.litho.FrescoVitoImage2;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.litho.fresco.FrescoImage;
 import com.facebook.litho.ClickEvent;
 import com.facebook.litho.Column;
 import com.facebook.litho.Component;
@@ -54,6 +55,26 @@ public class RootComponentSpec {
                     .marginDip(YogaEdge.ALL, 10)
                     .textSizeSp(20)
                     .clickHandler(RootComponent.triggerNotification(c)))
+            .child(
+                BuildConfig.DEBUG
+                    ? Text.create(c)
+                        .text("Test Mock API HTTP")
+                        .contentDescription("Test Mock API HTTP")
+                        .key("mock-http")
+                        .marginDip(YogaEdge.ALL, 10)
+                        .textSizeSp(20)
+                        .clickHandler(RootComponent.hitMockHttp(c))
+                    : null)
+            .child(
+                BuildConfig.DEBUG
+                    ? Text.create(c)
+                        .text("Test Mock API HTTPS")
+                        .contentDescription("Test Mock API HTTPS")
+                        .key("mock-https")
+                        .marginDip(YogaEdge.ALL, 10)
+                        .textSizeSp(20)
+                        .clickHandler(RootComponent.hitMockHttps(c))
+                    : null)
             .child(
                 Text.create(c)
                     .text("Diagnose connection issues")
@@ -126,8 +147,13 @@ public class RootComponentSpec {
                     .clickHandler(RootComponent.triggerCrash(c)))
             .child(
                 displayImage
-                    ? FrescoVitoImage2.create(c)
-                        .uri(Uri.parse("https://fbflipper.com/img/icon.png"))
+                    ? FrescoImage.create(c)
+                        .controller(
+                            Fresco.newDraweeControllerBuilder()
+                                .setUri(
+                                    Uri.parse(
+                                        "https://raw.githubusercontent.com/facebook/flipper/main/website/static/img/icon.png"))
+                                .build())
                         .marginDip(YogaEdge.ALL, 10)
                         .widthDip(150)
                         .heightDip(150)
@@ -150,6 +176,16 @@ public class RootComponentSpec {
   @OnEvent(ClickEvent.class)
   static void triggerNotification(final ComponentContext c) {
     ExampleActions.sendNotification();
+  }
+
+  @OnEvent(ClickEvent.class)
+  static void hitMockHttp(final ComponentContext c) {
+    ExampleActions.sendMockRequest(c.getAndroidContext(), NetworkClient.getInstance().getOkHttpClient(), false);
+  }
+
+  @OnEvent(ClickEvent.class)
+  static void hitMockHttps(final ComponentContext c) {
+    ExampleActions.sendMockRequest(c.getAndroidContext(), NetworkClient.getInstance().getOkHttpClient(), true);
   }
 
   @OnEvent(ClickEvent.class)

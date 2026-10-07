@@ -167,7 +167,7 @@ export class PluginManager {
 
           if (
             !parseHeaderValue(
-              response.headers['content-type'] as string,
+              String(response.headers['content-type']),
             ).includes('application/octet-stream')
           ) {
             throw new Error(

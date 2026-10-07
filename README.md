@@ -5,8 +5,8 @@
   Flipper
 </h1>
 <p align="center">
-  <a href="https://search.maven.org/artifact/com.facebook.flipper/flipper">
-    <img src="https://img.shields.io/maven-central/v/com.facebook.flipper/flipper" alt="Android Maven Badge" />
+  <a href="https://central.sonatype.com/artifact/io.github.leandrocharlier.flipper/flipper">
+    <img src="https://img.shields.io/maven-central/v/io.github.leandrocharlier.flipper/flipper" alt="Community Android Maven Badge" />
   </a>
   <a href="https://cocoapods.org/pods/Flipper">
     <img src="https://img.shields.io/cocoapods/v/FlipperKit.svg?label=iOS&color=blue" alt="iOS" />
@@ -14,23 +14,75 @@
 </p>
 
 ---
-## Important Announcement
+## About this fork
 
-Flipper is moving away from its Electron distribution to an in-Browser experience.
+This is [Leandro Charlier's maintenance fork](https://github.com/leandrocharlier/flipper)
+of the archived Meta Flipper project. Its current focus is native Android
+debugging, especially **Network and Logs**, with a standalone desktop app.
+Community version **1.0.0** includes Mock API and native desktop builds for Windows,
+macOS (Intel and Apple Silicon), and Linux. See [desktop release instructions](desktop/RELEASING.md).
+This fork is independent and is not an official Meta release. The original
+MIT license and copyright notices are retained; see [NOTICE](NOTICE).
+The Android Maven badge refers to this fork; the CocoaPods badge still refers to
+the upstream iOS package. Android SDK version **1.0.0** uses the Maven group
+`io.github.leandrocharlier.flipper`. See [integration, all plugin coordinates and
+release checks](android/MAVEN.md). Every Android release includes all plugins and
+their rebuilt native dependencies.
 
-**How does this affect me?**
+- Windows desktop restored with Electron 44: an `.exe` installer and a portable
+  ZIP containing `Flipper.exe`, with Node.js 24 bundled. The browser launcher is
+  still available.
+- Android **16 KB page support** for the existing full sample, including rebuilt
+  OpenSSL, Yoga, Flexlayout and Fresco libraries for all four ABIs.
+- OpenSSL upgraded to **3.5.8 LTS**, Java-WebSocket to **1.6.0** and OkHttp to
+  **4.12.0**. Desktop HTTP, WebSocket, cryptography and archive dependencies have
+  also been updated; plugin archives reject traversal paths and links.
+- Fixes for missing Watchman on Windows and for Logs disappearing when an app
+  connects before ADB finishes registering its device.
+- Logs now uses a Logcat-style text viewer with free text selection, severity
+  colors, full multiline messages, search and level/tag/PID filters. Follow mode
+  holds the view while selecting text; older history is available in blocks of
+  2,000 events. See the [Logs guide](desktop/plugins/public/logs/docs/overview.mdx).
+  Editing or clearing filters preserves the reading position and surrounding
+  logs, including when no text is selected. Soft wrap is off by default.
+- Android Logs can filter by package ID and follow the app selected in Flipper,
+  refreshing process IDs after restarts. The Logcat Format panel configures
+  visible fields, timestamp style, widths and colors, with saved preferences.
+  Imported Android sessions can recover missing package names from explicit
+  ActivityManager process lifecycles, with inferred names marked in tooltips.
+- Choose **Flipper Dark** or **Island Dark** in **More → Settings → Theme Selection**.
+  Island Dark uses Android Studio's Islands palette; the original Flipper Dark,
+  light and system choices remain available. Apply saves the choice; Cancel
+  restores the previous palette.
+- Logs bundles JetBrains Mono with native text selection. Island Dark uses blue
+  selection highlighting while preserving the text colors.
+- Logs has one query field with completions (`package:mine`, `tag:`, `level:`,
+  `message:`, `process:`, `pid:` and `tid:`) and a compact sidebar for capture,
+  clearing, reloading, scrolling and formatting.
 
-Functionality hasn't changed. The UI remains unchanged. Flipper will run in your default browser instead of a standalone application.
-If you build from source, Flipper will open in the browser instead of a standalone app. We also provide a MacOS app for the Flipper runtime which can be run and will also open Flipper in the browser.
+See [Windows build and tests](desktop/BUILDING-WINDOWS.md) and
+[Android 16 KB build and tests](android/BUILDING-16KB.md). Windows and an Android
+x86_64 16 KB emulator are the validation targets. macOS, iOS and ARM device runtime
+compatibility require separate testing. The Windows binaries are unsigned.
+This is an incremental maintenance effort: the archived project's entire
+dependency tree has not been modernized or cleared of all security advisories.
 
-The last Electron release is [v0.239.0](https://github.com/facebook/flipper/releases/tag/v0.239.0). As such, future releases will not include Electron artifacts.
+Version 1.0.0 includes [Mock API](desktop/plugins/public/mock-api/README.md),
+powered by Mockoon: multiple imported environments, local HTTP/HTTPS servers,
+Start/Stop/reload controls and detection of changes to imported files. Select your
+computer in the device selector to open it. The Android debug sample includes
+HTTP and HTTPS buttons to exercise the local mock servers.
+
+Upstream switched to a browser UI after [v0.239.0](https://github.com/facebook/flipper/releases/tag/v0.239.0).
+This fork packages the newer UI in a desktop window again.
 
 ### React Native support
 
 If you are debugging React Native applications, [v0.239.0](https://github.com/facebook/flipper/releases/tag/v0.239.0) will be the last release with support for it due to technical limitations for React Dev Tools and Hermes Debugger plugins. As such, please refer to that release when debugging React Native applications.
 
-New, dedicated debug tooling for React Native is currently being developed at Meta.
-In the mean time we recommend this [blog post](https://shift.infinite.red/why-you-dont-need-flipper-in-your-react-native-app-and-how-to-get-by-without-it-3af461955109) with guidance on how to get the capibilities of Flipper through several alternatives.
+Restoring the Windows desktop window does not restore support for current React
+Native, React DevTools or Hermes versions. The legacy examples below are retained
+as upstream reference material.
 
 ---
 
@@ -94,17 +146,19 @@ This repository includes all parts of Flipper. This includes:
 
 # Getting started
 
-Please refer to our
-[Getting Started guide](https://fbflipper.com/docs/getting-started) to set up
-Flipper. Or, run `npx flipper-server` for a browser based
-version of Flipper.
+Build this fork using the guides linked above. The upstream
+[Getting Started guide](https://fbflipper.com/docs/getting-started) explains the
+general plugin setup. `npx flipper-server` installs the upstream npm package;
+it does not include this fork's changes.
 
 ## Requirements
 
-- node >= 18
-- yarn >= 1.16
+- Node.js 24 LTS for the desktop build
+- Yarn 1.22.22; npm for the isolated `desktop/electron` package
 - iOS developer tools (for developing iOS plugins)
 - Android SDK and adb
+- JDK 17, NDK r27 and native build tools for the Android sample (see its guide)
+- OpenSSL on PATH for desktop certificate generation (Git for Windows provides it)
 
 # Building from Source
 
@@ -113,7 +167,7 @@ version of Flipper.
 ### Running from source
 
 ```bash
-git clone https://github.com/facebook/flipper.git
+git clone https://github.com/leandrocharlier/flipper.git
 cd flipper/desktop
 yarn
 yarn start
@@ -121,14 +175,17 @@ yarn start
 
 ### Building standalone application
 
-Provide either `--mac`, `--win`, `--linux` or any combination of them to
-`yarn build` to build a release zip file for the given platform(s). E.g.
+On Windows, from `desktop`:
 
 ```bash
-yarn build --mac
+yarn build:desktop:win
 ```
 
-You can find the resulting artifact in the `dist/` folder.
+The installer and portable ZIP are written to `dist/electron/`. Extract the entire
+ZIP before starting `Flipper.exe`. See the [Windows guide](desktop/BUILDING-WINDOWS.md)
+for prerequisites and integration tests. The separate browser/server build remains
+available with `yarn build:flipper-server --win`; the upstream `--mac` and `--linux`
+paths require their own platform validation.
 
 ## iOS SDK + Sample App
 
@@ -145,7 +202,9 @@ may be building against outdated dependencies.
 
 ## Android SDK + Sample app
 
-Start up an android emulator and run the following in the project root:
+First rebuild the native artifacts as described in the
+[Android 16 KB guide](android/BUILDING-16KB.md). Then start an emulator and run
+the following in the project root:
 
 ```bash
 ./gradlew :sample:installDebug

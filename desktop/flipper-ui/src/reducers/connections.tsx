@@ -175,7 +175,12 @@ export type Action =
     }
   | RegisterPluginAction;
 
-const DEFAULT_DEVICE_BLACKLIST: DeviceOS[] = ['MacOS', 'Metro', 'Windows'];
+const DEFAULT_DEVICE_BLACKLIST: DeviceOS[] = [
+  'MacOS',
+  'Metro',
+  'Windows',
+  'Linux',
+];
 const INITAL_STATE: State = {
   devices: [],
   selectedDevice: null,
@@ -188,6 +193,7 @@ const INITAL_STATE: State = {
   enabledPlugins: {},
   enabledDevicePlugins: new Set([
     'DeviceLogs',
+    'MockAPI',
     'CrashReporter',
     'MobileBuilds',
     'Hermesdebuggerrn',
@@ -247,7 +253,8 @@ export default (state: State = INITAL_STATE, action: Actions): State => {
       }
 
       const selectNewDevice =
-        !state.selectedDevice || !state.selectedDevice.isConnected;
+        !state.selectedDevice?.isArchived &&
+        (!state.selectedDevice || !state.selectedDevice.isConnected);
       let selectedAppId = state.selectedAppId;
 
       if (selectNewDevice) {
@@ -291,7 +298,13 @@ export default (state: State = INITAL_STATE, action: Actions): State => {
 
       let selectedNewDevice: BaseDevice | null = null;
       let selectedNewAppId: null | string = null;
-      if (newDevices.length > 0) {
+      if (
+        state.selectedDevice?.isArchived &&
+        newDevices.includes(state.selectedDevice)
+      ) {
+        selectedNewDevice = state.selectedDevice;
+        selectedNewAppId = state.selectedAppId;
+      } else if (newDevices.length > 0) {
         selectedNewDevice = newDevices[0];
         selectedNewAppId =
           getAllClients(state).find((c) => c.device === selectedNewDevice)
@@ -358,10 +371,14 @@ export default (state: State = INITAL_STATE, action: Actions): State => {
         // select new client only when nothing is selected or the currently
         // selected device is disconnected. An app-level disconnect on a
         // still-connected device must not pull focus.
+        // A live connection must not interrupt an imported session. Clients
+        // belonging to that same import can still be selected as it loads.
         const selectNewClient =
-          !draft.selectedAppId ||
-          !draft.selectedDevice ||
-          !draft.selectedDevice.isConnected;
+          (!draft.selectedDevice?.isArchived ||
+            draft.selectedDevice === payload.device) &&
+          (!draft.selectedAppId ||
+            !draft.selectedDevice ||
+            !draft.selectedDevice.isConnected);
 
         if (selectNewClient) {
           draft.selectedAppId = payload.id;

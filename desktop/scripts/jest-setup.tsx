@@ -40,3 +40,8 @@ if (typeof (global as any).ResizeObserver === 'undefined') {
     disconnect() {}
   };
 }
+
+// antd v6 (@rc-component/select) schedules macrotasks via MessageChannel, which jsdom lacks
+if (typeof (global as any).MessageChannel === 'undefined') {
+  (global as any).MessageChannel = require('worker_threads').MessageChannel;
+}

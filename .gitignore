@@ -64,6 +64,30 @@ docs/features/plugins/
 website/src/embedded-pages/docs/plugins/
 
 # Logs
+*.log
+*.log.*
+*.binlog
+flipper-server-log.out
 **/*/flipper-server-log.out
 
 *.salive
+
+# Downloaded sources and local validation artifacts.
+/work/
+/android/third-party/generated-16k/
+
+# Local publishing keys, agent files, and signing checks. Never commit these.
+/.publishing/
+
+# Local Android app signing material. Passwords belong in local.properties.
+/.signing/
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.flipper
+__pycache__/
+
+# Root Gradle reports and native publication outputs.
+/build/
+/android/native-artifacts/*/build/
